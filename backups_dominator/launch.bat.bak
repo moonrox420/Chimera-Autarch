@@ -1,0 +1,103 @@
+set HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+set HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+
+@echo off
+REM CHIMERA AUTARCH - Independent Launcher (Windows)
+REM Run anywhere - no VS Code, no Microsoft dependencies required
+
+echo ============================================================
+echo CHIMERA AUTARCH v2.2 - Independent Launcher
+echo Your Code, Your Control - Zero Microsoft Dependencies
+echo ============================================================
+echo.
+
+REM Check Python
+where python >nul 2>nul
+if %errorlevel% neq 0 (
+    echo [ERROR] Python not found. Please install Python 3.12+ first.
+    exit /b 1
+)
+
+REM Get Python version
+for /f "tokens=2" %%i in ('python --version 2^>^&1') do set PYTHON_VERSION=%%i
+echo [INFO] Python version: %PYTHON_VERSION%
+echo.
+
+REM Create virtual environment if it doesn't exist
+if not exist "venv" (
+    echo [INFO] Creating virtual environment...
+    python -m venv venv
+    echo [OK] Virtual environment created
+    echo.
+)
+
+REM Activate virtual environment
+echo [INFO] Activating virtual environment...
+call venv\Scripts\activate.bat
+echo [OK] Virtual environment activated
+echo.
+
+REM Install/upgrade dependencies
+echo [INFO] Installing dependencies...
+python -m pip install --upgrade pip -q
+pip install -r requirements.txt -q
+echo [OK] Dependencies installed
+echo.
+
+REM Check for config file
+if not exist "config.yaml" (
+    if exist "config.example.yaml" (
+        echo [INFO] No config.yaml found, copying from example...
+        copy config.example.yaml config.yaml >nul
+        echo [OK] Created config.yaml
+        echo.
+    )
+)
+
+REM Display network info
+echo ============================================================
+echo Network Configuration
+echo ============================================================
+
+REM Get local IP
+for /f "tokens=2 delims=:" %%a in ('ipconfig ^| findstr /c:"IPv4 Address"') do (
+    set IP=%%a
+    goto :found_ip
+)
+:found_ip
+set IP=%IP:~1%
+
+echo [INFO] Your IP: %IP%
+echo.
+echo Access CHIMERA from:
+echo   * Local:   http://0.0.0.0:3000
+echo   * Network: http://%IP%:3000
+echo.
+echo WebSocket endpoint:
+echo   * Local:   ws://0.0.0.0:3000
+echo   * Network: ws://%IP%:3001
+echo.
+echo ============================================================
+echo.
+
+REM Start CHIMERA
+echo [INFO] Starting CHIMERA AUTARCH...
+echo.
+echo Press Ctrl+C to stop
+echo.
+
+python chimera_autarch.py

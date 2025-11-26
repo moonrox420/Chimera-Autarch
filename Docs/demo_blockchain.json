@@ -1,0 +1,104 @@
+{
+  "difficulty": 2,
+  "block_size": 10,
+  "chain": [
+    {
+      "index": 0,
+      "transactions": [
+        {
+          "tx_id": "genesis",
+          "tx_type": "system",
+          "actor": "CHIMERA_NEXUS",
+          "action": "initialize",
+          "data": {
+            "message": "Genesis block - CHIMERA audit trail begins"
+          },
+          "metadata": {
+            "version": "1.0.0"
+          },
+          "timestamp": 1763155812.792227
+        }
+      ],
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "timestamp": 1763155812.7922275,
+      "nonce": 102,
+      "hash": "006a4fb1a6ff65cc4cc5cfacbe35853507a47d59342d606dac43e16c2bd12209",
+      "merkle_root": "ff2aa9fa5ef82f817520325a1b8d0ccb28ebacd1d17b08332b2e618677f9bbf6"
+    },
+    {
+      "index": 1,
+      "transactions": [
+        {
+          "tx_id": "EV_1763155812794_e48bfd31",
+          "tx_type": "evolution",
+          "actor": "NeuralEvolutionEngine",
+          "action": "code_optimization",
+          "data": {
+            "topic": "optimization",
+            "fix": "Vectorized loop in _tool_analyze_patch",
+            "improvement_percent": 15.3
+          },
+          "metadata": {
+            "category": "self_improvement"
+          },
+          "timestamp": 1763155812.7941632
+        },
+        {
+          "tx_id": "DEC_1763155812794_e48bfd31",
+          "tx_type": "decision",
+          "actor": "PersonalityEngine",
+          "action": "deployment_strategy",
+          "data": {
+            "chosen_option": "gradual_rollout",
+            "confidence": 0.87,
+            "personality_mode": "conservative"
+          },
+          "metadata": {
+            "category": "decision_making"
+          },
+          "timestamp": 1763155812.794169
+        },
+        {
+          "tx_id": "DEP_1763155812794_e48bfd31",
+          "tx_type": "deployment",
+          "actor": "CloudOrchestrator",
+          "action": "deploy_component",
+          "data": {
+            "component": "neural_optimizer",
+            "version": "2.1.0",
+            "target_nodes": [
+              "node_1",
+              "node_2",
+              "node_3"
+            ]
+          },
+          "metadata": {
+            "category": "deployment"
+          },
+          "timestamp": 1763155812.794173
+        },
+        {
+          "tx_id": "LEARN_1763155812794_e48bfd31",
+          "tx_type": "learning",
+          "actor": "FederatedLearningEngine",
+          "action": "federated_training",
+          "data": {
+            "topic": "anomaly_detection",
+            "training_rounds": 10,
+            "improvement": 8.7
+          },
+          "metadata": {
+            "category": "machine_learning"
+          },
+          "timestamp": 1763155812.7941754
+        }
+      ],
+      "previous_hash": "006a4fb1a6ff65cc4cc5cfacbe35853507a47d59342d606dac43e16c2bd12209",
+      "timestamp": 1763155812.7941778,
+      "nonce": 104,
+      "hash": "0050f490d3afc554fc370f682552ec30c64981c4c6de16b12c72240c12588a40",
+      "merkle_root": "70f2c413702d91f5942e30219c9e92f922d53e5de887131d5dbd124e9ccc3073"
+    }
+  ],
+  "pending": []
+}

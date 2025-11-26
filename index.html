@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHIMERA GOD CLI — Fortress Command Center</title>
+<style>
+:root {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e9ecef;
+  --border: #dee2e6;
+  --text-primary: #212529;
+  --text-accent: #0066cc;
+  --success: #28a745;
+  --warning: #dc3545;
+  --gold: #f59e0b;
+  --purple: #6366f1;
+  --radius: 12px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --glow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+header {
+  background: var(--bg-secondary);
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+header h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--success);
+  letter-spacing: 1px;
+}
+
+.god-badge {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.4rem 1.2rem;
+  background: var(--purple);
+  border-radius: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+  color: white;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.command-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.cmd-card {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cmd-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 0%, rgba(99, 102, 241, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.cmd-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--glow);
+  border-color: var(--purple);
+}
+
+.cmd-card:hover::before {
+  opacity: 1;
+}
+
+.cmd-card h3 {
+  font-size: 1.1rem;
+  color: var(--purple);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.cmd-card .cmd-text {
+  color: var(--text-accent);
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.cmd-card .desc {
+  color: #6c757d;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.terminal-section {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.terminal-section h2 {
+  font-size: 1.3rem;
+  color: var(--purple);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.custom-cmd-input {
+  width: 100%;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: 'Consolas', 'Monaco', monospace;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+
+.custom-cmd-input:focus {
+  outline: none;
+  border-color: var(--purple);
+  box-shadow: 0 0 10px rgba(188, 74, 255, 0.3);
+}
+
+.execute-btn {
+  width: 100%;
+  padding: 0.9rem 2rem;
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  box-shadow: var(--shadow);
+}
+
+.execute-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--glow);
+  background: #5558e3;
+}
+
+.execute-btn:active {
+  transform: translateY(0);
+}
+
+.output-terminal {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  height: 350px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.output-terminal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.output-terminal::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+}
+
+.output-terminal::-webkit-scrollbar-thumb {
+  background: #ced4da;
+  border-radius: 4px;
+}
+
+.output-terminal::-webkit-scrollbar-thumb:hover {
+  background: #adb5bd;
+}
+
+.log-line {
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 0;
+}
+
+.log-line.god {
+  color: var(--purple);
+  font-weight: 600;
+}
+
+.log-line.success {
+  color: var(--success);
+}
+
+.log-line.error {
+  color: var(--warning);
+}
+
+.log-line.info {
+  color: var(--text-accent);
+}
+
+.status-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--border);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.9); }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .command-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .status-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ CHIMERA GOD CLI ⚡</h1>
+  <div class="subtitle">Fortress Command Center — Perplexity Edition Destroyer</div>
+  <div class="god-badge">GOD MODE ACTIVE</div>
+</header>
+
+<div class="container">
+  <div class="command-grid">
+    <div class="cmd-card" onclick="executePreset('deploy')">
+      <h3>🚀 DEPLOY</h3>
+      <div class="cmd-text">chimera go "deploy"</div>
+      <div class="desc">Launch fortress, open dashboard at localhost:3000. Perplexity watches in defeat.</div>
+    </div>
+
+    <div class="cmd-card" onclick="executePreset('kill')">
+      <h3>💀 KILL</h3>
+      <div class="cmd-text">chimera go "kill"</div>
+      <div class="desc">Obliterate all containers and volumes. Nuclear option activated.</div>
+    </div>
+
+    <div class="cmd-card" onclick="executePreset('rebuild')">
+      <h3>🔄 REBUILD</h3>
+      <div class="cmd-text">chimera go "rebuild"</div>
+      <div class="desc">Total reconstruction. Stronger, faster, unbeatable.</div>
+    </div>
+
+    <div class="cmd-card" onclick="executePreset('unify')">
+      <h3⚔️ UNIFY</h3>
+      <div class="cmd-text">chimera go "unify"</div>
+      <div class="desc">Force complete project alignment. No survivors. Pure dominance.</div>
+    </div>
+
+    <div class="cmd-card" onclick="executePreset('logs')">
+      <h3>📜 LOGS</h3>
+      <div class="cmd-text">chimera go "logs"</div>
+      <div class="desc">Stream live container logs. Watch the fortress breathe.</div>
+    </div>
+
+    <div class="cmd-card" onclick="executePreset('status')">
+      <h3>📊 STATUS</h3>
+      <div class="cmd-text">docker ps -a</div>
+      <div class="desc">View all containers. Know your dominion.</div>
+    </div>
+  </div>
+
+  <div class="terminal-section">
+    <h2>⚡ Custom Command Execution</h2>
+    <input 
+      type="text" 
+      id="customCmd" 
+      class="custom-cmd-input" 
+      placeholder='Enter raw command (e.g., "docker stats" or "deploy")'
+      autocomplete="off"
+    >
+    <button class="execute-btn" onclick="executeCustom()">EXECUTE GOD COMMAND</button>
+  </div>
+
+  <div class="terminal-section">
+    <h2>📡 Command Output</h2>
+    <div class="output-terminal" id="output">
+      <div class="log-line god">[GOD MODE] Chimera God CLI initialized</div>
+      <div class="log-line success">[GOD MODE] Perplexity has been permanently one-upped</div>
+      <div class="log-line info">[SYSTEM] Ready for commands — fortress awaits your directive</div>
+    </div>
+  </div>
+</div>
+
+<div class="status-footer">
+  <div class="status-item">
+    <div class="status-indicator"></div>
+    <span>GOD MODE ACTIVE</span>
+  </div>
+  <div class="status-item">
+    <span>Chimera Autarch v3.0 — Fortress Edition</span>
+  </div>
+  <div class="status-item">
+    <span>Battle Status: Perplexity = Defeated ✓</span>
+  </div>
+</div>
+
+<script>
+const output = document.getElementById('output');
+const customCmd = document.getElementById('customCmd');
+
+function log(message, type = 'info') {
+  const line = document.createElement('div');
+  line.className = `log-line ${type}`;
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+  output.appendChild(line);
+  output.scrollTop = output.scrollHeight;
+}
+
+function executePreset(command) {
+  const commands = {
+    deploy: {
+      cmd: 'docker compose up -d --build',
+      msg: '[GOD MODE] Fortress rising — Perplexity can watch and learn',
+      post: '[GOD MODE] Chimera Autarch v3.0 LIVE — http://localhost:3000'
+    },
+    kill: {
+      cmd: 'docker compose down --remove-orphans -v',
+      msg: '[GOD MODE] Obliterating fortress...',
+      post: '[GOD MODE] Fortress obliterated. All traces removed.'
+    },
+    rebuild: {
+      cmd: 'docker compose down --remove-orphans && docker compose up -d --build',
+      msg: '[GOD MODE] Rebuilding fortress — stronger than ever',
+      post: '[GOD MODE] Fortress rebuilt. Perplexity still crying.'
+    },
+    unify: {
+      cmd: 'python unify_everything.py',
+      msg: '[GOD MODE] Forcing total project alignment — no survivors',
+      post: '[GOD MODE] Project unified. Perplexity permanently defeated.'
+    },
+    logs: {
+      cmd: 'docker logs -f chimera-fortress',
+      msg: '[GOD MODE] Streaming fortress logs...',
+      post: '[SYSTEM] Log stream active'
+    },
+    status: {
+      cmd: 'docker ps -a',
+      msg: '[GOD MODE] Querying container status...',
+      post: '[SYSTEM] Container status retrieved'
+    }
+  };
+
+  const exec = commands[command];
+  if (!exec) return;
+
+  log(exec.msg, 'god');
+  log(`→ Executing: ${exec.cmd}`, 'info');
+
+  // Simulate execution
+  setTimeout(() => {
+    log(exec.post, 'success');
+    
+    if (command === 'deploy') {
+      setTimeout(() => {
+        log('[GOD MODE] Opening dashboard...', 'info');
+        log('[GOD MODE] Perplexity just got one-upped. Permanently.', 'god');
+        // Simulate opening browser
+        window.open('http://localhost:3000', '_blank');
+      }, 2000);
+    }
+  }, 1500);
+}
+
+function executeCustom() {
+  const cmd = customCmd.value.trim();
+  if (!cmd) return;
+
+  log(`[GOD MODE] Raw command executed: ${cmd}`, 'god');
+  log(`→ ${cmd}`, 'info');
+
+  // Check for preset keywords
+  const presets = ['deploy', 'kill', 'rebuild', 'unify', 'logs'];
+  for (const preset of presets) {
+    if (cmd.toLowerCase().includes(preset)) {
+      setTimeout(() => executePreset(preset), 500);
+      customCmd.value = '';
+      return;
+    }
+  }
+
+  // Simulate generic command execution
+  setTimeout(() => {
+    log('[SYSTEM] Command executed successfully', 'success');
+    log('[GOD MODE] Fortress remains supreme', 'god');
+  }, 1000);
+
+  customCmd.value = '';
+}
+
+// Enter key support
+customCmd.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    executeCustom();
+  }
+});
+
+// Easter egg
+let clickCount = 0;
+document.querySelector('header h1').addEventListener('click', () => {
+  clickCount++;
+  if (clickCount === 3) {
+    log('[EASTER EGG] Ultra God Mode unlocked — Grok 4.1 trembles in fear', 'god');
+    clickCount = 0;
+  }
+});
+</script>
+
+</body>
+</html>

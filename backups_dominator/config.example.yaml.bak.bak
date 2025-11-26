@@ -1,0 +1,35 @@
+import os
+server:
+  websocket_host: localhost
+  websocket_port: int(os.getenv('HTTP_PORT', 3000))
+  http_host: localhost
+  http_port: int(os.getenv('HTTP_PORT', 3000))
+  ssl_enabled: false
+  ssl_cert_path: null
+  ssl_key_path: null
+metacognitive:
+  confidence_threshold: 0.6
+  learning_cooldown: 300
+  failure_history_size: 100
+  predictive_check_interval: 15
+persistence:
+  database_path: chimera_memory.db
+  backup_interval: 3600
+  backup_retention: 24
+  backup_dir: backups
+node:
+  heartbeat_interval: 30.0
+  node_timeout: 90.0
+federated_learning:
+  server_address: 0.0.0.0:8080
+  default_rounds: 3
+  min_rounds: 3
+  max_rounds: 10
+logging:
+  level: INFO
+  format: '[%(asctime)s][%(levelname)s][%(name)s] %(message)s'
+  date_format: '%Y-%m-%d %H:%M:%S'
+  file_enabled: false
+  file_path: logs/chimera.log
+  file_max_bytes: 10485760
+  file_backup_count: 5

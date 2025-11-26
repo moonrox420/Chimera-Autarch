@@ -1,0 +1,230 @@
+# CHIMERA AUTARCH - Docker Quick Reference
+
+## 🚀 Quick Start Commands
+
+### Initial Setup
+```powershell
+# Complete setup (one-time)
+.\docker-setup.ps1 setup
+
+# Or step-by-step
+.\docker-setup.ps1 build    # Build image
+.\docker-setup.ps1 start    # Start containers
+```
+
+### Daily Operations
+```powershell
+# Start CHIMERA
+.\docker-setup.ps1 start
+
+# Stop CHIMERA
+.\docker-setup.ps1 stop
+
+# Restart CHIMERA
+.\docker-setup.ps1 restart
+
+# View logs (last 50 lines)
+.\docker-setup.ps1 logs
+
+# Follow logs in real-time
+.\docker-setup.ps1 logs -Follow
+```
+
+### Monitoring
+```powershell
+# Check status & health
+.\docker-setup.ps1 status
+
+# Access dashboard
+Start-Process http://localhost:8000
+
+# View metrics
+Start-Process http://localhost:8000/metrics
+```
+
+### Troubleshooting
+```powershell
+# Open shell in container
+.\docker-setup.ps1 shell
+
+# Rebuild from scratch
+.\docker-setup.ps1 clean
+.\docker-setup.ps1 setup
+
+# View detailed logs
+docker-compose logs chimera --tail=100
+```
+
+## 📊 Access Points
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| Dashboard | http://localhost:8000 | Web UI |
+| WebSocket | ws://localhost:8765 | Node communication |
+| Metrics | http://localhost:8000/metrics | System metrics API |
+| FL Server | localhost:8080 | Federated learning |
+
+## 🔧 Advanced Docker Commands
+
+### Manual Docker Commands
+```powershell
+# Build image
+docker-compose build
+
+# Start in foreground (see logs)
+docker-compose up
+
+# Start in background
+docker-compose up -d
+
+# Stop containers
+docker-compose down
+
+# View running containers
+docker-compose ps
+
+# View logs
+docker-compose logs -f chimera
+
+# Execute command in container
+docker-compose exec chimera python ws_client.py
+```
+
+### Resource Management
+```powershell
+# View resource usage
+docker stats drox_ai-chimera-1
+
+# View disk usage
+docker system df
+
+# Clean up old resources
+docker system prune -a
+```
+
+## 📁 Volume Mounts
+
+Persistent data is stored in Docker volumes:
+
+```yaml
+volumes:
+  - chimera-data:/app/chimera_memory.db  # Database
+  - chimera-backups:/app/backups         # Backups
+  - chimera-logs:/app/logs               # Logs
+```
+
+### Access volume data
+```powershell
+# List volumes
+docker volume ls
+
+# Inspect volume
+docker volume inspect drox_ai_chimera-data
+
+# Backup database
+docker cp drox_ai-chimera-1:/app/chimera_memory.db ./chimera_memory_backup.db
+```
+
+## 🐛 Troubleshooting Guide
+
+### Container won't start
+```powershell
+# Check logs
+.\docker-setup.ps1 logs
+
+# Check if ports are in use
+netstat -ano | findstr "8000 8765 8080"
+
+# Restart Docker Desktop
+# Windows: Start menu > Docker Desktop > Quit and restart
+```
+
+### Health check failing
+```powershell
+# Check health status
+docker inspect drox_ai-chimera-1 | Select-String "Health"
+
+# View health check logs
+docker inspect drox_ai-chimera-1 --format='{{json .State.Health}}' | ConvertFrom-Json
+
+# Test metrics endpoint manually
+curl http://localhost:8000/metrics
+```
+
+### Out of disk space
+```powershell
+# Check Docker disk usage
+docker system df
+
+# Clean up
+docker system prune -a --volumes  # ⚠️ Removes all unused data!
+```
+
+### Container exists but won't start
+```powershell
+# Remove and recreate
+docker-compose down
+docker-compose up -d
+```
+
+## 🔒 Security Notes
+
+- Container runs as non-root user (UID 1000)
+- Network isolated by default
+- Volumes mounted with appropriate permissions
+- Health checks enabled
+- No sensitive data in logs
+
+## 🎯 Production Deployment
+
+### Using docker-compose.yml
+```yaml
+# Already configured for production:
+- Restart policy: unless-stopped
+- Health checks: 30s interval
+- Resource limits: configurable
+- Logging: json-file driver
+```
+
+### Environment Variables
+Create `.env` file in project root:
+```bash
+CHIMERA_WS_PORT=8765
+CHIMERA_HTTP_PORT=8000
+CHIMERA_LOGGING_LEVEL=INFO
+```
+
+### SSL/TLS Support
+```powershell
+# Place certificates in ssl/ directory
+# Or mount as volume in docker-compose.yml
+volumes:
+  - ./ssl:/app/ssl:ro
+```
+
+## 📚 Additional Resources
+
+- Docker Documentation: https://docs.docker.com/
+- Docker Compose: https://docs.docker.com/compose/
+- Health Checks: https://docs.docker.com/engine/reference/builder/#healthcheck
+
+## 🆘 Common Issues
+
+### "Cannot connect to Docker daemon"
+→ Start Docker Desktop
+
+### "Port already in use"
+→ Check: `netstat -ano | findstr "8000"`
+→ Stop conflicting service or change port in `.env`
+
+### "Container keeps restarting"
+→ Check logs: `.\docker-setup.ps1 logs -Follow`
+→ Fix configuration issue and restart
+
+### "Out of memory"
+→ Increase Docker Desktop memory limit:
+   Settings > Resources > Advanced > Memory
+
+---
+
+**Quick Help**: Run `.\docker-setup.ps1` without arguments for setup wizard

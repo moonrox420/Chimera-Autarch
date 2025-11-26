@@ -1,0 +1,73 @@
+# CHIMERA AUTARCH - Core Dependencies
+# Python 3.12+ required
+
+# Async WebSocket server
+websockets>=15.0.1
+
+# Async SQLite for persistence
+aiosqlite>=0.21.0
+
+# Numerical operations for learning algorithms (compatible with TensorFlow 2.16.x)
+numpy>=1.26.0,<2.0.0
+
+# YAML configuration support
+pyyaml>=6.0.0
+
+# Federated learning framework (optional - system degrades gracefully if missing)
+flwr>=1.23.0
+
+# gRPC required by Flower
+grpcio>=1.76.0
+grpcio-health-checking>=1.62.0
+
+# Cryptography for secure node authentication
+pycryptodome>=3.23.0
+
+# System resource monitoring (optional - for get_system_stats tool)
+psutil>=5.9.0
+
+# Development and Testing Dependencies (optional)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+anyio>=3.7.0
+
+# ==========================================
+# WICKEDLY BADASS FEATURES - v2.3
+# ==========================================
+
+# AI-Powered Code Generation (optional)
+openai>=1.3.0  # OpenAI GPT-4/GPT-4 Turbo
+anthropic>=0.18.0  # Claude 3.5 Sonnet
+httpx>=0.25.0  # For local LLM (Ollama)
+
+# Zero-Trust Security
+PyJWT>=2.8.0  # JWT token authentication
+
+# Time-Series Anomaly Detection (optional)
+scikit-learn>=1.3.0  # Isolation Forest for ML-based detection
+
+# Hot Code Reload
+watchdog>=3.0.0  # File watching for zero-downtime updates
+
+# ==========================================
+# NEXUS REVOLUTIONARY FEATURES - v3.0
+# ==========================================
+
+# Real LSTM Predictive Monitoring
+# Use stable TensorFlow version with Windows wheel support
+tensorflow>=2.16.0,<2.17.0  # TF 2.16.x has stable Windows wheels
+keras>=3.0.0  # High-level neural network API
+
+# Real Cloud Orchestration (all optional - install only what you need)
+# Uncomment the cloud providers you want to use:
+# boto3>=1.34.0  # AWS SDK (uncomment for AWS)
+# azure-mgmt-compute>=30.0.0  # Azure SDK (uncomment for Azure)
+# azure-identity>=1.15.0  # Azure authentication (uncomment for Azure)
+# google-cloud-compute>=1.15.0  # GCP SDK (uncomment for GCP)
+
+# Real Voice Interface (optional - requires manual PyAudio install on Windows)
+# openai-whisper>=20231117  # Whisper speech-to-text
+# pyttsx3>=2.90  # Text-to-speech
+# pyaudio>=0.2.14  # Audio I/O (manual install required on Windows)
+# sounddevice>=0.4.6  # Audio recording

@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+"""
+CHIMERA v3.0 - LLM Integration Test
+Tests AI code generation with auto-detected LLM provider (OpenAI/Claude/Ollama)
+Supports: GPT-4, Claude 3.5, Qwen 2.5 Coder 14B, DeepSeek Coder, CodeLlama
+"""
+import os
+import asyncio
+from llm_integration import CodeGenerator, OpenAIProvider, AnthropicProvider, LocalLLMProvider
+
+
+async def test_llm():
+    logging.info("=" * 60)
+    logging.info("CHIMERA v3.0 - LLM Integration Test")
+    logging.info("=" * 60)
+    logging.info()
+
+    # Test 1: Auto-detect provider
+    logging.info("🔍 Test 1: Auto-detecting LLM provider...")
+    generator = CodeGenerator()
+
+    if generator.provider is None:
+        logging.info("❌ No LLM provider available")
+        logging.info()
+        logging.info("📋 Setup instructions:")
+        logging.info()
+        logging.info("Option A - OpenAI GPT-4:")
+        logging.info("  1. Get API key: https://platform.openai.com/api-keys")
+        logging.info("  2. pip install openai")
+        logging.info("  3. export OPENAI_API_KEY='sk-proj-...'")
+        logging.info()
+        logging.info("Option B - Anthropic Claude:")
+        logging.info("  1. Get API key: https://console.anthropic.com/")
+        logging.info("  2. pip install anthropic")
+        logging.info("  3. export ANTHROPIC_API_KEY='sk-ant-...'")
+        logging.info()
+        logging.info("Option C - Local Ollama (FREE - RECOMMENDED):")
+        logging.info("  1. Install: curl -fsSL https://ollama.com/install.sh | sh")
+        logging.info("  2. Download model:")
+        logging.info(
+            "     🔥 BEST: ollama pull dagbs/qwen2.5-coder-14b-instruct-abliterated:q5_k_m")
+        logging.info("     OR: ollama pull deepseek-coder:6.7b")
+        logging.info("     OR: ollama pull codellama")
+        logging.info("  3. pip install httpx")
+        logging.info()
+        return
+
+    provider_name = type(generator.provider).__name__
+    logging.info(f"✅ Found: {provider_name}")
+
+    # Show which model is being used for local LLM
+    if isinstance(generator.provider, LocalLLMProvider):
+        logging.info(f"   Model: {generator.provider.model}")
+        if "qwen" in generator.provider.model.lower():
+            logging.info("   🔥 Using Qwen 2.5 Coder - Excellent choice!")
+        elif "deepseek" in generator.provider.model.lower():
+            logging.info("   ⚡ Using DeepSeek Coder - Fast and capable!")
+        elif "codellama" in generator.provider.model.lower():
+            logging.info("   ✅ Using CodeLlama - Reliable and tested!")
+    logging.info()
+
+    # Test 2: Generate simple code
+    logging.info("🧪 Test 2: Generating simple Python function...")
+    logging.info("Task: Create a function to calculate fibonacci number")
+    logging.info()
+
+    try:
+        patch = await generator.generate_patch(
+            problem_description="Create a function called fibonacci that takes an integer n and returns the nth fibonacci number. Use recursion with memoization for efficiency.",
+            context={"language": "python", "style": "functional"},
+            include_tests=True
+        )
+
+        if patch:
+            logging.info(f"✅ Code generation successful!")
+            logging.info(f"   Confidence: {patch.confidence:.2f}")
+            logging.info(f"   Risk level: {patch.risk_level}")
+            logging.info(f"   Has tests: {'Yes' if patch.test_code else 'No'}")
+            logging.info(f"   Code lines: {len(patch.code.splitlines())}")
+            if patch.test_code:
+                logging.info(f"   Test lines: {len(patch.test_code.splitlines())}")
+            logging.info()
+            logging.info("📝 Generated code:")
+            logging.info("-" * 60)
+            logging.info(patch.code)
+            logging.info("-" * 60)
+            logging.info()
+
+            if patch.test_code:
+                logging.info("🧪 Generated tests:")
+                logging.info("-" * 60)
+                logging.info(patch.test_code)
+                logging.info("-" * 60)
+                logging.info()
+
+            # Test 3: Run tests
+            if patch.test_code:
+                logging.info("🔬 Test 3: Running generated tests...")
+                result = await generator.test_patch(patch)
+
+                if result.success:
+                    logging.info(
+                        f"✅ All tests passed! ({result.execution_time:.2f}s)")
+                    logging.info()
+                    logging.info("🎉 Your LLM provider is working perfectly!")
+                else:
+                    logging.info(f"❌ Tests failed:")
+                    logging.info(result.error)
+                logging.info()
+        else:
+            logging.info("❌ Code generation failed")
+            logging.info()
+
+    except Exception as e:
+        logging.info(f"❌ Error during code generation: {e}")
+        logging.info()
+        import traceback
+        traceback.print_exc()
+        return
+
+    # Show stats
+    logging.info("📊 Generator stats:")
+    stats = generator.get_stats()
+    for key, value in stats.items():
+        logging.info(f"   {key}: {value}")
+    logging.info()
+
+    logging.info("=" * 60)
+    logging.info("✅ LLM Integration Test Complete!")
+    logging.info("=" * 60)
+    logging.info()
+    logging.info("🚀 Next steps:")
+    logging.info("   1. Start CHIMERA: python chimera_autarch.py")
+    logging.info("   2. CHIMERA will auto-detect and use your LLM provider")
+    logging.info("   3. AI code generation will be ENABLED!")
+    logging.info()
+
+    # Show provider-specific tips
+    if isinstance(generator.provider, LocalLLMProvider):
+        logging.info("💡 Local LLM Tips:")
+        if "qwen" in generator.provider.model.lower():
+            logging.info("   • Qwen 2.5 Coder excels at complex code generation")
+            logging.info("   • See QWEN_CODER_GUIDE.md for advanced usage")
+            logging.info("   • Hardware: 16GB RAM minimum, 32GB recommended")
+        elif "deepseek" in generator.provider.model.lower():
+            logging.info("   • DeepSeek Coder is fast and efficient")
+            logging.info("   • Good for rapid prototyping")
+        else:
+            logging.info("   • CodeLlama is lightweight and fast")
+            logging.info("   • Good for simple tasks")
+        logging.info("   • FREE forever - no API costs!")
+        logging.info("   • Complete privacy - code never leaves your machine")
+        logging.info()
+    elif isinstance(generator.provider, OpenAIProvider):
+        logging.info("💡 OpenAI Tips:")
+        logging.info("   • Cost: ~$0.01-0.03 per code generation")
+        logging.info("   • Monitor usage at: https://platform.openai.com/usage")
+        logging.info()
+    elif isinstance(generator.provider, AnthropicProvider):
+        logging.info("💡 Claude Tips:")
+        logging.info("   • Cost: ~$0.015 per code generation")
+        logging.info("   • Monitor usage at: https://console.anthropic.com/")
+        logging.info()
+
+
+if __name__ == "__main__":
+    asyncio.run(test_llm())

@@ -1,0 +1,46 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual envs
+.venv/
+venv/
+droxai-env/
+flwr-env/
+
+# Node trash
+node_modules/
+
+# Git
+.git/
+.gitignore
+
+# OS junk
+*.DS_Store
+Thumbs.db
+
+# Large project directories
+htmlcov/
+build/
+backups/
+release/
+runtime/
+scripts/
+Docs/
+plugins/
+
+# Test and development files
+tests/
+*.py
+!chimera_autarch.py
+!graphql_api.py
+!config.py
+
+# Documentation and config
+*.md
+*.yaml
+*.yml
+config/

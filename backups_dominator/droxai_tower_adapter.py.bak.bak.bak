@@ -1,0 +1,466 @@
+#!/usr/bin/env python3
+"""
+CHIMERA AUTARCH - DroxAI Tower Integration Adapter
+Bridges DroxAI Tower's API key system with CHIMERA's security architecture
+"""
+import os
+import asyncio
+import time
+import hashlib
+import logging
+from typing import Dict, Set, Optional, Any
+
+try:
+    import httpx
+    HTTPX_AVAILABLE = True
+except ImportError:
+    HTTPX_AVAILABLE = False
+
+try:
+try:
+    from tower_integration import TowerAdapter, TowerAPIKey
+    from security import SecurityManager, Role
+    CHIMERA_AVAILABLE = True
+except ImportError:
+    CHIMERA_AVAILABLE = False
+logger = logging.getLogger("chimera.droxai_tower")
+
+
+class DroxAITowerAdapter(TowerAdapter):
+    """
+    Specialized adapter for DroxAI Tower integration
+
+    Connects CHIMERA to your DroxAI Tower's API key generation system
+    with Enterprise AI models integration
+    """
+
+    def __init__(
+        self,
+        tower_url: Optional[str] = None,
+        tower_api_key: Optional[str] = None,
+        security_manager: Optional['SecurityManager'] = None,
+        cache_ttl: int = 300
+    ):
+        # DroxAI Tower runs on port 8001 by default
+        tower_url = tower_url or os.getenv(
+            "DROXAI_TOWER_URL", "http://localhost: 3000")
+        tower_api_key = tower_api_key or os.getenv("DROXAI_TOWER_API_KEY")
+        tower_secret = os.getenv("DROXAI_TOWER_SECRET", "")
+
+        super().__init__(
+            tower_url=tower_url,
+            tower_api_key=tower_api_key,
+            tower_secret=tower_secret,
+            security_manager=security_manager,
+            cache_ttl=cache_ttl
+        )
+
+        # DroxAI-specific role mapping
+        self.role_mapping = {
+            # DroxAI Tower roles → CHIMERA roles
+            "admin": Role.ADMIN,
+            "master": Role.ADMIN,
+            "operator": Role.OPERATOR,
+            "user": Role.OPERATOR,
+            "observer": Role.OBSERVER,
+            "readonly": Role.OBSERVER,
+            "api_client": Role.API_CLIENT,
+            "service": Role.API_CLIENT,
+            "node": Role.NODE,
+        }
+
+        logger.info(f"DroxAI Tower adapter initialized: {self.tower_url}")
+
+    async def validate_key_with_tower(self, api_key: str) -> Optional[TowerAPIKey]:
+        """
+        Validate API key against DroxAI Tower
+
+        Queries DroxAI Tower's database to verify key and get metadata
+        """
+        if not HTTPX_AVAILABLE:
+            logger.error("httpx not installed. Run: pip install httpx")
+            return None
+
+        # Check cache first
+        if api_key in self._key_cache:
+            tower_key, validated_at = self._key_cache[api_key]
+            if time.time() - validated_at < self.cache_ttl:
+                logger.debug(f"Using cached DroxAI key: {tower_key.key_id}")
+                return tower_key
+
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                # Query DroxAI Tower's validation endpoint
+                # Assuming you'll add this endpoint to verify keys
+                response = await client.get(
+                    f"{self.tower_url}/api/v1/keys/{api_key}/validate",
+                    headers={
+                        "Authorization": f"Bearer {self.tower_api_key}",
+                        "X-Tower-Secret": self.tower_secret
+                    }
+                )
+
+                if response.status_code == 200:
+                    data = response.json()
+
+                    # Map DroxAI Tower response to TowerAPIKey
+                    tower_key = TowerAPIKey(
+                        key_id=data.get("key_id", hashlib.sha256(
+                            api_key.encode()).hexdigest()[:16]),
+                        key_value=api_key,
+                        user_id=data.get("user_id", "droxai_user"),
+                        role=data.get("role", "api_client"),
+                        scopes=set(data.get("scopes", ["api:access"])),
+                        created_at=data.get("created_at", time.time()),
+                        expires_at=data.get("expires_at"),
+                        metadata={
+                            "request_count": data.get("request_count", 0),
+                            "rate_limit": data.get("rate_limit", 100),
+                            "enterprise_ai_access": data.get("enterprise_ai_access", True),
+                            "models_allowed": data.get("models_allowed", [
+                                "codellama:7b-code",
+                                "llama2-uncensored:7b",
+                                "enterprise-ai-auto"
+                            ])
+                        }
+                    )
+
+                    # Cache the validated key
+                    self._key_cache[api_key] = (tower_key, time.time())
+
+                    logger.info(
+                        f"Validated DroxAI key: {tower_key.key_id} for user {tower_key.user_id}")
+                    return tower_key
+
+                elif response.status_code == 404:
+                    logger.warning(f"DroxAI key not found: {api_key[:10]}...")
+                    return None
+                else:
+                    logger.error(
+                        f"DroxAI Tower returned {response.status_code}")
+                    return None
+
+        except httpx.TimeoutException:
+            logger.error("DroxAI Tower connection timeout")
+            return None
+        except Exception as e:
+            logger.error(f"DroxAI Tower validation failed: {e}")
+            return None
+
+    def map_tower_scopes_to_capabilities(self, scopes: Set[str]) -> Set[str]:
+        """
+        Convert DroxAI Tower scopes to CHIMERA capabilities
+
+        DroxAI Tower scope format examples:
+        - "api:access" → Basic API access
+        - "models:codellama" → Code completion access
+        - "models:chat" → Chat access
+        - "admin:full" → Full admin access
+        """
+        capabilities = set()
+
+        for scope in scopes:
+            # Admin scopes
+            if scope == "admin:full" or scope == "master:*":
+                capabilities.add("*")
+
+            # Model access scopes
+            elif scope.startswith("models:"):
+                model = scope.split(":")[-1]
+                if model in ["codellama", "code"]:
+                    capabilities.add("execute:code_generation")
+                    capabilities.add("execute:analyze_and_suggest_patch")
+                elif model in ["chat", "llama2", "assistant"]:
+                    capabilities.add("execute:chat")
+                    capabilities.add("execute:echo")
+                elif model == "*":
+                    capabilities.add("execute:*")
+
+            # API access scopes
+            elif scope.startswith("api:"):
+                action = scope.split(":")[-1]
+                if action == "read":
+                    capabilities.add("execute:get_system_stats")
+                    capabilities.add("execute:get_node_status")
+                    capabilities.add("execute:read_file")
+                elif action == "write":
+                    capabilities.add("execute:write_file")
+                elif action == "access":
+                    capabilities.add("execute:get_system_stats")
+                    capabilities.add("execute:echo")
+
+            # Tool access scopes
+            elif scope.startswith("tools:"):
+                action = scope.split(":")[-1]
+                if action == "execute":
+                    capabilities.add("execute:*")
+                elif action == "view":
+                    capabilities.add("execute:get_system_stats")
+
+            # System scopes
+            elif scope.startswith("system:"):
+                action = scope.split(":")[-1]
+                if action == "manage":
+                    capabilities.add("*")
+                elif action == "view":
+                    capabilities.add("execute:get_system_stats")
+                    capabilities.add("execute:get_node_status")
+
+            # Keep original scope as well
+            capabilities.add(scope)
+
+        return capabilities
+
+    async def get_tower_usage_stats(self, key_id: str) -> Dict[str, Any]:
+        """
+        Get usage statistics from DroxAI Tower
+
+        Returns token usage, cost, request counts, etc.
+        """
+        if not HTTPX_AVAILABLE:
+            return {}
+
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                response = await client.get(
+                    f"{self.tower_url}/api/v1/usage/{key_id}",
+                    headers={
+                        "Authorization": f"Bearer {self.tower_api_key}",
+                        "X-Tower-Secret": self.tower_secret
+                    }
+                )
+
+                if response.status_code == 200:
+                    return response.json()
+                else:
+                    logger.warning(
+                        f"Failed to get usage stats: {response.status_code}")
+                    return {}
+
+        except Exception as e:
+            logger.error(f"Failed to query usage stats: {e}")
+            return {}
+
+    async def get_available_models(self) -> list:
+        """
+        Get available Enterprise AI models from DroxAI Tower
+        """
+        if not HTTPX_AVAILABLE:
+            return []
+
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                response = await client.get(
+                    f"{self.tower_url}/v1/models",
+                    headers={"Authorization": f"Bearer {self.tower_api_key}"}
+                )
+
+                if response.status_code == 200:
+                    data = response.json()
+                    return data.get("data", [])
+                else:
+                    logger.warning(
+                        f"Failed to get models: {response.status_code}")
+                    return []
+
+        except Exception as e:
+            logger.error(f"Failed to query models: {e}")
+            return []
+
+    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> Dict[str, Any]:
+        """
+        Check if DroxAI Tower and Enterprise AI are healthy
+        """
+        if not HTTPX_AVAILABLE:
+            return {"status": "error", "error": "httpx not installed"}
+
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                # Check DroxAI Tower
+                tower_response = await client.get(f"{self.tower_url}/")
+                tower_healthy = tower_response.status_code == 200
+
+                # Check Enterprise AI (port 3000)
+                enterprise_ai_url = (self.tower_url or "http://localhost:3000").replace(": 3000", ": 3000")
+                    ai_response = await client.get(f"{enterprise_ai_url}/health")
+                    ai_healthy = ai_response.status_code == 200
+                    ai_data = ai_response.json() if ai_healthy else {}
+                except:
+                    ai_healthy = False
+                    ai_data = {}
+
+                return {
+                    "status": "healthy" if tower_healthy else "degraded",
+                    "droxai_tower": {
+                        "status": "up" if tower_healthy else "down",
+                        "url": self.tower_url
+                    },
+                    "enterprise_ai": {
+                        "status": "up" if ai_healthy else "down",
+                        "url": enterprise_ai_url,
+                        "ollama_status": ai_data.get("ollama_status", "unknown"),
+                        "models_available": ai_data.get("models_available", [])
+                    },
+                    "timestamp": time.time()
+                }
+
+        except Exception as e:
+            return {
+                "status": "error",
+                "error": str(e),
+                "timestamp": time.time()
+            }
+
+
+# Integration helper for CHIMERA
+async def integrate_droxai_tower_with_chimera(
+    security_manager: 'SecurityManager',
+    tower_url: Optional[str] = None,
+    tower_api_key: Optional[str] = None
+) -> DroxAITowerAdapter:
+    """
+    Initialize DroxAI Tower integration with CHIMERA
+
+    Usage:
+        from security import SecurityManager
+
+        security = SecurityManager()
+        droxai = await integrate_droxai_tower_with_chimera(security)
+
+        # Authenticate with DroxAI key
+        jwt = await droxai.authenticate_with_tower("droxai_key_abc123")
+    """
+    adapter = DroxAITowerAdapter(
+        tower_url=tower_url,
+        tower_api_key=tower_api_key,
+        security_manager=security_manager
+    )
+
+    # Health check
+    health = await adapter.health_check()
+
+    if health["status"] in ["healthy", "degraded"]:
+        logger.info("DroxAI Tower integration successful!")
+        logger.info(f"Tower: {health['droxai_tower']['status']}")
+        logger.info(f"Enterprise AI: {health['enterprise_ai']['status']}")
+
+        # Get available models
+        models = await adapter.get_available_models()
+        logger.info(f"Available models: {len(models)}")
+
+        return adapter
+    else:
+        logger.error(f"DroxAI Tower integration failed: {health.get('error')}")
+        return adapter  # Return anyway for graceful degradation
+
+
+# Example usage
+async def example_droxai_integration():
+    """Example: Complete DroxAI Tower integration with CHIMERA"""
+    if not CHIMERA_AVAILABLE:
+        logging.info("❌ CHIMERA security module not available")
+        return
+
+    from security import SecurityManager, Permission
+    from security import SecurityManager
+    # Initialize security
+    security = SecurityManager()
+
+    # Integrate DroxAI Tower
+    logging.info("🔗 Connecting to DroxAI Tower...")
+    droxai = await integrate_droxai_tower_with_chimera(security)
+
+    # Health check
+    health = await droxai.health_check()
+    logging.info(f"\n📊 Health Check:")
+    logging.info(f"   Status: {health['status']}")
+    logging.info(f"   DroxAI Tower: {health['droxai_tower']['status']}")
+    logging.info(f"   Enterprise AI: {health['enterprise_ai']['status']}")
+
+    # Get available models
+    models = await droxai.get_available_models()
+    logging.info(f"\n🤖 Available Models: {len(models)}")
+    for model in models[:3]:  # Show first 3
+        logging.info(f"   • {model['id']} ({model.get('type', 'unknown')})")
+
+    # Create a test DroxAI key locally
+    logging.info(f"\n🔑 Creating test DroxAI key...")
+    test_key = droxai.create_tower_key_locally(
+        user_id="test_user",
+        role="operator",
+        scopes={
+            "api:access",
+            "models:codellama",
+            "models:chat",
+            "tools:execute"
+        },
+        expires_in_days=30,
+        metadata={
+            "enterprise_ai_access": True,
+            "rate_limit": 200
+        }
+    )
+    logging.info(f"   Key: {test_key[:40]}...")
+
+    # Authenticate with the key
+    logging.info(f"\n🔐 Authenticating...")
+    jwt_token = await droxai.authenticate_with_tower(test_key)
+
+    if jwt_token:
+        logging.info(f"   ✅ Authenticated!")
+        logging.info(f"   User: {jwt_token.user_id}")
+        logging.info(f"   Role: {jwt_token.role.value}")
+        logging.info(f"   Capabilities: {len(jwt_token.capabilities)}")
+
+        # Check permissions
+        logging.info(f"\n🛡️ Permission Check:")
+        if security.check_permission(jwt_token.role, Permission.EXECUTE_TOOL):
+            logging.info(f"   ✅ Can execute tools")
+        if security.check_permission(jwt_token.role, Permission.VIEW_METRICS):
+            logging.info(f"   ✅ Can view metrics")
+    else:
+        logging.info(f"   ❌ Authentication failed")
+
+    # Get cache stats
+    stats = droxai.get_cache_stats()
+    logging.info(f"\n📈 Cache Stats:")
+    logging.info(f"   Cached keys: {stats['total_cached_keys']}")
+    logging.info(f"   Valid keys: {stats['valid_cached_keys']}")
+    logging.info(f"   Hit ratio: {stats['cache_hit_ratio']:.2%}")
+
+
+if __name__ == "__main__":
+    """
+    Test DroxAI Tower integration
+
+    Prerequisites:
+    1. DroxAI Tower running on port 8001
+    2. Enterprise AI running on port 3000
+    3. CHIMERA security module available
+    """
+    import sys
+
+    if not HTTPX_AVAILABLE:
+        logging.info("❌ httpx not installed. Run: pip install httpx")
+        sys.exit(1)
+
+    if not CHIMERA_AVAILABLE:
+        logging.info("❌ CHIMERA modules not available")
+        sys.exit(1)
+
+    logging.info("="*60)
+    logging.info("CHIMERA ↔ DroxAI Tower Integration Test")
+    logging.info("="*60)
+
+    asyncio.run(example_droxai_integration())
+
+    logging.info("\n" + "="*60)
+    logging.info("✅ Integration test complete!")
+    logging.info("="*60)
+    logging.info("\n📝 Next Steps:")
+    logging.info("1. Start DroxAI Tower: python droxai_tower.py --port 8001")
+    logging.info("2. Start Enterprise AI: python enterprise_ai.py")
+    logging.info("3. Start CHIMERA: python chimera_autarch.py")
+    logging.info("4. Use DroxAI keys to authenticate with CHIMERA")
+    logging.info()

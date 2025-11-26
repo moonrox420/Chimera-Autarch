@@ -1,0 +1,346 @@
+#!/usr/bin/env pwsh
+<#
+.SYNOPSIS
+    Setup and manage Docker deployment for CHIMERA AUTARCH
+
+.DESCRIPTION
+    Complete Docker environment setup, build, and management script
+
+.PARAMETER Action
+    Action to perform: setup, build, start, stop, restart, logs, status, clean
+
+.PARAMETER Follow
+    Follow logs in real-time (for logs action)
+
+.EXAMPLE
+    .\docker-setup.ps1 setup
+    Initial Docker setup and build
+
+.EXAMPLE
+    .\docker-setup.ps1 start
+    Start CHIMERA containers
+
+.EXAMPLE
+    .\docker-setup.ps1 logs -Follow
+    Follow container logs
+#>
+
+param(
+  [Parameter(Position = 0)]
+  [ValidateSet("setup", "build", "start", "stop", "restart", "logs", "status", "clean", "shell")]
+  [string]$Action = "setup",
+    
+  [switch]$Follow
+)
+
+$ErrorActionPreference = "Stop"
+
+function Write-Status {
+  param([string]$Message, [string]$Type = "INFO")
+  $Color = switch ($Type) {
+    "SUCCESS" { "Green" }
+    "ERROR" { "Red" }
+    "WARN" { "Yellow" }
+    default { "Cyan" }
+  }
+  Write-Host "[$Type] " -NoNewline -ForegroundColor $Color
+  Write-Host $Message
+}
+
+function Test-DockerInstalled {
+  try {
+    $null = docker --version 2>$null
+    return $true
+  }
+  catch {
+    return $false
+  }
+}
+
+function Test-DockerRunning {
+  try {
+    $null = docker ps 2>$null
+    return $true
+  }
+  catch {
+    return $false
+  }
+}
+
+function Install-Docker {
+  Write-Status "Docker is not installed. Please install Docker Desktop:" "WARN"
+  Write-Host ""
+  Write-Host "  Windows: https://docs.docker.com/desktop/install/windows-install/" -ForegroundColor Cyan
+  Write-Host "  Mac: https://docs.docker.com/desktop/install/mac-install/" -ForegroundColor Cyan
+  Write-Host "  Linux: https://docs.docker.com/engine/install/" -ForegroundColor Cyan
+  Write-Host ""
+    
+  $Response = Read-Host "Open Docker Desktop download page? (y/n)"
+  if ($Response -eq "y") {
+    Start-Process "https://www.docker.com/products/docker-desktop/"
+  }
+    
+  exit 1
+}
+
+Write-Host ""
+Write-Host "🐳 CHIMERA AUTARCH Docker Manager" -ForegroundColor Cyan
+Write-Host "==================================" -ForegroundColor Cyan
+Write-Host ""
+
+# Check Docker installation
+if (-not (Test-DockerInstalled)) {
+  Install-Docker
+}
+
+Write-Status "Docker is installed" "SUCCESS"
+
+# Check if Docker is running
+if (-not (Test-DockerRunning)) {
+  Write-Status "Docker Desktop is not running" "ERROR"
+  Write-Host ""
+  Write-Host "Please start Docker Desktop and try again." -ForegroundColor Yellow
+  Write-Host "On Windows: Start menu > Docker Desktop" -ForegroundColor Cyan
+  exit 1
+}
+
+Write-Status "Docker is running" "SUCCESS"
+Write-Host ""
+
+# Execute action
+switch ($Action) {
+  "setup" {
+    Write-Host "🔧 Setting up Docker environment" -ForegroundColor Yellow
+    Write-Host "--------------------------------" -ForegroundColor Yellow
+    Write-Host ""
+        
+    # Check required files
+    $RequiredFiles = @("Dockerfile", "docker-compose.yml", "requirements.txt", "chimera_autarch.py")
+    $Missing = @()
+        
+    foreach ($File in $RequiredFiles) {
+      if (Test-Path $File) {
+        Write-Status "$File found" "SUCCESS"
+      }
+      else {
+        Write-Status "$File missing" "ERROR"
+        $Missing += $File
+      }
+    }
+        
+    if ($Missing.Count -gt 0) {
+      Write-Host ""
+      Write-Status "Missing required files. Cannot proceed." "ERROR"
+      exit 1
+    }
+        
+    Write-Host ""
+    Write-Host "📦 Building Docker image..." -ForegroundColor Yellow
+    docker-compose build --no-cache
+        
+    if ($LASTEXITCODE -eq 0) {
+      Write-Host ""
+      Write-Status "Docker image built successfully" "SUCCESS"
+      Write-Host ""
+      Write-Host "✅ Setup complete! Next steps:" -ForegroundColor Green
+      Write-Host ""
+      Write-Host "  Start:   .\docker-setup.ps1 start" -ForegroundColor Cyan
+      Write-Host "  Logs:    .\docker-setup.ps1 logs -Follow" -ForegroundColor Cyan
+      Write-Host "  Status:  .\docker-setup.ps1 status" -ForegroundColor Cyan
+    }
+    else {
+      Write-Status "Docker build failed" "ERROR"
+      exit 1
+    }
+  }
+    
+  "build" {
+    Write-Host "🔨 Building Docker image" -ForegroundColor Yellow
+    Write-Host "------------------------" -ForegroundColor Yellow
+    Write-Host ""
+        
+    docker-compose build
+        
+    if ($LASTEXITCODE -eq 0) {
+      Write-Status "Build successful" "SUCCESS"
+    }
+    else {
+      Write-Status "Build failed" "ERROR"
+      exit 1
+    }
+  }
+    
+  "start" {
+    Write-Host "🚀 Starting CHIMERA containers" -ForegroundColor Yellow
+    Write-Host "------------------------------" -ForegroundColor Yellow
+    Write-Host ""
+        
+    docker-compose up -d
+        
+    if ($LASTEXITCODE -eq 0) {
+      Write-Host ""
+      Write-Status "Containers started successfully" "SUCCESS"
+      Write-Host ""
+      Write-Host "📊 Access points:" -ForegroundColor Cyan
+      Write-Host "  Dashboard:  http://0.0.0.0:3000" -ForegroundColor White
+      Write-Host "  WebSocket:  ws://0.0.0.0:3001" -ForegroundColor White
+      Write-Host "  Metrics:    http://0.0.0.0:3000/metrics" -ForegroundColor White
+      Write-Host ""
+      Write-Host "💡 Useful commands:" -ForegroundColor Cyan
+      Write-Host "  View logs:  .\docker-setup.ps1 logs -Follow" -ForegroundColor White
+      Write-Host "  Status:     .\docker-setup.ps1 status" -ForegroundColor White
+      Write-Host "  Stop:       .\docker-setup.ps1 stop" -ForegroundColor White
+            
+      # Wait a moment and check health
+      Write-Host ""
+      Write-Host "Waiting for health check..." -ForegroundColor Yellow
+      Start-Sleep -Seconds 5
+            
+      $Health = docker inspect --format='{{.State.Health.Status}}' drox_ai-chimera-1 2>$null
+      if ($Health -eq "healthy") {
+        Write-Status "Container is healthy! 🎉" "SUCCESS"
+      }
+      elseif ($Health -eq "starting") {
+        Write-Status "Container is starting up..." "INFO"
+      }
+    }
+    else {
+      Write-Status "Failed to start containers" "ERROR"
+      exit 1
+    }
+  }
+    
+  "stop" {
+    Write-Host "⏹️  Stopping CHIMERA containers" -ForegroundColor Yellow
+    Write-Host "-------------------------------" -ForegroundColor Yellow
+    Write-Host ""
+        
+    docker-compose stop
+        
+    if ($LASTEXITCODE -eq 0) {
+      Write-Status "Containers stopped" "SUCCESS"
+    }
+  }
+    
+  "restart" {
+    Write-Host "🔄 Restarting CHIMERA containers" -ForegroundColor Yellow
+    Write-Host "--------------------------------" -ForegroundColor Yellow
+    Write-Host ""
+        
+    docker-compose restart
+        
+    if ($LASTEXITCODE -eq 0) {
+      Write-Status "Containers restarted" "SUCCESS"
+    }
+  }
+    
+  "logs" {
+    Write-Host "📋 Container logs" -ForegroundColor Yellow
+    Write-Host "-----------------" -ForegroundColor Yellow
+    Write-Host ""
+        
+    if ($Follow) {
+      Write-Host "Following logs (Ctrl+C to stop)..." -ForegroundColor Cyan
+      Write-Host ""
+      docker-compose logs -f
+    }
+    else {
+      docker-compose logs --tail=50
+    }
+  }
+    
+  "status" {
+    Write-Host "📊 Container status" -ForegroundColor Yellow
+    Write-Host "-------------------" -ForegroundColor Yellow
+    Write-Host ""
+        
+    docker-compose ps
+        
+    Write-Host ""
+    Write-Host "🔍 Health status:" -ForegroundColor Yellow
+        
+    $ContainerName = "drox_ai-chimera-1"
+    $Health = docker inspect --format='{{.State.Health.Status}}' $ContainerName 2>$null
+    $State = docker inspect --format='{{.State.Status}}' $ContainerName 2>$null
+        
+    if ($State) {
+      Write-Host "  State:  " -NoNewline
+      switch ($State) {
+        "running" { Write-Host $State -ForegroundColor Green }
+        "exited" { Write-Host $State -ForegroundColor Red }
+        default { Write-Host $State -ForegroundColor Yellow }
+      }
+            
+      if ($Health) {
+        Write-Host "  Health: " -NoNewline
+        switch ($Health) {
+          "healthy" { Write-Host $Health -ForegroundColor Green }
+          "unhealthy" { Write-Host $Health -ForegroundColor Red }
+          default { Write-Host $Health -ForegroundColor Yellow }
+        }
+      }
+            
+      # Show resource usage
+      Write-Host ""
+      Write-Host "💾 Resource usage:" -ForegroundColor Yellow
+      docker stats --no-stream $ContainerName
+    }
+    else {
+      Write-Status "Container not found (not started yet?)" "WARN"
+    }
+  }
+    
+  "shell" {
+    Write-Host "🐚 Opening shell in container" -ForegroundColor Yellow
+    Write-Host "------------------------------" -ForegroundColor Yellow
+    Write-Host ""
+        
+    $ContainerName = "drox_ai-chimera-1"
+    $State = docker inspect --format='{{.State.Status}}' $ContainerName 2>$null
+        
+    if ($State -eq "running") {
+      Write-Status "Opening bash shell..." "INFO"
+      docker exec -it $ContainerName /bin/bash
+    }
+    else {
+      Write-Status "Container is not running" "ERROR"
+      Write-Host "Start the container first: .\docker-setup.ps1 start" -ForegroundColor Yellow
+      exit 1
+    }
+  }
+    
+  "clean" {
+    Write-Host "🧹 Cleaning up Docker resources" -ForegroundColor Yellow
+    Write-Host "--------------------------------" -ForegroundColor Yellow
+    Write-Host ""
+        
+    Write-Host "This will remove:" -ForegroundColor Yellow
+    Write-Host "  • Stopped containers" -ForegroundColor White
+    Write-Host "  • CHIMERA images" -ForegroundColor White
+    Write-Host "  • Unused volumes (data will be preserved)" -ForegroundColor White
+    Write-Host ""
+        
+    $Confirm = Read-Host "Continue? (y/n)"
+    if ($Confirm -ne "y") {
+      Write-Status "Cancelled" "INFO"
+      exit 0
+    }
+        
+    Write-Host ""
+    Write-Status "Stopping containers..." "INFO"
+    docker-compose down
+        
+    Write-Status "Removing images..." "INFO"
+    docker-compose down --rmi local
+        
+    Write-Status "Cleaning up unused resources..." "INFO"
+    docker system prune -f
+        
+    Write-Host ""
+    Write-Status "Cleanup complete" "SUCCESS"
+    Write-Host ""
+    Write-Host "To rebuild: .\docker-setup.ps1 setup" -ForegroundColor Cyan
+  }
+}
+
+Write-Host ""

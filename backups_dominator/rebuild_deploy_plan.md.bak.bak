@@ -1,0 +1,61 @@
+# CHIMERA AUTARCH v3 Rebuild & Deploy Task Plan
+
+## Current Analysis
+- Current workspace has a basic Dockerfile (single-stage build)
+- Need multi-stage production build as described in requirements
+- Missing docker/Dockerfile directory structure
+- Need to verify health endpoints and GraphQL API
+
+## Task Checklist
+
+### Phase 1: Environment Preparation
+- [ ] Verify current Dockerfile vs multi-stage requirement
+- [ ] Create docker/Dockerfile directory structure
+- [ ] Create docker-compose.yml with proper configuration
+- [ ] Verify existing main.py and graphql_api.py files
+- [ ] Create requirements.txt if missing
+- [ ] Create rebuild_and_deploy.sh script
+
+### Phase 2: Code Analysis & Validation
+- [ ] Analyze existing chimera_autarch.py for health endpoints
+- [ ] Check graphql_api.py for strawberry GraphQL implementation
+- [ ] Verify main.py has FastAPI health/info endpoints
+- [ ] Ensure proper port configuration (8000/8765)
+- [ ] Validate dependencies in requirements.txt
+
+### Phase 3: Multi-stage Docker Build
+- [ ] Create revolutionary multi-stage Dockerfile
+- [ ] Implement builder stage with Python 3.12-slim-bookworm
+- [ ] Create runtime stage with non-root user
+- [ ] Add security hardening and health checks
+- [ ] Configure proper port exposure (8000, 8765)
+
+### Phase 4: Service Files Setup
+- [ ] Ensure main.py has /health and /info endpoints
+- [ ] Verify graphql_api.py has strawberry implementation
+- [ ] Fix port binding issues with environment variables
+- [ ] Add graceful shutdown support in entrypoint
+
+### Phase 5: Deployment Script Creation
+- [ ] Create atomic rebuild_and_deploy.sh script
+- [ ] Implement Docker build with proper context
+- [ ] Add container lifecycle management
+- [ ] Include health check validation
+- [ ] Add info endpoint testing
+
+### Phase 6: Execution & Validation
+- [ ] Execute rebuild_and_deploy.sh
+- [ ] Verify Docker image builds successfully
+- [ ] Confirm container starts without errors
+- [ ] Test health endpoint (http://localhost:8000/health)
+- [ ] Test info endpoint (http://localhost:8000/info)
+- [ ] Validate WebSocket port (8765) accessibility
+- [ ] Ensure zero-downtime deployment
+
+## Expected End State
+- CHIMERA AUTARCH v3 fully operational
+- Multi-stage Docker image with zero bloat
+- Health monitoring at /health (HTTP 200)
+- Service info at /info endpoint
+- WebSocket control plane on port 8765
+- Production-grade immutability and security

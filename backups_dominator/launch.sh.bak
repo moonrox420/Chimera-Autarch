@@ -1,0 +1,143 @@
+export HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+export HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+HTTP_PORT=3000
+WS_PORT=3001
+
+#!/usr/bin/env bash
+# CHIMERA AUTARCH - Independent Launcher
+# Run anywhere - no VS Code, no Microsoft dependencies required
+
+set -e  # Exit on error
+
+echo "============================================================"
+echo "CHIMERA AUTARCH v2.2 - Independent Launcher"
+echo "Your Code, Your Control - Zero Microsoft Dependencies"
+echo "============================================================"
+echo ""
+
+# Detect OS
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    OS="Linux"
+    PYTHON_CMD="python3"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    OS="macOS"
+    PYTHON_CMD="python3"
+elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
+    OS="Windows"
+    PYTHON_CMD="python"
+else
+    OS="Unknown"
+    PYTHON_CMD="python3"
+fi
+
+echo "🖥️  Detected OS: $OS"
+echo ""
+
+# Check Python version
+if ! command -v $PYTHON_CMD &> /dev/null; then
+    echo "❌ Python not found. Please install Python 3.12+ first."
+    exit 1
+fi
+
+PYTHON_VERSION=$($PYTHON_CMD --version 2>&1 | awk '{print $2}')
+echo "🐍 Python version: $PYTHON_VERSION"
+
+# Check if virtual environment exists
+if [ ! -d "venv" ]; then
+    echo ""
+    echo "📦 Creating virtual environment..."
+    $PYTHON_CMD -m venv venv
+    echo "✅ Virtual environment created"
+fi
+
+# Activate virtual environment
+echo ""
+echo "🔧 Activating virtual environment..."
+if [[ "$OS" == "Windows" ]]; then
+    source venv/Scripts/activate 2>/dev/null || . venv/Scripts/activate
+else
+    source venv/bin/activate
+fi
+echo "✅ Virtual environment activated"
+
+# Install/upgrade dependencies
+echo ""
+echo "📥 Installing dependencies..."
+pip install --upgrade pip -q
+pip install -r requirements.txt -q
+echo "✅ Dependencies installed"
+
+# Check for config file
+if [ ! -f "config.yaml" ]; then
+    if [ -f "config.example.yaml" ]; then
+        echo ""
+        echo "⚙️  No config.yaml found, copying from example..."
+        cp config.example.yaml config.yaml
+        echo "✅ Created config.yaml"
+    fi
+fi
+
+# Display network info
+echo ""
+echo "============================================================"
+echo "🌐 Network Configuration"
+echo "============================================================"
+
+if [[ "$OS" == "Linux" ]]; then
+    IP=$(hostname -I | awk '{print $1}')
+elif [[ "$OS" == "macOS" ]]; then
+    IP=$(ipconfig getifaddr en0)
+elif [[ "$OS" == "Windows" ]]; then
+    IP=$(ipconfig | grep "IPv4" | head -1 | awk '{print $NF}')
+else
+    IP="0.0.0.0"
+fi
+
+echo "📍 Your IP: $IP"
+echo ""
+echo "Access CHIMERA from:"
+echo "  • Local:   http://0.0.0.0:3000"
+echo "  • Network: http://$IP:3000"
+echo ""
+echo "WebSocket endpoint:"
+echo "  • Local:   ws://0.0.0.0:3001"
+echo "  • Network: ws://$IP:3001"
+echo ""
+echo "============================================================"
+echo ""
+
+# Start CHIMERA
+echo "🚀 Starting CHIMERA AUTARCH..."
+echo ""
+echo "Press Ctrl+C to stop"
+echo ""
+
+$PYTHON_CMD chimera_autarch.py

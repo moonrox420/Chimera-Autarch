@@ -1,0 +1,125 @@
+"""
+Unit tests for CHIMERA AUTARCH configuration system
+"""
+import unittest
+import os
+import tempfile
+from pathlib import Path
+import sys
+
+# Add parent directory to path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from config import (
+    ChimeraConfig, ServerConfig, MetacognitiveConfig, PersistenceConfig,
+    NodeConfig, FederatedLearningConfig, LoggingConfig, load_config, save_default_config
+)
+
+
+class TestConfigLoading(unittest.TestCase):
+    """Test configuration loading from various sources"""
+    
+    def setUp(self):
+        """Set up test fixtures"""
+        self.test_dir = tempfile.mkdtemp()
+        self.config_file = Path(self.test_dir) / "test_config.yaml"
+        
+    def tearDown(self):
+        """Clean up test files"""
+        if self.config_file.exists():
+            self.config_file.unlink()
+        Path(self.test_dir).rmdir()
+    
+    def test_default_config(self):
+        """Test loading default configuration"""
+        config = load_config(str(self.config_file))  # Non-existent file
+        
+        self.assertEqual(config.server.websocket_port, 8765)
+        self.assertEqual(config.server.http_port, 8000)
+        self.assertEqual(config.metacognitive.confidence_threshold, 0.6)
+        self.assertEqual(config.persistence.database_path, "chimera_memory.db")
+    
+    def test_yaml_config_loading(self):
+        """Test loading configuration from YAML file"""
+        # Create test config
+        yaml_content = """
+server:
+  websocket_port: 9000
+  http_port: 9001
+  
+metacognitive:
+  confidence_threshold: 0.7
+  
+persistence:
+  database_path: "test_db.db"
+"""
+        self.config_file.write_text(yaml_content)
+        
+        config = load_config(str(self.config_file))
+        
+        self.assertEqual(config.server.websocket_port, 9000)
+        self.assertEqual(config.server.http_port, 9001)
+        self.assertEqual(config.metacognitive.confidence_threshold, 0.7)
+        self.assertEqual(config.persistence.database_path, "test_db.db")
+    
+    def test_env_var_override(self):
+        """Test environment variable overrides"""
+        # Set environment variables
+        os.environ["CHIMERA_SERVER_WEBSOCKET_PORT"] = "10000"
+        os.environ["CHIMERA_METACOGNITIVE_CONFIDENCE_THRESHOLD"] = "0.8"
+        
+        try:
+            config = load_config(str(self.config_file))
+            
+            self.assertEqual(config.server.websocket_port, 10000)
+            self.assertEqual(config.metacognitive.confidence_threshold, 0.8)
+        finally:
+            # Clean up
+            del os.environ["CHIMERA_SERVER_WEBSOCKET_PORT"]
+            del os.environ["CHIMERA_METACOGNITIVE_CONFIDENCE_THRESHOLD"]
+    
+    def test_save_default_config(self):
+        """Test saving default configuration"""
+        save_default_config(str(self.config_file))
+        
+        self.assertTrue(self.config_file.exists())
+        
+        # Load saved config
+        config = load_config(str(self.config_file))
+        self.assertEqual(config.server.websocket_port, 8765)
+
+
+class TestConfigValues(unittest.TestCase):
+    """Test configuration value validation"""
+    
+    def test_server_config_defaults(self):
+        """Test ServerConfig default values"""
+        config = ServerConfig()
+        
+        self.assertEqual(config.websocket_host, "localhost")
+        self.assertEqual(config.websocket_port, 8765)
+        self.assertEqual(config.http_host, "localhost")
+        self.assertEqual(config.http_port, 8000)
+        self.assertFalse(config.ssl_enabled)
+    
+    def test_metacognitive_config_defaults(self):
+        """Test MetacognitiveConfig default values"""
+        config = MetacognitiveConfig()
+        
+        self.assertEqual(config.confidence_threshold, 0.6)
+        self.assertEqual(config.learning_cooldown, 300)
+        self.assertEqual(config.failure_history_size, 100)
+        self.assertEqual(config.predictive_check_interval, 15)
+    
+    def test_persistence_config_defaults(self):
+        """Test PersistenceConfig default values"""
+        config = PersistenceConfig()
+        
+        self.assertEqual(config.database_path, "chimera_memory.db")
+        self.assertEqual(config.backup_interval, 3600)
+        self.assertEqual(config.backup_retention, 24)
+        self.assertEqual(config.backup_dir, "backups")
+
+
+if __name__ == "__main__":
+    unittest.main()

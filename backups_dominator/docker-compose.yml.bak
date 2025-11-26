@@ -1,0 +1,24 @@
+services:
+  chimera:
+    build: .
+    container_name: chimera-fortress
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /chimera/tmp:noexec,nosuid,nodev,size=64m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    environment:
+      MASTER_KEY: ${MASTER_KEY}
+      ENABLE_FL_RUNTIME: ${ENABLE_FL_RUNTIME:-false}
+      IMAGE_DIGEST: ${IMAGE_DIGEST}
+      HTTP_PORT: 3000
+      WS_PORT: 3001
+    volumes:
+      - ./ssl:/chimera/ssl:ro
+      - ./cosign.pub:/chimera/cosign.pub:ro

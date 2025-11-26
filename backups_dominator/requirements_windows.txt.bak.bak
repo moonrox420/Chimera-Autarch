@@ -1,0 +1,92 @@
+.\install_quick_windows.ps1pip install flwr==1.23.0python -c "import flwr; logging.info('Flower OK')"# CHIMERA AUTARCH - Windows-Optimized Dependencies
+# Pre-built wheels only - no compilation required
+# Python 3.12+ required
+
+# ==========================================
+# CORE DEPENDENCIES (Required)
+# ==========================================
+
+# Async WebSocket server
+websockets>=15.0.1
+
+# Async SQLite for persistence
+aiosqlite>=0.21.0
+
+# Numerical operations
+numpy>=1.24.0,<2.4.0
+
+# YAML configuration
+pyyaml>=6.0.0
+
+# Cryptography
+pycryptodome>=3.20.0
+
+# ==========================================
+# FEDERATED LEARNING (Optional)
+# ==========================================
+
+# Flower framework - Use compatible grpcio version
+flwr>=1.23.0
+# grpcio and grpcio-health-checking will be auto-installed by flwr
+# DO NOT pin versions - let flwr manage its own dependencies
+
+# ==========================================
+# ML/AI PACKAGES (Core Features)
+# ==========================================
+
+# TensorFlow - use latest stable with pre-built wheels
+tensorflow>=2.16.0,<2.17.0
+
+# scikit-learn - MUST use pre-built wheel version
+scikit-learn>=1.4.0
+
+# ==========================================
+# CLOUD SDKs (Optional - comment out if not needed)
+# ==========================================
+
+# AWS SDK
+boto3>=1.34.0
+
+# Azure SDK (OPTIONAL - comment out if not using Azure)
+# azure-mgmt-compute>=30.0.0
+# azure-identity>=1.15.0
+
+# GCP SDK (OPTIONAL - comment out if not using GCP)
+# google-cloud-compute>=1.19.0
+
+# ==========================================
+# VOICE INTERFACE (Optional)
+# ==========================================
+
+# OpenAI Whisper - speech recognition
+openai-whisper>=20231117
+
+# Text-to-speech
+pyttsx3>=2.90
+
+# Audio I/O - Install manually from wheel:
+# https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio
+# pyaudio>=0.2.14
+
+# Alternative audio library
+sounddevice>=0.4.6
+
+# ==========================================
+# OPTIONAL ENHANCEMENTS
+# ==========================================
+
+# System monitoring
+psutil>=5.9.0
+
+# AI API clients (optional)
+# openai>=1.3.0
+# anthropic>=0.18.0
+
+# HTTP client
+httpx>=0.25.0
+
+# JWT tokens
+PyJWT>=2.8.0
+
+# File watching
+watchdog>=3.0.0

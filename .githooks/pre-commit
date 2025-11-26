@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Pre-commit hook to run source guard before committing
+python scripts/guard_source.py
+EXIT_STATUS=$?
+if [ $EXIT_STATUS -ne 0 ]; then
+    echo "Pre-commit: source guard failed. Please fix the reported issues and try again."
+    exit $EXIT_STATUS
+fi
+exit 0
