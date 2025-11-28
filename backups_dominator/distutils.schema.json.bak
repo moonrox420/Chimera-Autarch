@@ -1,8 +1,0 @@
-{
-  "Server": {
-    "HttpHost": "0.0.0.0",
-    "HttpPort": 3000,
-    "WebSocketHost": "0.0.0.0",
-    "WebSocketPort": 3001
-  }
-}
