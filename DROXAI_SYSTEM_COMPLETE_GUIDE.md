@@ -148,10 +148,10 @@ python ws_client.py
 ```
 
 ### **API Endpoints**
-- **Health Check**: http://localhost:8000/api/health
-- **Metrics**: http://localhost:8000/metrics
-- **Prometheus**: http://localhost:8000/metrics/prometheus
-- **GraphQL**: http://localhost:8000/graphql
+- **Health Check**: http://localhost:3000/api/health
+- **Metrics**: http://localhost:3000/metrics
+- **Prometheus**: http://localhost:3000/metrics/prometheus
+- **GraphQL**: http://localhost:3000/graphql
 
 ---
 
@@ -208,15 +208,15 @@ python ws_client.py
 ### **Backend Health**
 ```powershell
 # Check if servers are running
-curl http://localhost:8000/api/health
+curl http://localhost:3000/api/health
 
 # Get real-time metrics
-curl http://localhost:8000/metrics
+curl http://localhost:3000/metrics
 ```
 
 ### **Component Status**
-- ✅ **HTTP Server**: Port 8000 - OPERATIONAL
-- ✅ **WebSocket Server**: Port 8765 - ACTIVE  
+- ✅ **HTTP Server**: Port 3000 - OPERATIONAL
+- ✅ **WebSocket Server**: Port 3001 - ACTIVE  
 - ✅ **SSL/TLS**: Enabled with certificates
 - ✅ **Database**: SQLite with auto-backups
 - ✅ **Event Broker**: Real-time streaming active
@@ -237,7 +237,7 @@ ls cert.pem key.pem
 ```
 
 ### **Dashboard Not Loading**
-- Verify server is running on port 8000
+- Verify server is running on port 3000
 - Check browser console for errors
 - Try privacy mode: `dashboard_3d_privacy_secure.html`
 
@@ -290,7 +290,7 @@ python ws_client.py
 - **Privacy Guide**: `privacy_setup_guide.md`
 - **Installation**: `install_quick_windows.ps1`
 - **Docker Setup**: `docker-compose.yml`
-- **API Documentation**: http://localhost:8000/graphql
+- **API Documentation**: http://localhost:3000/graphql
 
 ---
 

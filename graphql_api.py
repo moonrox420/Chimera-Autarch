@@ -1,4 +1,4 @@
-"""
+﻿"""
 CHIMERA AUTARCH - GraphQL API Layer
 Provides a GraphQL interface for querying system state, evolutions, and metrics.
 """
@@ -388,3 +388,4 @@ class GraphQLResolver:
             })
 
         return topics
+

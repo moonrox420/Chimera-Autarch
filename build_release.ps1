@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 <# 
 .SYNOPSIS
 Build script for DroxAI Consumer Release
@@ -133,8 +133,8 @@ $readme = @"
    - Or run: `python DroxAI_Launcher.py`
 
 4. **Accessing the Interface**
-   - Web Dashboard: http://localhost:8000
-   - WebSocket API: ws://localhost:8765
+   - Web Dashboard: http://localhost:3000
+   - WebSocket API: ws://localhost:3001
 
 ## Features
 
@@ -155,8 +155,8 @@ $readme = @"
 
 ### Port Already in Use
 - Edit `config\appsettings.json` to change ports
-- Default HTTP port: 8000
-- Default WebSocket port: 8765
+- Default HTTP port: 3000
+- Default WebSocket port: 3001
 
 ### Python Not Found
 - Install Python 3.8+ from python.org
@@ -178,7 +178,7 @@ $readme = @"
 For issues and support, check the logs directory for error details.
 
 ---
-© 2025 DroxAI - Advanced AI Orchestration System
+Â© 2025 DroxAI - Advanced AI Orchestration System
 Built with consumer-friendly packaging
 "@
 
@@ -250,5 +250,6 @@ Write-Host ""
 Write-Host "To test the package:" -ForegroundColor Cyan
 Write-Host "1. Copy $BUILD_DIR to a test location" -ForegroundColor Gray
 Write-Host "2. Run DroxAI.bat" -ForegroundColor Gray
-Write-Host "3. Open http://localhost:8000" -ForegroundColor Gray
+Write-Host "3. Open http://localhost:3000" -ForegroundColor Gray
 Write-Host ""
+

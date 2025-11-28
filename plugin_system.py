@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA NEXUS - Plugin Marketplace System
 Community extension framework with sandboxing and revenue sharing.
@@ -524,3 +524,4 @@ class ChimeraPluginIntegration:
                 f"on_{event}",
                 data=data
             )
+

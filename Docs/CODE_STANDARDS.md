@@ -61,7 +61,7 @@ registry.register(tool)
 
 - Use multi-stage Dockerfiles: `builder` stage with `pip install --user` then copying to final, ensuring `PATH` includes `/root/.local/bin`.
 - Run as non-root user (UID 1000) for security.
-- Expose necessary ports: `8765` (WebSocket), `8000` (Dashboard), `8080` (Federated Learning / Flower).
+- Expose necessary ports: `3001` (WebSocket), `3000` (Dashboard), `8080` (Federated Learning / Flower).
 - Add a robust `HEALTHCHECK` to hit the `/metrics` endpoint.
 - Use volumes for persistence and logs; consider explicit named volumes for production.
 

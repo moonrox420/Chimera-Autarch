@@ -1,11 +1,11 @@
-# chimera_god_cli.py — FINAL, FIXED, NO MISSING IMPORTS, NO ERRORS
+﻿# chimera_god_cli.py â€” FINAL, FIXED, NO MISSING IMPORTS, NO ERRORS
 
 import os
 import sys
 import subprocess
 import webbrowser
 import time
-from pathlib import Path  # ← WAS MISSING — NOW FIXED
+from pathlib import Path  # â† WAS MISSING â€” NOW FIXED
 
 ROOT = Path(__file__).parent.resolve()  # C:\Drox_AI\build
 
@@ -16,8 +16,8 @@ def go(command: str):
         logging.info("[GOD MODE] Fortress rising...")
         subprocess.run(["docker", "compose", "up", "-d", "--build"], cwd=ROOT.parent)
         time.sleep(5)
-        webbrowser.open("http://0.0.0.0:3000")
-        logging.info("[GOD MODE] Chimera Autarch LIVE — http://0.0.0.0:3000")
+        webbrowser.open("http://127.0.0.1:3000")
+        logging.info("[GOD MODE] Chimera Autarch LIVE â€” http://127.0.0.1:3000")
 
     elif "kill" in cmd or "down" in cmd:
         logging.info("[GOD MODE] Fortress nuked")
@@ -32,7 +32,7 @@ def go(command: str):
         logging.info("[GOD MODE] Forcing total alignment...")
         unify = ROOT.parent / "unify_everything.py"
         subprocess.run([sys.executable, str(unify)], cwd=ROOT.parent)
-        logging.info("[GOD MODE] Project unified — one truth")
+        logging.info("[GOD MODE] Project unified â€” one truth")
 
     elif "logs" in cmd:
         subprocess.run(["docker", "logs", "-f", "chimera-fortress"])

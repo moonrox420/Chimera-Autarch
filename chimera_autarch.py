@@ -1,4 +1,4 @@
-import asyncio
+﻿import asyncio
 import json
 import time
 import hashlib
@@ -17,7 +17,7 @@ import traceback
 import os
 import warnings
 
-# Suppress protobuf deprecation warnings (Python ≥3.14 compatibility)
+# Suppress protobuf deprecation warnings (Python â‰¥3.14 compatibility)
 warnings.filterwarnings("ignore", category=DeprecationWarning, module="google._upb")
 
 from graphql_api import GraphQLResolver
@@ -31,8 +31,17 @@ try:
 except Exception:  # ImportError or any runtime issue
     FLOWER_AVAILABLE = False
 
+# LLM Integration – guarded at runtime
+LLM_AVAILABLE = False
+try:
+    from llm_integration import LocalLLMProvider, OpenAIProvider, AnthropicProvider, CodeGenerator as LLMCodeGenerator
+    LLM_AVAILABLE = True
+except Exception as e:
+    if logger:
+        logger.warning(f"LLM integration unavailable: {e}")
+
 # --------------------------------------------------------------------------- #
-# Logging – structured, timestamped, color-ready for production
+# Logging â€“ structured, timestamped, color-ready for production
 # --------------------------------------------------------------------------- #
 logging.basicConfig(
     level=logging.INFO,
@@ -56,7 +65,7 @@ class QuantumEntropy:
         return hashlib.sha3_256((message + secret).encode()).hexdigest()
 
 # --------------------------------------------------------------------------- #
-# Generic Tool System – typed, metered, self-healing
+# Generic Tool System â€“ typed, metered, self-healing
 # --------------------------------------------------------------------------- #
 T = TypeVar("T", covariant=True)
 
@@ -141,7 +150,7 @@ class ToolRegistry:
         }
 
 # --------------------------------------------------------------------------- #
-# Metacognitive Engine – predictive self-evolution
+# Metacognitive Engine â€“ predictive self-evolution
 # --------------------------------------------------------------------------- #
 @dataclass
 class EvolutionRecord:
@@ -314,7 +323,7 @@ class MetacognitiveEngine:
         )
 
 # --------------------------------------------------------------------------- #
-# Intent Compiler – context-aware plan generation
+# Intent Compiler â€“ context-aware plan generation
 # --------------------------------------------------------------------------- #
 class IntentCompiler:
     def compile(self, intent: str, **ctx) -> List[Dict[str, Any]]:
@@ -352,6 +361,32 @@ class IntentCompiler:
                 "tool": "analyze_and_suggest_patch",
                 "args": {"bottleneck_func": func, "goal": goal},
             }]
+        
+        # LLM-powered code generation
+        if any(k in lower for k in ["generate", "write", "create"]) and any(k in lower for k in ["code", "function", "class", "script"]):
+            return [{
+                "tool": "llm_generate_code",
+                "args": {"prompt": intent, "context": ctx},
+            }]
+        
+        # LLM-powered code fixing
+        if any(k in lower for k in ["fix", "repair", "debug"]) and any(k in lower for k in ["code", "error", "bug"]):
+            return [{
+                "tool": "llm_fix_code",
+                "args": {"code": ctx.get("code", ""), "error": ctx.get("error", "unknown error"), "context": ctx},
+            }]
+        
+        # LLM-powered code optimization
+        if "optimize" in lower and "code" in lower:
+            goal = "performance"
+            if "memory" in lower:
+                goal = "memory"
+            elif "readability" in lower or "readable" in lower:
+                goal = "readability"
+            return [{
+                "tool": "llm_optimize_code",
+                "args": {"code": ctx.get("code", ""), "optimization_goal": goal, "context": ctx},
+            }]
 
         # Fallback – enriched echo with choices
         return [{
@@ -359,13 +394,15 @@ class IntentCompiler:
             "args": {"message": f"Intent received: {intent}"},
             "choices": [
                 {"tool": "echo", "description": "Echo the message back"},
+                {"tool": "llm_generate_code", "description": "Generate code using AI"},
+                {"tool": "llm_fix_code", "description": "Fix code errors using AI"},
                 {"tool": "analyze_and_suggest_patch", "description": "Analyze and suggest code patches"},
                 {"tool": "start_federated_training", "description": "Start federated learning training"},
             ],
         }]
 
 # --------------------------------------------------------------------------- #
-# Core Heart Node – orchestration, reputation, secure dispatch
+# Core Heart Node â€“ orchestration, reputation, secure dispatch
 # --------------------------------------------------------------------------- #
 @dataclass
 class NodeInfo:
@@ -385,14 +422,56 @@ class HeartNode:
         self.compiler = IntentCompiler()
         self.registry = ToolRegistry()
         self.graphql_resolver = GraphQLResolver(self)
+        self.llm_provider = None
+        self.llm_generator = None
+        if LLM_AVAILABLE:
+            self._init_llm_provider()
         self._register_core_tools()
 
+    def _init_llm_provider(self):
+        """Initialize LLM provider with fallback chain: Local > OpenAI > Anthropic"""
+        try:
+            # Try local Ollama first (free, private, fast)
+            self.llm_provider = LocalLLMProvider()
+            self.llm_generator = LLMCodeGenerator(self.llm_provider)
+            logger.info("[LLM] Initialized with Local Ollama provider")
+        except Exception as e:
+            logger.warning(f"[LLM] Local provider unavailable: {e}")
+            
+            # Fallback to OpenAI if API key available
+            if os.getenv("OPENAI_API_KEY"):
+                try:
+                    self.llm_provider = OpenAIProvider()
+                    self.llm_generator = LLMCodeGenerator(self.llm_provider)
+                    logger.info("[LLM] Initialized with OpenAI provider")
+                except Exception as e:
+                    logger.warning(f"[LLM] OpenAI provider unavailable: {e}")
+            
+            # Fallback to Anthropic if API key available
+            if not self.llm_provider and os.getenv("ANTHROPIC_API_KEY"):
+                try:
+                    self.llm_provider = AnthropicProvider()
+                    self.llm_generator = LLMCodeGenerator(self.llm_provider)
+                    logger.info("[LLM] Initialized with Anthropic provider")
+                except Exception as e:
+                    logger.warning(f"[LLM] Anthropic provider unavailable: {e}")
+    
     def _register_core_tools(self):
         self.registry.register(Tool("echo", self._tool_echo, version="2.2.0"))
         self.registry.register(Tool("initialize_symbiotic_link", self._tool_symbiotic_link, version="1.4.0"))
         if FLOWER_AVAILABLE:
             self.registry.register(Tool("start_federated_training", self._tool_federated_training, version="2.1.0"))
         self.registry.register(Tool("analyze_and_suggest_patch", self._tool_analyze_patch, version="1.3.0"))
+        
+        # Register LLM tools if available
+        if LLM_AVAILABLE and self.llm_generator:
+            self.registry.register(Tool("llm_generate_code", self._tool_llm_generate_code, 
+                                       description="Generate code using LLM", version="1.0.0"))
+            self.registry.register(Tool("llm_fix_code", self._tool_llm_fix_code,
+                                       description="Fix code errors using LLM", version="1.0.0"))
+            self.registry.register(Tool("llm_optimize_code", self._tool_llm_optimize_code,
+                                       description="Optimize code using LLM", version="1.0.0"))
+            logger.info("[LLM] Registered LLM code generation tools")
 
     async def init(self):
         await self.metacog.init()
@@ -404,19 +483,19 @@ class HeartNode:
             now = time.time()
             dead = [nid for nid, ni in self.nodes.items() if now - ni.last_heartbeat > 90]
             for nid in dead:
-                logger.warning(f"[HEART] Node {nid} timed out – evicting")
+                logger.warning(f"[HEART] Node {nid} timed out â€“ evicting")
                 del self.nodes[nid]
                 self.secrets.pop(nid, None)
                 self.metacog.log_failure("node_comm", f"timeout {nid}")
 
     async def dispatch_task(self, tool: str, args: Dict[str, Any]) -> ToolResult[Any]:
-        # Local first – zero-latency path
+        # Local first â€“ zero-latency path
         result = await self.registry.execute(tool, **args)
         if result.success:
             await self.metacog.record_outcome(tool.split("_")[0], True, result.metrics)
             return result
 
-        # Distributed fallback (simplified – reputation-ordered)
+        # Distributed fallback (simplified â€“ reputation-ordered)
         capable = sorted(
             [ni for ni in self.nodes.values() if "adaptive" in ni.capabilities],
             key=lambda n: n.reputation,
@@ -482,7 +561,7 @@ class HeartNode:
 
     # ------------------- Core Tools -------------------
     async def _tool_echo(self, message: str) -> str:
-        return f"↯ ECHO: {message}"
+        return f"â†¯ ECHO: {message}"
 
     async def _tool_symbiotic_link(self, arm_type: str = "edge") -> Dict[str, Any]:
         return {
@@ -496,13 +575,13 @@ class HeartNode:
         if not FLOWER_AVAILABLE:
             return {"error": "flwr unavailable on this node"}
 
-        logger.info(f"[FL] Launching federated training – topic={topic} rounds={rounds}")
+        logger.info(f"[FL] Launching federated training â€“ topic={topic} rounds={rounds}")
 
         # Minimal real Flower server (non-blocking)
         def _start_server():
             strategy = FedAvg(min_available_clients=2)
             fl.server.start_server(
-                server_address="0.0.0.0:8081",
+                server_address="127.0.0.1:8081",
                 config=ServerConfig(num_rounds=rounds),
                 strategy=strategy,
             )
@@ -514,6 +593,86 @@ class HeartNode:
     async def _tool_analyze_patch(self, bottleneck_func: str, goal: str) -> str:
         # Real static analysis + patch generation stub (expandable with LLM later)
         return f"Optimized patch for `{bottleneck_func}` targeting `{goal}` would be inserted here."
+    
+    # ------------------- LLM Tools -------------------
+    async def _tool_llm_generate_code(self, prompt: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Generate code using LLM"""
+        if not self.llm_generator:
+            return {"error": "LLM not available", "code": None}
+        
+        try:
+            context = context or {}
+            patch = await self.llm_generator.generate_patch(prompt, context, include_tests=True)
+            
+            if patch:
+                return {
+                    "success": True,
+                    "code": patch.code,
+                    "description": patch.description,
+                    "confidence": patch.confidence,
+                    "risk_level": patch.risk_level,
+                }
+            else:
+                return {"error": "Failed to generate code", "code": None}
+        except Exception as e:
+            logger.error(f"[LLM] Code generation failed: {e}")
+            return {"error": str(e), "code": None}
+    
+    async def _tool_llm_fix_code(self, code: str, error: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Fix code errors using LLM"""
+        if not self.llm_generator:
+            return {"error": "LLM not available", "fixed_code": None}
+        
+        try:
+            context = context or {}
+            context["original_code"] = code
+            context["error_message"] = error
+            
+            prompt = f"Fix this Python code that has the following error:\n\nError: {error}\n\nCode:\n{code}"
+            patch = await self.llm_generator.generate_patch(prompt, context, include_tests=True)
+            
+            if patch:
+                return {
+                    "success": True,
+                    "fixed_code": patch.code,
+                    "description": patch.description,
+                    "confidence": patch.confidence,
+                    "risk_level": patch.risk_level,
+                }
+            else:
+                return {"error": "Failed to fix code", "fixed_code": None}
+        except Exception as e:
+            logger.error(f"[LLM] Code fix failed: {e}")
+            return {"error": str(e), "fixed_code": None}
+    
+    async def _tool_llm_optimize_code(self, code: str, optimization_goal: str = "performance", 
+                                     context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Optimize code using LLM"""
+        if not self.llm_generator:
+            return {"error": "LLM not available", "optimized_code": None}
+        
+        try:
+            context = context or {}
+            context["original_code"] = code
+            context["optimization_goal"] = optimization_goal
+            
+            prompt = f"Optimize this Python code for {optimization_goal}:\n\n{code}\n\nProvide an optimized version that maintains the same functionality."
+            patch = await self.llm_generator.generate_patch(prompt, context, include_tests=True)
+            
+            if patch:
+                return {
+                    "success": True,
+                    "optimized_code": patch.code,
+                    "description": patch.description,
+                    "confidence": patch.confidence,
+                    "improvements": patch.description,
+                    "risk_level": patch.risk_level,
+                }
+            else:
+                return {"error": "Failed to optimize code", "optimized_code": None}
+        except Exception as e:
+            logger.error(f"[LLM] Code optimization failed: {e}")
+            return {"error": str(e), "optimized_code": None}
 
 # --------------------------------------------------------------------------- #
 # Production-grade Web Dashboard (fixed, complete, secure)
@@ -559,13 +718,13 @@ DASHBOARD_HTML = """<!DOCTYPE html>
         <div class="main-panel">
             <div class="terminal"><div id="output"></div></div>
             <div class="input-area">
-                <input type="text" id="cmd" placeholder="enter intent…" autocomplete="off">
+                <input type="text" id="cmd" placeholder="enter intentâ€¦" autocomplete="off">
                 <button onclick="send()">EXECUTE</button>
             </div>
         </div>
         <div class="sidebar">
             <div class="card">
-                <h2>⚡ METRICS</h2>
+                <h2>âš¡ METRICS</h2>
                 <div class="metric-grid">
                     <div class="metric"><div class="metric-label">Nodes</div><div class="metric-value" id="nodes">0</div></div>
                     <div class="metric"><div class="metric-label">Confidence</div><div class="metric-value" id="conf">100%</div></div>
@@ -575,7 +734,7 @@ DASHBOARD_HTML = """<!DOCTYPE html>
     </div>
 </div>
 <script>
-    const ws = new WebSocket(`ws://${location.hostname}:8765`);
+    const ws = new WebSocket(`ws://${location.hostname}:3001`);
     const out = document.getElementById('output');
     const inp = document.getElementById('cmd');
     function log(m){const d=document.createElement('div');d.textContent=m;out.appendChild(d);out.scrollTop=out.scrollHeight;}
@@ -659,7 +818,7 @@ def create_dashboard_handler(heart_node):
     return HandlerWithHeart
 
 # --------------------------------------------------------------------------- #
-# Production Entry Point – TLS-aware, graceful shutdown
+# Production Entry Point â€“ TLS-aware, graceful shutdown
 # --------------------------------------------------------------------------- #
 async def main():
     # TLS auto-detect
@@ -674,8 +833,8 @@ async def main():
     heart = HeartNode()
     await heart.init()
 
-    ws_port = int(os.getenv("WS_PORT", 8765))
-    http_port = int(os.getenv("HTTP_PORT", 9000))
+    ws_port = int(os.getenv("WS_PORT", 3001))
+    http_port = int(os.getenv("HTTP_PORT", 3000))
 
     async def ws_handler(ws):
         await ws.send(json.dumps({"type": "welcome"}))
@@ -684,15 +843,15 @@ async def main():
 
     ws_server = await websockets.serve(
         ws_handler,
-        "0.0.0.0",
+        "127.0.0.1",
         ws_port,
         ssl=ssl_ctx,
     )
 
-    httpd = HTTPServer(("0.0.0.0", http_port), create_dashboard_handler(heart))
+    httpd = HTTPServer(("127.0.0.1", http_port), create_dashboard_handler(heart))
     http_thread = asyncio.to_thread(httpd.serve_forever)
 
-    logger.info(f"CHIMERA AUTARCH v3 ready – ws://0.0.0.0:{ws_port} | http://0.0.0.0:{http_port}")
+    logger.info(f"CHIMERA AUTARCH v3 ready â€“ ws://127.0.0.1:{ws_port} | http://127.0.0.1:{http_port}")
 
     try:
         await asyncio.gather(http_thread, ws_server.wait_closed())

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA AUTARCH - Multi-Agent Swarm Coordination
 Spawn child agents, task decomposition, consensus decision making
@@ -265,7 +265,7 @@ class ConsensusEngine:
 class SwarmCoordinator:
     """Coordinates multi-agent swarm"""
 
-    def __init__(self, max_agents: int = 10, base_port: int = 9000):
+    def __init__(self, max_agents: int = 10, base_port: int = 3000):
         self.max_agents = max_agents
         self.base_port = base_port
         self.agents: Dict[str, Agent] = {}
@@ -302,7 +302,7 @@ class SwarmCoordinator:
                 "role": spec.role,
                 "capabilities": list(spec.capabilities),
                 "port": port,
-                "parent_port": 8765,  # Connect to main CHIMERA
+                "parent_port": 3001,  # Connect to main CHIMERA
                 "specialization": spec.specialization
             }
 
@@ -570,3 +570,4 @@ class SwarmCoordinator:
             "pending_tasks": sum(1 for t in self.tasks.values() if t.status == "pending"),
             "avg_agent_reputation": sum(a.reputation for a in active_agents) / len(active_agents) if active_agents else 0.0
         }
+

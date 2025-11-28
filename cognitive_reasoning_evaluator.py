@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Cognitive Reasoning Evaluator for AI Agents
 Comprehensive tests for logical reasoning, problem-solving, and deduction capabilities
@@ -57,7 +57,7 @@ class CognitiveReasoningEvaluator:
                 reasoning_steps=[
                     "Identify major premise: All mammals are warm-blooded",
                     "Identify minor premise: Whales are mammals", 
-                    "Apply modus ponens: If A→B and A, then B",
+                    "Apply modus ponens: If Aâ†’B and A, then B",
                     "Conclusion: Whales are warm-blooded"
                 ],
                 difficulty_level=2,
@@ -77,7 +77,7 @@ class CognitiveReasoningEvaluator:
                 context="Affirming the consequent fallacy test",
                 expected_answer="We cannot conclude it rained (affirming the consequent is a logical fallacy)",
                 reasoning_steps=[
-                    "Identify premise: If P then Q (rain → wet ground)",
+                    "Identify premise: If P then Q (rain â†’ wet ground)",
                     "Recognize: Q is true (ground is wet)",
                     "Note: This does not prove P is true",
                     "Conclusion: Cannot determine if it rained"
@@ -146,7 +146,7 @@ class CognitiveReasoningEvaluator:
                 context="Analogical reasoning test",
                 expected_answer="Leadership/management (heart pumps blood to body parts, leadership guides organization)",
                 reasoning_steps=[
-                    "Identify source analogy: Heart → Body relationship",
+                    "Identify source analogy: Heart â†’ Body relationship",
                     "Analyze relationship: Heart pumps blood, sustains life, coordinates body",
                     "Identify target domain: Organization",
                     "Find analogous element: Leadership manages, guides, sustains organization"
@@ -241,7 +241,7 @@ class CognitiveReasoningEvaluator:
                     "Start equation: 2x + 5 = 15",
                     "Subtract 5: 2x = 10", 
                     "Divide by 2: x = 5",
-                    "Verify: 2(5) + 5 = 15 ✓"
+                    "Verify: 2(5) + 5 = 15 âœ“"
                 ],
                 difficulty_level=2,
                 domain="math",
@@ -431,7 +431,7 @@ class CognitiveReasoningEvaluator:
             scores["valid_reasoning_steps"] = 0.0
             
         # Check for logical structure
-        if "→" in response or "therefore" in response.lower():
+        if "â†’" in response or "therefore" in response.lower():
             scores["logical_structure"] = 1.0
         else:
             scores["logical_structure"] = 0.5
@@ -615,7 +615,7 @@ class CognitiveReasoningEvaluator:
             
         report += "\n## Detailed Test Results\n"
         for result in results["detailed_results"]:
-            status = "✅ PASS" if result["passed"] else "❌ FAIL"
+            status = "âœ… PASS" if result["passed"] else "âŒ FAIL"
             report += f"\n### {result['test_id']} - {result['reasoning_type'].title()} ({result['domain']})\n"
             report += f"**Status**: {status} | **Score**: {result['overall_score']:.2f}/1.00\n"
             report += f"**Agent Response**: {result['agent_response'][:200]}...\n"
@@ -644,3 +644,4 @@ if __name__ == "__main__":
     # Generate and print report
     report = evaluator.generate_report(results)
     print(report)
+

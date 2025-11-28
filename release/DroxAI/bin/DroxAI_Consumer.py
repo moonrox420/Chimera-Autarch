@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 DroxAI Consumer - FULL FUNCTIONALITY PRESERVED
 Consumer packaging of the complete CHIMERA AUTARCH system
@@ -77,9 +77,9 @@ class ConsumerDroxAIWrapper:
             consumer_paths = {
                 'server': {
                     'websocket_host': 'localhost',
-                    'websocket_port': 8765,
+                    'websocket_port': 3001,
                     'http_host': 'localhost',
-                    'http_port': 8000
+                    'http_port': 3000
                 },
                 'persistence': {
                     'database_path': str(APP_HOME / 'data' / 'droxai_memory.db'),
@@ -154,10 +154,10 @@ class ConsumerDroxAIWrapper:
         """Start HTTP server with enhanced dashboard"""
         try:
             handler = lambda *a, **kw: ConsumerHTTPHandler(self, *a, **kw)
-            http_server = HTTPServer(('localhost', 8000), handler)
+            http_server = HTTPServer(('localhost', 3000), handler)
             
             asyncio.create_task(self._run_server(http_server))
-            self.logger.info("[DroxAI] HTTP server started on localhost:8000")
+            self.logger.info("[DroxAI] HTTP server started on localhost:3000")
             
         except Exception as e:
             self.logger.error(f"[DroxAI] HTTP server failed: {e}")
@@ -168,8 +168,8 @@ class ConsumerDroxAIWrapper:
             async def handler(ws, path):
                 await self._handle_websocket(ws, path)
             
-            ws_server = await websockets.serve(handler, 'localhost', 8765)
-            self.logger.info("[DroxAI] WebSocket server started on localhost:8765")
+            ws_server = await websockets.serve(handler, 'localhost', 3001)
+            self.logger.info("[DroxAI] WebSocket server started on localhost:3001")
             
         except Exception as e:
             self.logger.error(f"[DroxAI] WebSocket server failed: {e}")
@@ -368,12 +368,12 @@ class ConsumerHTTPHandler(BaseHTTPRequestHandler):
 <body>
     <div class="container">
         <header>
-            <h1>🚀 DroxAI v1.0.0</h1>
+            <h1>ðŸš€ DroxAI v1.0.0</h1>
             <div class="subtitle">Complete CHIMERA System - Consumer Edition</div>
         </header>
         
         <div class="chimera-info">
-            <h2>🧠 CHIMERA AUTARCH System Status</h2>
+            <h2>ðŸ§  CHIMERA AUTARCH System Status</h2>
             <p><strong>Advanced AI Orchestration Platform</strong> with full metacognitive capabilities, federated learning, and self-evolution features.</p>
             <p><strong>Status:</strong> <span id="system-status">Initializing...</span></p>
             <p><strong>Uptime:</strong> <span id="uptime">--</span></p>
@@ -409,34 +409,34 @@ class ConsumerHTTPHandler(BaseHTTPRequestHandler):
         
         <div class="feature-grid">
             <div class="feature-card">
-                <div class="feature-title">🎯 Neural Evolution</div>
+                <div class="feature-title">ðŸŽ¯ Neural Evolution</div>
                 <p>Self-optimizing AI with AST-based code improvements</p>
                 <button class="btn" onclick="triggerEvolution()">Run Evolution Cycle</button>
             </div>
             <div class="feature-card">
-                <div class="feature-title">🔮 Quantum Optimizer</div>
+                <div class="feature-title">ðŸ”® Quantum Optimizer</div>
                 <p>Hybrid task scheduling with quantum-inspired algorithms</p>
                 <button class="btn" onclick="optimizeTasks()">Optimize Tasks</button>
             </div>
             <div class="feature-card">
-                <div class="feature-title">🧬 Federated Learning</div>
+                <div class="feature-title">ðŸ§¬ Federated Learning</div>
                 <p>Distributed AI training with Flower framework</p>
                 <button class="btn" onclick="startFederated()">Start Training</button>
             </div>
             <div class="feature-card">
-                <div class="feature-title">🧠 Metacognition</div>
+                <div class="feature-title">ðŸ§  Metacognition</div>
                 <p>Self-aware AI with predictive failure detection</p>
                 <button class="btn" onclick="analyzeConfidence()">Analyze Confidence</button>
             </div>
         </div>
         
         <div class="logs-area">
-            <h3>📊 System Logs</h3>
+            <h3>ðŸ“Š System Logs</h3>
             <div class="log-output" id="log-output">Initializing DroxAI system...</div>
         </div>
         
         <div style="text-align: center; margin-top: 30px; color: #8892b0;">
-            <p>© 2025 DroxAI - Advanced AI Orchestration System</p>
+            <p>Â© 2025 DroxAI - Advanced AI Orchestration System</p>
             <p>Complete CHIMERA functionality preserved in consumer-friendly package</p>
         </div>
     </div>
@@ -445,7 +445,7 @@ class ConsumerHTTPHandler(BaseHTTPRequestHandler):
         let ws = null;
         
         function connectWebSocket() {
-            ws = new WebSocket('ws://localhost:8765');
+            ws = new WebSocket('ws://localhost:3001');
             ws.onopen = function() {
                 document.getElementById('ws-status').textContent = 'Connected';
                 document.getElementById('ws-status').style.color = '#00ff88';
@@ -643,3 +643,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+

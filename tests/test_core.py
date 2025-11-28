@@ -1,4 +1,4 @@
-"""
+﻿"""
 Unit tests for CHIMERA AUTARCH core components
 """
 import unittest
@@ -7,10 +7,10 @@ import sys
 from pathlib import Path
 from unittest.mock import Mock, AsyncMock, patch
 
-# Add parent directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add src directory to path
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from chimera_autarch import (
+from chimera.core import (
     QuantumEntropy, ToolResult, Tool, ToolRegistry,
     EvolutionRecord, FailurePattern, IntentCompiler
 )
@@ -149,7 +149,34 @@ class TestIntentCompiler(unittest.TestCase):
     
     def setUp(self):
         """Set up test fixtures"""
-        self.compiler = IntentCompiler()
+        self.registry = ToolRegistry()
+        
+        # Register mock tools for testing
+        async def mock_tool(**kwargs):
+            return ToolResult(success=True, data={"result": "mock"})
+        
+        self.registry.register(Tool(
+            name="start_federated_training",
+            func=mock_tool,
+            description="Start federated learning training"
+        ))
+        self.registry.register(Tool(
+            name="initialize_symbiotic_link",
+            func=mock_tool,
+            description="Initialize symbiotic link"
+        ))
+        self.registry.register(Tool(
+            name="analyze_and_suggest_patch",
+            func=mock_tool,
+            description="Analyze and suggest code patches"
+        ))
+        self.registry.register(Tool(
+            name="echo",
+            func=mock_tool,
+            description="Echo tool"
+        ))
+        
+        self.compiler = IntentCompiler(self.registry)
     
     def test_federated_learning_intent(self):
         """Test compiling federated learning intent"""
@@ -206,3 +233,4 @@ class TestEvolutionRecord(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -46,7 +46,7 @@ python chimera_autarch.py
 ```
 
 ### Access
-- Direct access: `http://YOUR_MACHINE_IP:8000`
+- Direct access: `http://YOUR_MACHINE_IP:3000`
 - No port forwarding needed
 - Works from any terminal (PowerShell, CMD, bash)
 - No Microsoft services involved
@@ -64,15 +64,15 @@ docker build -t chimera-autarch:v2.2 .
 # 2. Run standalone container
 docker run -d \
   --name chimera \
-  -p 8000:8000 \
-  -p 8765:8765 \
+  -p 3000:3000 \
+  -p 3001:3001 \
   -v $(pwd)/chimera_memory.db:/app/chimera_memory.db \
   -v $(pwd)/backups:/app/backups \
   chimera-autarch:v2.2
 
 # 3. Access directly
-# http://localhost:8000 (from host machine)
-# http://YOUR_IP:8000 (from network)
+# http://localhost:3000 (from host machine)
+# http://YOUR_IP:3000 (from network)
 
 # 4. View logs
 docker logs -f chimera
@@ -295,8 +295,8 @@ tar -czf chimera-v2.2-portable.tar.gz chimera-portable/
 ## 🔧 Configuration for Network Access
 
 ### Current Setup (from code analysis)
-- Bound to `0.0.0.0:8000` (HTTP) ✅ **Already network-accessible!**
-- Bound to `0.0.0.0:8765` (WebSocket) ✅ **Already network-accessible!**
+- Bound to `0.0.0.0:3000` (HTTP) ✅ **Already network-accessible!**
+- Bound to `0.0.0.0:3001` (WebSocket) ✅ **Already network-accessible!**
 
 ### Access from Other Machines
 
@@ -309,24 +309,24 @@ ip addr show | grep inet
 ipconfig
 
 # Access from any device on your network:
-http://YOUR_IP:8000
-ws://YOUR_IP:8765
+http://YOUR_IP:3000
+ws://YOUR_IP:3001
 ```
 
 ### Firewall Rules
 
 ```bash
 # Linux (UFW)
-sudo ufw allow 8000/tcp
-sudo ufw allow 8765/tcp
+sudo ufw allow 3000/tcp
+sudo ufw allow 3001/tcp
 
 # Linux (iptables)
-sudo iptables -A INPUT -p tcp --dport 8000 -j ACCEPT
-sudo iptables -A INPUT -p tcp --dport 8765 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 3000 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 3001 -j ACCEPT
 
 # Windows Firewall
-netsh advfirewall firewall add rule name="CHIMERA HTTP" dir=in action=allow protocol=TCP localport=8000
-netsh advfirewall firewall add rule name="CHIMERA WebSocket" dir=in action=allow protocol=TCP localport=8765
+netsh advfirewall firewall add rule name="CHIMERA HTTP" dir=in action=allow protocol=TCP localport=3000
+netsh advfirewall firewall add rule name="CHIMERA WebSocket" dir=in action=allow protocol=TCP localport=3001
 ```
 
 ---
@@ -348,7 +348,7 @@ pip install -r requirements.txt
 python chimera_autarch.py
 
 # 5. Access from anywhere on your network
-# http://YOUR_WINDOWS_IP:8000
+# http://YOUR_WINDOWS_IP:3000
 
 # 6. For persistent background running on Windows:
 # Use start.ps1 with -Detached flag

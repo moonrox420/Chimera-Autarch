@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA NEXUS - Predictive Failure Prevention
 Real LSTM-based time-series anomaly detection with TensorFlow/Keras.
@@ -24,7 +24,7 @@ try:
     TF_AVAILABLE = True
 except ImportError:
     TF_AVAILABLE = False
-    print("⚠️  TensorFlow not available. Install: pip install tensorflow scikit-learn")
+    print("âš ï¸  TensorFlow not available. Install: pip install tensorflow scikit-learn")
 
 logger = logging.getLogger("chimera.predictive")
 
@@ -743,3 +743,4 @@ class ChimeraPredictiveIntegration:
             'monitoring': stats,
             'forecasts': forecasts
         }
+

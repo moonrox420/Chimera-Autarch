@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Bulk Code Optimizer - Drop Folder, Get Optimized Code
 Advanced AI-powered code optimization for entire codebases
@@ -558,11 +558,11 @@ def create_dashboard_interface():
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Bulk Code Optimizer</h1>
+        <h1>ðŸš€ Bulk Code Optimizer</h1>
         <p>Drop your entire project folder and get back fully optimized code!</p>
         
         <div class="drop-zone" id="dropZone">
-            <p>📁 Drag & drop your code folder here</p>
+            <p>ðŸ“ Drag & drop your code folder here</p>
             <p>or</p>
             <input type="file" id="fileInput" webkitdirectory multiple style="display: none;">
             <button class="btn" onclick="document.getElementById('fileInput').click()">Choose Folder</button>
@@ -631,7 +631,7 @@ def create_dashboard_interface():
             const resultContent = document.getElementById('resultContent');
             resultContent.innerHTML = `
                 <div class="results">
-                    <h4>✅ Optimization Complete!</h4>
+                    <h4>âœ… Optimization Complete!</h4>
                     <p><strong>Files Processed:</strong> 42</p>
                     <p><strong>Files Improved:</strong> 28</p>
                     <p><strong>Performance Gain:</strong> 23.5%</p>
@@ -665,22 +665,22 @@ def main():
         dashboard_html = create_dashboard_interface()
         dashboard_path = Path(args.output) / 'optimization_dashboard.html'
         dashboard_path.write_text(dashboard_html, encoding='utf-8')
-        print(f"✅ Dashboard created: {dashboard_path}")
+        print(f"âœ… Dashboard created: {dashboard_path}")
         return
     
     # Validate input path
     if not os.path.exists(args.input):
-        print(f"❌ Error: Input path '{args.input}' does not exist")
+        print(f"âŒ Error: Input path '{args.input}' does not exist")
         sys.exit(1)
     
     # Create optimizer
     optimizer = BulkCodeOptimizer(aggressive_mode=args.aggressive)
     
     # Run optimization
-    print(f"🚀 Starting bulk optimization...")
-    print(f"📁 Input: {args.input}")
-    print(f"📁 Output: {args.output}")
-    print(f"⚙️  Mode: {'Aggressive' if args.aggressive else 'Standard'}")
+    print(f"ðŸš€ Starting bulk optimization...")
+    print(f"ðŸ“ Input: {args.input}")
+    print(f"ðŸ“ Output: {args.output}")
+    print(f"âš™ï¸  Mode: {'Aggressive' if args.aggressive else 'Standard'}")
     print("-" * 50)
     
     start_time = time.time()
@@ -688,24 +688,25 @@ def main():
     end_time = time.time()
     
     # Display results
-    print(f"✅ Optimization complete!")
-    print(f"⏱️  Time taken: {end_time - start_time:.2f} seconds")
-    print(f"📊 Files processed: {result.files_processed}")
-    print(f"📈 Files improved: {result.files_improved}")
-    print(f"🚀 Performance gain: {result.performance_gain:.1f}%")
-    print(f"🔧 Total improvements: {result.optimization_summary['total_improvements']}")
+    print(f"âœ… Optimization complete!")
+    print(f"â±ï¸  Time taken: {end_time - start_time:.2f} seconds")
+    print(f"ðŸ“Š Files processed: {result.files_processed}")
+    print(f"ðŸ“ˆ Files improved: {result.files_improved}")
+    print(f"ðŸš€ Performance gain: {result.performance_gain:.1f}%")
+    print(f"ðŸ”§ Total improvements: {result.optimization_summary['total_improvements']}")
     
     if result.errors:
-        print(f"\n❌ Errors ({len(result.errors)}):")
+        print(f"\nâŒ Errors ({len(result.errors)}):")
         for error in result.errors[:5]:  # Show first 5 errors
-            print(f"  • {error}")
+            print(f"  â€¢ {error}")
     
     if result.warnings:
-        print(f"\n⚠️  Warnings ({len(result.warnings)}):")
+        print(f"\nâš ï¸  Warnings ({len(result.warnings)}):")
         for warning in result.warnings[:5]:  # Show first 5 warnings
-            print(f"  • {warning}")
+            print(f"  â€¢ {warning}")
     
-    print(f"\n📁 Optimized code saved to: {args.output}")
+    print(f"\nðŸ“ Optimized code saved to: {args.output}")
 
 if __name__ == "__main__":
     main()
+

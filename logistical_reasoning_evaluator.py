@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Logistical Reasoning Evaluator for AI Agents
 Comprehensive tests for planning, resource allocation, workflow management, and operational efficiency
@@ -776,7 +776,7 @@ class LogisticalReasoningEvaluator:
             
         report += "\n## Detailed Test Results\n"
         for result in results["detailed_results"]:
-            status = "✅ PASS" if result["passed"] else "❌ FAIL"
+            status = "âœ… PASS" if result["passed"] else "âŒ FAIL"
             report += f"\n### {result['test_id']} - {result['planning_type'].title()} ({result['scenario']})\n"
             report += f"**Status**: {status} | **Score**: {result['overall_score']:.2f}/1.00\n"
             report += f"**Agent Response**: {result['agent_response'][:200]}...\n"
@@ -806,3 +806,4 @@ if __name__ == "__main__":
     # Generate and print report
     report = evaluator.generate_report(results)
     print(report)
+

@@ -36,10 +36,10 @@
 .\docker-setup.ps1 status
 
 # Access dashboard
-Start-Process http://localhost:8000
+Start-Process http://localhost:3000
 
 # View metrics
-Start-Process http://localhost:8000/metrics
+Start-Process http://localhost:3000/metrics
 ```
 
 ### Troubleshooting
@@ -59,9 +59,9 @@ docker-compose logs chimera --tail=100
 
 | Service | URL | Description |
 |---------|-----|-------------|
-| Dashboard | http://localhost:8000 | Web UI |
-| WebSocket | ws://localhost:8765 | Node communication |
-| Metrics | http://localhost:8000/metrics | System metrics API |
+| Dashboard | http://localhost:3000 | Web UI |
+| WebSocket | ws://localhost:3001 | Node communication |
+| Metrics | http://localhost:3000/metrics | System metrics API |
 | FL Server | localhost:8080 | Federated learning |
 
 ## 🔧 Advanced Docker Commands
@@ -133,7 +133,7 @@ docker cp drox_ai-chimera-1:/app/chimera_memory.db ./chimera_memory_backup.db
 .\docker-setup.ps1 logs
 
 # Check if ports are in use
-netstat -ano | findstr "8000 8765 8080"
+netstat -ano | findstr "3000 3001 8080"
 
 # Restart Docker Desktop
 # Windows: Start menu > Docker Desktop > Quit and restart
@@ -148,7 +148,7 @@ docker inspect drox_ai-chimera-1 | Select-String "Health"
 docker inspect drox_ai-chimera-1 --format='{{json .State.Health}}' | ConvertFrom-Json
 
 # Test metrics endpoint manually
-curl http://localhost:8000/metrics
+curl http://localhost:3000/metrics
 ```
 
 ### Out of disk space
@@ -189,8 +189,8 @@ docker-compose up -d
 ### Environment Variables
 Create `.env` file in project root:
 ```bash
-CHIMERA_WS_PORT=8765
-CHIMERA_HTTP_PORT=8000
+CHIMERA_WS_PORT=3001
+CHIMERA_HTTP_PORT=3000
 CHIMERA_LOGGING_LEVEL=INFO
 ```
 
@@ -214,7 +214,7 @@ volumes:
 → Start Docker Desktop
 
 ### "Port already in use"
-→ Check: `netstat -ano | findstr "8000"`
+→ Check: `netstat -ano | findstr "3000"`
 → Stop conflicting service or change port in `.env`
 
 ### "Container keeps restarting"

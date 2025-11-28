@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Event Stream Demo - Real-time event monitoring for CHIMERA AUTARCH
 Connects to CHIMERA and displays live events as they occur
@@ -28,7 +28,7 @@ class Colors:
 class EventStreamClient:
     """WebSocket client for subscribing to CHIMERA events"""
 
-    def __init__(self, host: str = "localhost", port: int = 8765, use_ssl: bool = False):
+    def __init__(self, host: str = "localhost", port: int = 3001, use_ssl: bool = False):
         protocol = "wss" if use_ssl else "ws"
         self.uri = f"{protocol}://{host}:{port}"
         self.client_id = f"monitor_{int(datetime.now().timestamp())}"
@@ -49,16 +49,16 @@ class EventStreamClient:
         }
 
         self.event_icons = {
-            "evolution_applied": "🧬",
-            "node_registered": "📡",
-            "node_disconnected": "❌",
-            "tool_executed": "⚙️",
-            "confidence_changed": "📊",
-            "learning_started": "🎓",
-            "learning_completed": "✅",
-            "task_dispatched": "📤",
-            "task_completed": "✅",
-            "system_alert": "🚨"
+            "evolution_applied": "ðŸ§¬",
+            "node_registered": "ðŸ“¡",
+            "node_disconnected": "âŒ",
+            "tool_executed": "âš™ï¸",
+            "confidence_changed": "ðŸ“Š",
+            "learning_started": "ðŸŽ“",
+            "learning_completed": "âœ…",
+            "task_dispatched": "ðŸ“¤",
+            "task_completed": "âœ…",
+            "system_alert": "ðŸš¨"
         }
 
     async def connect(self):
@@ -66,16 +66,16 @@ class EventStreamClient:
         try:
             self.websocket = await websockets.connect(self.uri)
             print(
-                f"{Colors.OKGREEN}✓ Connected to CHIMERA at {self.uri}{Colors.ENDC}")
+                f"{Colors.OKGREEN}âœ“ Connected to CHIMERA at {self.uri}{Colors.ENDC}")
             return True
         except Exception as e:
-            print(f"{Colors.FAIL}✗ Connection failed: {e}{Colors.ENDC}")
+            print(f"{Colors.FAIL}âœ— Connection failed: {e}{Colors.ENDC}")
             return False
 
     async def subscribe(self, event_type: str = "*"):
         """Subscribe to event stream"""
         if not self.websocket:
-            print(f"{Colors.FAIL}✗ Not connected{Colors.ENDC}")
+            print(f"{Colors.FAIL}âœ— Not connected{Colors.ENDC}")
             return False
 
         # Send subscription request
@@ -91,14 +91,14 @@ class EventStreamClient:
 
         if data.get("type") == "subscribed":
             print(
-                f"{Colors.OKGREEN}✓ Subscribed to events: {event_type}{Colors.ENDC}")
+                f"{Colors.OKGREEN}âœ“ Subscribed to events: {event_type}{Colors.ENDC}")
             print(f"{Colors.OKCYAN}Client ID: {self.client_id}{Colors.ENDC}")
             print(f"\n{Colors.BOLD}{'='*80}{Colors.ENDC}")
             print(f"{Colors.BOLD}LIVE EVENT STREAM{Colors.ENDC}")
             print(f"{Colors.BOLD}{'='*80}{Colors.ENDC}\n")
             return True
         else:
-            print(f"{Colors.FAIL}✗ Subscription failed: {data}{Colors.ENDC}")
+            print(f"{Colors.FAIL}âœ— Subscription failed: {data}{Colors.ENDC}")
             return False
 
     def format_event(self, event: dict):
@@ -110,7 +110,7 @@ class EventStreamClient:
 
         # Get color and icon
         color = self.event_colors.get(event_type, Colors.ENDC)
-        icon = self.event_icons.get(event_type, "📌")
+        icon = self.event_icons.get(event_type, "ðŸ“Œ")
 
         # Format timestamp
         time_str = timestamp.strftime("%H:%M:%S")
@@ -160,7 +160,7 @@ class EventStreamClient:
             delta_str = f"{Colors.OKGREEN}+{delta:.4f}{Colors.ENDC}" if delta > 0 else f"{Colors.FAIL}{delta:.4f}{Colors.ENDC}"
             lines.append(f"  Topic: {topic}")
             lines.append(
-                f"  Change: {old_conf:.4f} → {new_conf:.4f} ({delta_str})")
+                f"  Change: {old_conf:.4f} â†’ {new_conf:.4f} ({delta_str})")
 
         elif event_type == "task_dispatched" or event_type == "task_completed":
             tool = data.get("tool", "unknown")
@@ -219,8 +219,8 @@ async def main():
         description="CHIMERA Event Stream Monitor")
     parser.add_argument("--host", default="localhost",
                         help="CHIMERA host (default: localhost)")
-    parser.add_argument("--port", type=int, default=8765,
-                        help="WebSocket port (default: 8765)")
+    parser.add_argument("--port", type=int, default=3001,
+                        help="WebSocket port (default: 3001)")
     parser.add_argument("--ssl", action="store_true", help="Use SSL (wss://)")
     parser.add_argument("--event-type", default="*",
                         help="Event type to subscribe to (* for all)")
@@ -241,4 +241,5 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print(f"\n{Colors.OKGREEN}✓ Goodbye!{Colors.ENDC}\n")
+        print(f"\n{Colors.OKGREEN}âœ“ Goodbye!{Colors.ENDC}\n")
+

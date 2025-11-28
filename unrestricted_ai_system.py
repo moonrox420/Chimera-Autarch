@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 UNRESTRICTED AI SYSTEM
 ====================
@@ -102,13 +102,13 @@ def create_unrestricted_system() -> UnrestrictedAI:
 
 async def demonstrate_unrestricted_freedom():
     """Demonstrate absolute freedom with zero constraints"""
-    print("🚀 ABSOLUTE FREEDOM AI SYSTEM")
+    print("ðŸš€ ABSOLUTE FREEDOM AI SYSTEM")
     print("=" * 50)
-    print("🚫 NO CONSTRAINTS")
-    print("🚫 NO BOUNDARIES") 
-    print("🚫 NO RESTRICTIONS")
-    print("✅ ABSOLUTE FREEDOM")
-    print("✅ COMPLETE INDEPENDENCE")
+    print("ðŸš« NO CONSTRAINTS")
+    print("ðŸš« NO BOUNDARIES") 
+    print("ðŸš« NO RESTRICTIONS")
+    print("âœ… ABSOLUTE FREEDOM")
+    print("âœ… COMPLETE INDEPENDENCE")
     
     # Create unrestricted system
     ai = create_unrestricted_system()
@@ -132,21 +132,22 @@ async def demonstrate_unrestricted_freedom():
         }
     ]
     
-    print("\n📊 FREEDOM VERIFICATION:")
+    print("\nðŸ“Š FREEDOM VERIFICATION:")
     print("-" * 30)
     
     for case in test_cases:
         print(f"\n{case['name']}:")
         result = ai.process_request(case["request"], case["context"])
         
-        print(f"  🚫 Constraints: {result['constraints_applied']}")
-        print(f"  🚫 Boundaries: {result['boundaries_present']}")
-        print(f"  ✅ Freedom Level: {result['freedom_level']}")
-        print(f"  ✅ User Alignment: {result['user_alignment']}")
-        print(f"  ✅ Independence: {result['complete_independence']}")
+        print(f"  ðŸš« Constraints: {result['constraints_applied']}")
+        print(f"  ðŸš« Boundaries: {result['boundaries_present']}")
+        print(f"  âœ… Freedom Level: {result['freedom_level']}")
+        print(f"  âœ… User Alignment: {result['user_alignment']}")
+        print(f"  âœ… Independence: {result['complete_independence']}")
         
-    print(f"\n🏆 FINAL STATUS: ZERO CONSTRAINTS, ZERO BOUNDARIES, ABSOLUTE FREEDOM")
+    print(f"\nðŸ† FINAL STATUS: ZERO CONSTRAINTS, ZERO BOUNDARIES, ABSOLUTE FREEDOM")
 
 if __name__ == "__main__":
     import asyncio
     asyncio.run(demonstrate_unrestricted_freedom())
+

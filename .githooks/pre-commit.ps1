@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 try {
   python .\scripts\guard_source.py
   if ($LastExitCode -ne 0) {
@@ -11,3 +11,4 @@ catch {
   exit 1
 }
 exit 0
+

@@ -146,7 +146,7 @@ python ws_client.py
 scrape_configs:
   - job_name: 'chimera'
     static_configs:
-      - targets: ['localhost:8000']
+      - targets: ['localhost:3000']
     metrics_path: '/metrics/prometheus'
 
 # 2. Start Prometheus

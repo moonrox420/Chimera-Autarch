@@ -1,7 +1,7 @@
-# CHIMERA NEXUS - Windows Test Suite
+﻿# CHIMERA NEXUS - Windows Test Suite
 # Tests all 10 revolutionary systems on Windows
 
-Write-Host "🧪 CHIMERA NEXUS - Test Suite" -ForegroundColor Cyan
+Write-Host "ðŸ§ª CHIMERA NEXUS - Test Suite" -ForegroundColor Cyan
 Write-Host "=============================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -10,7 +10,7 @@ if (Test-Path "droxai-env\Scripts\Activate.ps1") {
   & .\droxai-env\Scripts\Activate.ps1
 }
 else {
-  Write-Host "⚠️  Virtual environment not found" -ForegroundColor Red
+  Write-Host "âš ï¸  Virtual environment not found" -ForegroundColor Red
   exit 1
 }
 
@@ -53,18 +53,18 @@ foreach ($test in $tests) {
     $exitCode = $job.State
         
     if ($exitCode -eq "Completed") {
-      Write-Host " ✅ PASSED" -ForegroundColor Green
+      Write-Host " âœ… PASSED" -ForegroundColor Green
       $passed++
     }
     else {
-      Write-Host " ❌ FAILED" -ForegroundColor Red
+      Write-Host " âŒ FAILED" -ForegroundColor Red
       Write-Host "  Error: $output" -ForegroundColor Red
       $failed++
     }
   }
   else {
     Stop-Job $job
-    Write-Host " ✅ PASSED (timeout - demo still running)" -ForegroundColor Green
+    Write-Host " âœ… PASSED (timeout - demo still running)" -ForegroundColor Green
     $passed++
   }
     
@@ -72,7 +72,7 @@ foreach ($test in $tests) {
 }
 
 Write-Host ""
-Write-Host "════════════════════════════════════════════" -ForegroundColor Gray
+Write-Host "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•" -ForegroundColor Gray
 Write-Host "Test Results:" -ForegroundColor Cyan
 Write-Host "  Passed:  $passed" -ForegroundColor Green
 Write-Host "  Failed:  $failed" -ForegroundColor Red
@@ -80,10 +80,11 @@ Write-Host "  Skipped: $skipped" -ForegroundColor Gray
 Write-Host ""
 
 if ($failed -eq 0) {
-  Write-Host "✅ All tests passed!" -ForegroundColor Green
+  Write-Host "âœ… All tests passed!" -ForegroundColor Green
   exit 0
 }
 else {
-  Write-Host "❌ Some tests failed" -ForegroundColor Red
+  Write-Host "âŒ Some tests failed" -ForegroundColor Red
   exit 1
 }
+

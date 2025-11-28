@@ -36,7 +36,7 @@ Import `grafana_dashboard.json` for instant visualization.
 New endpoint: `GET /api/events` for event broker statistics.
 
 ```bash
-curl http://localhost:8000/api/events | jq .
+curl http://localhost:3000/api/events | jq .
 ```
 
 ---
@@ -51,7 +51,7 @@ python chimera_autarch.py
 python event_stream_demo.py
 
 # 3. View dashboard
-# Visit http://localhost:8000
+# Visit http://localhost:3000
 ```
 
 ---
@@ -190,10 +190,10 @@ python ws_client.py
 > show system stats  # Should see tool_executed events
 
 # Test Prometheus metrics
-curl http://localhost:8000/metrics/prometheus | head -20
+curl http://localhost:3000/metrics/prometheus | head -20
 
 # Test event stats
-curl http://localhost:8000/api/events | jq '.total_events'
+curl http://localhost:3000/api/events | jq '.total_events'
 ```
 
 ---
@@ -203,14 +203,14 @@ curl http://localhost:8000/api/events | jq '.total_events'
 **Q: No events appearing?**
 ```bash
 # Check broker enabled
-curl http://localhost:8000/api/events
+curl http://localhost:3000/api/events
 # Should NOT say "Event broker not available"
 ```
 
 **Q: Grafana panels empty?**
 ```bash
 # Verify Prometheus scraping
-curl http://localhost:8000/metrics/prometheus | grep chimera_node_count
+curl http://localhost:3000/metrics/prometheus | grep chimera_node_count
 ```
 
 **Q: WebSocket connection failed?**

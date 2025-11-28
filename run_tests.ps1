@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
     Run CHIMERA AUTARCH test suite
@@ -28,7 +28,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "🧪 CHIMERA AUTARCH Test Suite" -ForegroundColor Cyan
+Write-Host "ðŸ§ª CHIMERA AUTARCH Test Suite" -ForegroundColor Cyan
 Write-Host "=============================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -36,10 +36,10 @@ Write-Host ""
 $VenvActivate = ".\droxai-env\Scripts\Activate.ps1"
 if (Test-Path $VenvActivate) {
   & $VenvActivate
-  Write-Host "✅ Virtual environment activated" -ForegroundColor Green
+  Write-Host "âœ… Virtual environment activated" -ForegroundColor Green
 }
 else {
-  Write-Host "❌ Virtual environment not found" -ForegroundColor Red
+  Write-Host "âŒ Virtual environment not found" -ForegroundColor Red
   exit 1
 }
 
@@ -55,9 +55,9 @@ foreach ($Package in $TestPackages) {
 }
 
 if ($MissingPackages.Count -gt 0) {
-  Write-Host "📦 Installing test dependencies..." -ForegroundColor Yellow
+  Write-Host "ðŸ“¦ Installing test dependencies..." -ForegroundColor Yellow
   pip install $MissingPackages --quiet
-  Write-Host "✅ Test dependencies installed" -ForegroundColor Green
+  Write-Host "âœ… Test dependencies installed" -ForegroundColor Green
 }
 
 Write-Host ""
@@ -76,7 +76,7 @@ if ($Coverage) {
 }
 
 # Run tests
-Write-Host "🚀 Running tests..." -ForegroundColor Green
+Write-Host "ðŸš€ Running tests..." -ForegroundColor Green
 Write-Host ""
 
 $argsList = @('-m', 'pytest') + $TestArgs
@@ -84,14 +84,15 @@ $proc = Start-Process -FilePath (Get-Command python).Source -ArgumentList $argsL
 $exitCode = $proc.ExitCode
 if ($exitCode -eq 0) {
   Write-Host ""
-  Write-Host "✅ All tests passed!" -ForegroundColor Green
+  Write-Host "âœ… All tests passed!" -ForegroundColor Green
   if ($Coverage) {
     Write-Host ""
-    Write-Host "📊 Coverage report generated in htmlcov/" -ForegroundColor Cyan
+    Write-Host "ðŸ“Š Coverage report generated in htmlcov/" -ForegroundColor Cyan
   }
 }
 else {
   Write-Host ""
-  Write-Host "❌ Some tests failed" -ForegroundColor Red
+  Write-Host "âŒ Some tests failed" -ForegroundColor Red
   exit 1
 }
+

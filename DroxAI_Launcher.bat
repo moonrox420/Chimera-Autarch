@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 REM DroxAI Consumer Launcher Stub
 REM This batch file provides a simple Windows launcher
 

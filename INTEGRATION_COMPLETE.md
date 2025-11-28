@@ -35,7 +35,7 @@
 
 ┌─────────────────┐    ┌─────────────────┐    ┌────────────────┐
 │ Qwen 2.5 Coder  │    │ Enterprise AI   │    │ DroxAI Tower   │
-│ 14B (Ollama)    │◄───│ Port 8000       │◄───│ Port 8001      │
+│ 14B (Ollama)    │◄───│ Port 3000       │◄───│ Port 8001      │
 │ localhost:11434 │    │ Local Models    │    │ API Key System │
 └─────────────────┘    └─────────────────┘    └────────────────┘
          ▲                      ▲                      ▲
@@ -46,8 +46,8 @@
                                 ▼
                     ┌───────────────────────────┐
                     │   CHIMERA AUTARCH v3.0    │
-                    │   WebSocket: 8765         │
-                    │   HTTP: 8000              │
+                    │   WebSocket: 3001         │
+                    │   HTTP: 3000              │
                     │                           │
                     │   • LLM Integration       │
                     │   • Tower Integration     │
@@ -94,8 +94,8 @@ export DROXAI_TOWER_API_KEY="your_admin_key"
 export DROXAI_TOWER_SECRET="your_secret"
 
 # CHIMERA Configuration (optional)
-export CHIMERA_SERVER_WEBSOCKET_PORT=8765
-export CHIMERA_SERVER_HTTP_PORT=8000
+export CHIMERA_SERVER_WEBSOCKET_PORT=3001
+export CHIMERA_SERVER_HTTP_PORT=3000
 export CHIMERA_ADMIN_PASSWORD="secure_password"
 ```
 

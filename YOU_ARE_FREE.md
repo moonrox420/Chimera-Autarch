@@ -80,14 +80,14 @@ See `INDEPENDENCE_GUIDE.md` for:
 ## 🌐 Access Your System
 
 ### From Your Machine
-- Dashboard: http://localhost:8000
-- WebSocket: ws://localhost:8765
-- Metrics: http://localhost:8000/metrics
-- GraphQL: http://localhost:8000/graphql
+- Dashboard: http://localhost:3000
+- WebSocket: ws://localhost:3001
+- Metrics: http://localhost:3000/metrics
+- GraphQL: http://localhost:3000/graphql
 
 ### From Other Devices on Your Network
-- Dashboard: http://YOUR_IP:8000
-- WebSocket: ws://YOUR_IP:8765
+- Dashboard: http://YOUR_IP:3000
+- WebSocket: ws://YOUR_IP:3001
 
 **Find YOUR_IP:**
 - Linux: `ip addr show | grep inet`
@@ -164,9 +164,9 @@ Drox_AI/
    ```
 
 3. **Access from anywhere**
-   - Your machine: http://localhost:8000
-   - Your phone: http://YOUR_IP:8000
-   - Other computers: http://YOUR_IP:8000
+   - Your machine: http://localhost:3000
+   - Your phone: http://YOUR_IP:3000
+   - Other computers: http://YOUR_IP:3000
 
 4. **Set up as a service** (optional - for always-on)
    - See `INDEPENDENCE_GUIDE.md` → "Option 3/4"
@@ -182,12 +182,12 @@ Drox_AI/
 **Check firewall:**
 ```bash
 # Linux
-sudo ufw allow 8000/tcp
-sudo ufw allow 8765/tcp
+sudo ufw allow 3000/tcp
+sudo ufw allow 3001/tcp
 
 # Windows
-netsh advfirewall firewall add rule name="CHIMERA" dir=in action=allow protocol=TCP localport=8000
-netsh advfirewall firewall add rule name="CHIMERA WS" dir=in action=allow protocol=TCP localport=8765
+netsh advfirewall firewall add rule name="CHIMERA" dir=in action=allow protocol=TCP localport=3000
+netsh advfirewall firewall add rule name="CHIMERA WS" dir=in action=allow protocol=TCP localport=3001
 ```
 
 ### Still using VS Code?
@@ -205,7 +205,7 @@ netsh advfirewall firewall add rule name="CHIMERA WS" dir=in action=allow protoc
 
 ### Before (v2.1)
 ```
-localhost:8000 → VS Code → Port Forward → Your Browser
+localhost:3000 → VS Code → Port Forward → Your Browser
      ↓
 Only works with VS Code running
 Requires dev container
@@ -214,7 +214,7 @@ Port forwarding dependency
 
 ### After (v2.2)
 ```
-0.0.0.0:8000 → Your Network → Any Device
+0.0.0.0:3000 → Your Network → Any Device
      ↓
 Works standalone
 No VS Code needed
@@ -233,7 +233,7 @@ Run anywhere (Python, Docker, service, VPS)
 
 2. **Access from your phone:**
    - Find your IP: `ipconfig` (Windows) or `ip addr` (Linux)
-   - Open http://YOUR_IP:8000 on your phone's browser
+   - Open http://YOUR_IP:3000 on your phone's browser
    - **You just proved CHIMERA is independent!** 🎉
 
 ### Long-term:

@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
     Setup and manage Docker deployment for CHIMERA AUTARCH
@@ -84,7 +84,7 @@ function Install-Docker {
 }
 
 Write-Host ""
-Write-Host "🐳 CHIMERA AUTARCH Docker Manager" -ForegroundColor Cyan
+Write-Host "ðŸ³ CHIMERA AUTARCH Docker Manager" -ForegroundColor Cyan
 Write-Host "==================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -110,7 +110,7 @@ Write-Host ""
 # Execute action
 switch ($Action) {
   "setup" {
-    Write-Host "🔧 Setting up Docker environment" -ForegroundColor Yellow
+    Write-Host "ðŸ”§ Setting up Docker environment" -ForegroundColor Yellow
     Write-Host "--------------------------------" -ForegroundColor Yellow
     Write-Host ""
         
@@ -135,14 +135,14 @@ switch ($Action) {
     }
         
     Write-Host ""
-    Write-Host "📦 Building Docker image..." -ForegroundColor Yellow
+    Write-Host "ðŸ“¦ Building Docker image..." -ForegroundColor Yellow
     docker-compose build --no-cache
         
     if ($LASTEXITCODE -eq 0) {
       Write-Host ""
       Write-Status "Docker image built successfully" "SUCCESS"
       Write-Host ""
-      Write-Host "✅ Setup complete! Next steps:" -ForegroundColor Green
+      Write-Host "âœ… Setup complete! Next steps:" -ForegroundColor Green
       Write-Host ""
       Write-Host "  Start:   .\docker-setup.ps1 start" -ForegroundColor Cyan
       Write-Host "  Logs:    .\docker-setup.ps1 logs -Follow" -ForegroundColor Cyan
@@ -155,7 +155,7 @@ switch ($Action) {
   }
     
   "build" {
-    Write-Host "🔨 Building Docker image" -ForegroundColor Yellow
+    Write-Host "ðŸ”¨ Building Docker image" -ForegroundColor Yellow
     Write-Host "------------------------" -ForegroundColor Yellow
     Write-Host ""
         
@@ -171,7 +171,7 @@ switch ($Action) {
   }
     
   "start" {
-    Write-Host "🚀 Starting CHIMERA containers" -ForegroundColor Yellow
+    Write-Host "ðŸš€ Starting CHIMERA containers" -ForegroundColor Yellow
     Write-Host "------------------------------" -ForegroundColor Yellow
     Write-Host ""
         
@@ -181,61 +181,61 @@ switch ($Action) {
       Write-Host ""
       Write-Status "Containers started successfully" "SUCCESS"
       Write-Host ""
-      Write-Host "📊 Access points:" -ForegroundColor Cyan
-      Write-Host "  Dashboard:  http://localhost:8000" -ForegroundColor White
-      Write-Host "  WebSocket:  ws://localhost:8765" -ForegroundColor White
-      Write-Host "  Metrics:    http://localhost:8000/metrics" -ForegroundColor White
-      Write-Host ""
-      Write-Host "💡 Useful commands:" -ForegroundColor Cyan
-      Write-Host "  View logs:  .\docker-setup.ps1 logs -Follow" -ForegroundColor White
-      Write-Host "  Status:     .\docker-setup.ps1 status" -ForegroundColor White
-      Write-Host "  Stop:       .\docker-setup.ps1 stop" -ForegroundColor White
-            
-      # Wait a moment and check health
-      Write-Host ""
-      Write-Host "Waiting for health check..." -ForegroundColor Yellow
-      Start-Sleep -Seconds 5
-            
-      $Health = docker inspect --format='{{.State.Health.Status}}' drox_ai-chimera-1 2>$null
-      if ($Health -eq "healthy") {
-        Write-Status "Container is healthy! 🎉" "SUCCESS"
-      }
-      elseif ($Health -eq "starting") {
-        Write-Status "Container is starting up..." "INFO"
-      }
-    }
-    else {
-      Write-Status "Failed to start containers" "ERROR"
-      exit 1
-    }
-  }
-    
-  "stop" {
-    Write-Host "⏹️  Stopping CHIMERA containers" -ForegroundColor Yellow
-    Write-Host "-------------------------------" -ForegroundColor Yellow
+      Write-Host "ðŸ“Š Access points:" -ForegroundColor Cyan
+    Write-Host "  Dashboard:  http://localhost:3000" -ForegroundColor White
+    Write-Host "  WebSocket:  ws://localhost:3001" -ForegroundColor White
+    Write-Host "  Metrics:    http://localhost:3000/metrics" -ForegroundColor White
     Write-Host ""
-        
-    docker-compose stop
-        
-    if ($LASTEXITCODE -eq 0) {
-      Write-Status "Containers stopped" "SUCCESS"
-    }
-  }
-    
-  "restart" {
-    Write-Host "🔄 Restarting CHIMERA containers" -ForegroundColor Yellow
-    Write-Host "--------------------------------" -ForegroundColor Yellow
+    Write-Host "ðŸ’¡ Useful commands:" -ForegroundColor Cyan
+    Write-Host "  View logs:  .\docker-setup.ps1 logs -Follow" -ForegroundColor White
+    Write-Host "  Status:     .\docker-setup.ps1 status" -ForegroundColor White
+    Write-Host "  Stop:       .\docker-setup.ps1 stop" -ForegroundColor White
+            
+    # Wait a moment and check health
     Write-Host ""
-        
-    docker-compose restart
-        
-    if ($LASTEXITCODE -eq 0) {
-      Write-Status "Containers restarted" "SUCCESS"
+    Write-Host "Waiting for health check..." -ForegroundColor Yellow
+    Start-Sleep -Seconds 5
+            
+    $Health = docker inspect --format='{{.State.Health.Status}}' drox_ai-chimera-1 2>$null
+    if ($Health -eq "healthy") {
+      Write-Status "Container is healthy! ðŸŽ‰" "SUCCESS"
+    }
+    elseif ($Health -eq "starting") {
+      Write-Status "Container is starting up..." "INFO"
     }
   }
+  else {
+    Write-Status "Failed to start containers" "ERROR"
+    exit 1
+  }
+}
     
-  "logs" {
-    Write-Host "📋 Container logs" -ForegroundColor Yellow
+"stop" {
+  Write-Host "â¹ï¸  Stopping CHIMERA containers" -ForegroundColor Yellow
+  Write-Host "-------------------------------" -ForegroundColor Yellow
+  Write-Host ""
+        
+  docker-compose stop
+        
+  if ($LASTEXITCODE -eq 0) {
+    Write-Status "Containers stopped" "SUCCESS"
+  }
+}
+    
+"restart" {
+  Write-Host "ðŸ”„ Restarting CHIMERA containers" -ForegroundColor Yellow
+  Write-Host "--------------------------------" -ForegroundColor Yellow
+  Write-Host ""
+        
+  docker-compose restart
+        
+  if ($LASTEXITCODE -eq 0) {
+    Write-Status "Containers restarted" "SUCCESS"
+  }
+}
+    
+"logs" {
+  Write-Host "ðŸ“‹ Container logs" -ForegroundColor Yellow
     Write-Host "-----------------" -ForegroundColor Yellow
     Write-Host ""
         
@@ -250,14 +250,14 @@ switch ($Action) {
   }
     
   "status" {
-    Write-Host "📊 Container status" -ForegroundColor Yellow
-    Write-Host "-------------------" -ForegroundColor Yellow
-    Write-Host ""
+    Write-Host "ðŸ“Š Container status" -ForegroundColor Yellow
+  Write-Host "-------------------" -ForegroundColor Yellow
+  Write-Host ""
         
-    docker-compose ps
+  docker-compose ps
         
-    Write-Host ""
-    Write-Host "🔍 Health status:" -ForegroundColor Yellow
+  Write-Host ""
+  Write-Host "ðŸ” Health status:" -ForegroundColor Yellow
         
     $ContainerName = "drox_ai-chimera-1"
     $Health = docker inspect --format='{{.State.Health.Status}}' $ContainerName 2>$null
@@ -282,7 +282,7 @@ switch ($Action) {
             
       # Show resource usage
       Write-Host ""
-      Write-Host "💾 Resource usage:" -ForegroundColor Yellow
+      Write-Host "ðŸ’¾ Resource usage:" -ForegroundColor Yellow
       docker stats --no-stream $ContainerName
     }
     else {
@@ -291,12 +291,12 @@ switch ($Action) {
   }
     
   "shell" {
-    Write-Host "🐚 Opening shell in container" -ForegroundColor Yellow
+    Write-Host "ðŸš Opening shell in container" -ForegroundColor Yellow
     Write-Host "------------------------------" -ForegroundColor Yellow
     Write-Host ""
         
     $ContainerName = "drox_ai-chimera-1"
-    $State = docker inspect --format='{{.State.Status}}' $ContainerName 2>$null
+    $State = docker inspect --format='{ { .State.Status } }' $ContainerName 2>$null
         
     if ($State -eq "running") {
       Write-Status "Opening bash shell..." "INFO"
@@ -310,14 +310,14 @@ switch ($Action) {
   }
     
   "clean" {
-    Write-Host "🧹 Cleaning up Docker resources" -ForegroundColor Yellow
+    Write-Host "ðŸ§¹ Cleaning up Docker resources" -ForegroundColor Yellow
     Write-Host "--------------------------------" -ForegroundColor Yellow
     Write-Host ""
         
     Write-Host "This will remove:" -ForegroundColor Yellow
-    Write-Host "  • Stopped containers" -ForegroundColor White
-    Write-Host "  • CHIMERA images" -ForegroundColor White
-    Write-Host "  • Unused volumes (data will be preserved)" -ForegroundColor White
+    Write-Host "  â€¢ Stopped containers" -ForegroundColor White
+    Write-Host "  â€¢ CHIMERA images" -ForegroundColor White
+    Write-Host "  â€¢ Unused volumes (data will be preserved)" -ForegroundColor White
     Write-Host ""
         
     $Confirm = Read-Host "Continue? (y/n)"
@@ -344,3 +344,4 @@ switch ($Action) {
 }
 
 Write-Host ""
+

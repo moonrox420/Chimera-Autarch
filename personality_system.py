@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA NEXUS - AI Personality System
 Dynamic personality modes that affect AI decision-making and behavior.
@@ -488,3 +488,4 @@ class ChimeraPersonalityIntegration:
         self.engine.set_mode(mode)
 
         logger.info(f"Set personality mode to {mode.value} for {task_type}")
+

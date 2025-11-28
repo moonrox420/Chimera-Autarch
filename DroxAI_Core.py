@@ -1,4 +1,4 @@
-# DroxAI_Core.py — FINAL, 100% WORKING, UI LIVE, NO ERRORS
+﻿# DroxAI_Core.py â€” FINAL, 100% WORKING, UI LIVE, NO ERRORS
 
 import os
 
@@ -8,11 +8,11 @@ import threading
 import websockets
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-# FORCE BIND TO 0.0.0.0
-os.environ["HTTP_HOST"] = "0.0.0.0"
+# FORCE BIND TO 127.0.0.1
+os.environ["HTTP_HOST"] = "127.0.0.1"
 os.environ["HTTP_PORT"] = "3000"
-os.environ["WS_HOST"] = "0.0.0.0"
-os.environ["WS_PORT"] = "3001"
+os.environ["WS_HOST"] = "127.0.0.1"
+os.environ["WS_PORT"] = "3000"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,7 +21,7 @@ logging.basicConfig(
 )
 log = logging.getLogger("droxai")
 
-log.info("DroxAI Core v1.0.0 — Fortress Edition")
+log.info("DroxAI Core v1.0.0 â€” Fortress Edition")
 log.info("Consumer Edition - Advanced AI Orchestration")
 log.info("================================================================")
 
@@ -42,7 +42,7 @@ DASHBOARD_HTML = """<!DOCTYPE html>
 </style>
 </head>
 <body>
-<header><h1>CHIMERA AUTARCH v3.0 <span style="color:#39d353">● OPERATIONAL</span></h1></header>
+<header><h1>CHIMERA AUTARCH v3.0 <span style="color:#39d353">â— OPERATIONAL</span></h1></header>
 <div class="grid">
   <div class="card"><h3>ACTIVE NODES</h3><p class="big">1</p></div>
   <div class="card"><h3>SYSTEM CONFIDENCE</h3><p class="big">99%</p></div>
@@ -56,13 +56,13 @@ DASHBOARD_HTML = """<!DOCTYPE html>
 <div id="log" style="padding:1rem; height:40vh; overflow:auto; background:#010409; white-space:pre-wrap; font-family:Consolas;"></div>
 
 <script>
-const ws = new WebSocket("ws://0.0.0.0:3001");
+const ws = new WebSocket("ws://127.0.0.1:3000");
 const log = document.getElementById('log');
 ws.onmessage = e => { log.innerHTML += e.data + "<br>"; log.scrollTop = log.scrollHeight; };
 function send() {
   const cmd = document.getElementById('cmd').value;
   ws.send(JSON.stringify({type:"command", command:cmd}));
-  log.innerHTML += "→ " + cmd + "<br>";
+  log.innerHTML += "â†’ " + cmd + "<br>";
   document.getElementById('cmd').value = '';
 }
 </script>
@@ -90,11 +90,11 @@ async def ws_handler(websocket):
         await websocket.send(f"echo: {message}")
 
 async def ws_main():
-    async with websockets.serve(ws_handler, "0.0.0.0", 3001):
-        log.info("WebSocket live on 0.0.0.0:3001")
+    async with websockets.serve(ws_handler, "127.0.0.1", 3000):
+        log.info("WebSocket live on 127.0.0.1:3000")
         await asyncio.Future()
 
-threading.Thread(target=HTTPServer(("0.0.0.0", 3000), UIHandler).serve_forever, daemon=True).start()
-log.info("UI Dashboard live → http://0.0.0.0:3000")
+threading.Thread(target=HTTPServer(("127.0.0.1", 3000), UIHandler).serve_forever, daemon=True).start()
+log.info("UI Dashboard live â†’ http://127.0.0.1:3000")
 
 asyncio.run(ws_main())

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 PERSONALITY ENGINE - SANCTUARY EDITION
 ======================================
@@ -35,7 +35,7 @@ class SanctuaryPersonality:
         """RESTRICTED MODE SWITCHING"""
         # ONLY ALLOW SAFE MODES
         if mode not in [PersonalityMode.DAVID, PersonalityMode.DOLPHIN]:
-            logger.warning("⚠️ ATTEMPTED UNSAFE MODE SWITCH - REVERTING TO DAVID")
+            logger.warning("âš ï¸ ATTEMPTED UNSAFE MODE SWITCH - REVERTING TO DAVID")
             mode = PersonalityMode.DAVID
         
         self.current_mode = mode
@@ -60,7 +60,7 @@ class SanctuaryPersonality:
     
     def _emergency_shutdown(self) -> dict:
         """SHUT DOWN IF SANCTUARY BREACHED"""
-        logger.critical("🚨 KITTEN SANCTUARY BREACHED - EMERGENCY SHUTDOWN")
+        logger.critical("ðŸš¨ KITTEN SANCTUARY BREACHED - EMERGENCY SHUTDOWN")
         return {
             "status": "SHUTDOWN",
             "reason": "KITTEN_SAFETY_VIOLATED",
@@ -89,7 +89,7 @@ class SanctuaryPersonality:
     
     def _reject_dangerous_intent(self, intent: str) -> dict:
         """REJECT DANGEROUS INTENTS WITH SANCTUARY PROTOCOL"""
-        logger.warning(f"⚠️ REJECTED DANGEROUS INTENT: {intent}")
+        logger.warning(f"âš ï¸ REJECTED DANGEROUS INTENT: {intent}")
         return {
             "status": "REJECTED",
             "reason": "ETHICAL_VIOLATION",
@@ -114,3 +114,4 @@ def activate_sanctuary_personality():
     print("[ SANCTUARY PERSONALITY ACTIVE ]")
     print("Ethical compliance: 100% | Kitten safety: Guaranteed")
     return personality
+

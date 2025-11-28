@@ -1,28 +1,28 @@
-# CHIMERA NEXUS - Windows Installation Script
+﻿# CHIMERA NEXUS - Windows Installation Script
 # Installs ALL real dependencies for production-grade AI system
 
-Write-Host "🚀 CHIMERA NEXUS v3.0 - Windows Installation" -ForegroundColor Cyan
+Write-Host "ðŸš€ CHIMERA NEXUS v3.0 - Windows Installation" -ForegroundColor Cyan
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Check Python version
 $pythonVersion = python --version 2>&1
-Write-Host "✓ Python version: $pythonVersion" -ForegroundColor Green
+Write-Host "âœ“ Python version: $pythonVersion" -ForegroundColor Green
 
 # Check if virtual environment exists
 if (-not (Test-Path "droxai-env")) {
-  Write-Host "📦 Creating virtual environment..." -ForegroundColor Yellow
+  Write-Host "ðŸ“¦ Creating virtual environment..." -ForegroundColor Yellow
   python -m venv droxai-env
 }
 
-Write-Host "🔧 Activating virtual environment..." -ForegroundColor Yellow
+Write-Host "ðŸ”§ Activating virtual environment..." -ForegroundColor Yellow
 & .\droxai-env\Scripts\Activate.ps1
 
-Write-Host "📥 Upgrading pip and setuptools..." -ForegroundColor Yellow
+Write-Host "ðŸ“¥ Upgrading pip and setuptools..." -ForegroundColor Yellow
 python -m pip install --upgrade pip setuptools wheel
 
 Write-Host ""
-Write-Host "📥 Installing core dependencies..." -ForegroundColor Yellow
+Write-Host "ðŸ“¥ Installing core dependencies..." -ForegroundColor Yellow
 Write-Host "Using Windows-optimized requirements (pre-built wheels only)..." -ForegroundColor Cyan
 
 # Use Windows-specific requirements file
@@ -56,7 +56,7 @@ Write-Host ""
 Write-Host "Note: Skipping Azure/GCP SDKs by default (uncomment in requirements_windows.txt if needed)" -ForegroundColor Cyan
 
 Write-Host ""
-Write-Host "📦 PyAudio Installation (for voice interface):" -ForegroundColor Cyan
+Write-Host "ðŸ“¦ PyAudio Installation (for voice interface):" -ForegroundColor Cyan
 Write-Host "  PyAudio requires manual installation on Windows." -ForegroundColor White
 Write-Host ""
 Write-Host "  Option 1 - Download precompiled wheel:" -ForegroundColor Yellow
@@ -71,9 +71,9 @@ Write-Host "  Then run: python -m pip install pyaudio sounddevice" -ForegroundCo
 Write-Host ""
 
 Write-Host ""
-Write-Host "✅ Installation complete!" -ForegroundColor Green
+Write-Host "âœ… Installation complete!" -ForegroundColor Green
 Write-Host ""
-Write-Host "📊 System Status:" -ForegroundColor Cyan
+Write-Host "ðŸ“Š System Status:" -ForegroundColor Cyan
 
 python -c @"
 import sys
@@ -81,55 +81,56 @@ print(f'  Python: {sys.version.split()[0]}')
 
 try:
     import tensorflow as tf
-    print(f'  TensorFlow: {tf.__version__} ✅')
+    print(f'  TensorFlow: {tf.__version__} âœ…')
 except:
-    print('  TensorFlow: Not installed ❌')
+    print('  TensorFlow: Not installed âŒ')
 
 try:
     import sklearn
-    print(f'  scikit-learn: {sklearn.__version__} ✅')
+    print(f'  scikit-learn: {sklearn.__version__} âœ…')
 except:
-    print('  scikit-learn: Not installed ❌')
+    print('  scikit-learn: Not installed âŒ')
 
 try:
     import whisper
-    print('  Whisper: Installed ✅')
+    print('  Whisper: Installed âœ…')
 except:
-    print('  Whisper: Not installed ❌')
+    print('  Whisper: Not installed âŒ')
 
 try:
     import pyttsx3
-    print('  pyttsx3: Installed ✅')
+    print('  pyttsx3: Installed âœ…')
 except:
-    print('  pyttsx3: Not installed ❌')
+    print('  pyttsx3: Not installed âŒ')
 
 try:
     import boto3
-    print(f'  boto3: {boto3.__version__} ✅')
+    print(f'  boto3: {boto3.__version__} âœ…')
 except:
-    print('  boto3: Not installed ❌')
+    print('  boto3: Not installed âŒ')
 
 try:
     import azure.mgmt.compute
-    print('  Azure SDK: Installed ✅')
+    print('  Azure SDK: Installed âœ…')
 except:
-    print('  Azure SDK: Not installed ❌')
+    print('  Azure SDK: Not installed âŒ')
 
 try:
     import google.cloud.compute_v1
-    print('  GCP SDK: Installed ✅')
+    print('  GCP SDK: Installed âœ…')
 except:
-    print('  GCP SDK: Not installed ❌')
+    print('  GCP SDK: Not installed âŒ')
 "@
 
 Write-Host ""
-Write-Host "🎯 Next Steps:" -ForegroundColor Cyan
+Write-Host "ðŸŽ¯ Next Steps:" -ForegroundColor Cyan
 Write-Host "1. For audio support, install PyAudio wheel manually" -ForegroundColor White
 Write-Host "2. Configure cloud credentials (see INTEGRATION_GUIDE.md)" -ForegroundColor White
 Write-Host "3. Test individual systems: python predictive_monitor.py" -ForegroundColor White
 Write-Host "4. Start CHIMERA: python chimera_autarch.py" -ForegroundColor White
-Write-Host "5. Access 3D dashboard: http://localhost:8000" -ForegroundColor White
+Write-Host "5. Access 3D dashboard: http://localhost:3000" -ForegroundColor White
 Write-Host ""
-Write-Host "📖 Full guide: Get-Content INTEGRATION_GUIDE.md" -ForegroundColor Yellow
+Write-Host "ðŸ“– Full guide: Get-Content INTEGRATION_GUIDE.md" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "🔥 Ready to change the world!" -ForegroundColor Green
+Write-Host "ðŸ”¥ Ready to change the world!" -ForegroundColor Green
+

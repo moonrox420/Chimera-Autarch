@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA AUTARCH - Tower API Key Integration
 Integrates your custom API key generating tower with CHIMERA security
@@ -409,12 +409,12 @@ async def example_basic_usage():
     jwt_token = await tower.authenticate_with_tower(api_key)
 
     if jwt_token:
-        print(f"✅ Authenticated! JWT: {jwt_token.token[:20]}...")
+        print(f"âœ… Authenticated! JWT: {jwt_token.token[:20]}...")
         print(f"   User: {jwt_token.user_id}")
         print(f"   Role: {jwt_token.role.value}")
         print(f"   Capabilities: {jwt_token.capabilities}")
     else:
-        print("❌ Authentication failed")
+        print("âŒ Authentication failed")
 
 
 async def example_http_middleware():
@@ -434,7 +434,7 @@ async def example_http_middleware():
     jwt_token = await middleware.authenticate_request(headers)
 
     if jwt_token:
-        print(f"✅ Request authorized: {jwt_token.user_id}")
+        print(f"âœ… Request authorized: {jwt_token.user_id}")
 
         # Check specific permission
         if security.check_permission(jwt_token.role, Permission.EXECUTE_TOOL):
@@ -444,9 +444,9 @@ async def example_http_middleware():
         if security.check_rate_limit(jwt_token.user_id):
             print("   Rate limit OK")
         else:
-            print("   ⚠️  Rate limit exceeded")
+            print("   âš ï¸  Rate limit exceeded")
     else:
-        print("❌ Request unauthorized")
+        print("âŒ Request unauthorized")
 
 
 async def example_create_local_keys():
@@ -465,7 +465,7 @@ async def example_create_local_keys():
         metadata={"team": "backend", "rate_limit": 200}
     )
 
-    print(f"✅ Created developer key: {dev_key}")
+    print(f"âœ… Created developer key: {dev_key}")
 
     # Create a readonly key for monitoring
     monitor_key = tower.create_tower_key_locally(
@@ -476,11 +476,11 @@ async def example_create_local_keys():
         metadata={"purpose": "metrics_collection", "rate_limit": 1000}
     )
 
-    print(f"✅ Created monitoring key: {monitor_key}")
+    print(f"âœ… Created monitoring key: {monitor_key}")
 
     # Authenticate with the key
     jwt_token = await tower.authenticate_with_tower(dev_key)
-    print(f"✅ Developer authenticated: {jwt_token.user_id}")
+    print(f"âœ… Developer authenticated: {jwt_token.user_id}")
 
 
 async def example_cache_management():
@@ -514,7 +514,7 @@ if __name__ == "__main__":
     import sys
 
     if not SECURITY_AVAILABLE:
-        print("❌ Security module not available. Install CHIMERA first.")
+        print("âŒ Security module not available. Install CHIMERA first.")
         sys.exit(1)
 
     print("="*60)
@@ -531,9 +531,9 @@ if __name__ == "__main__":
     asyncio.run(example_cache_management())
 
     print("\n" + "="*60)
-    print("✅ Examples complete!")
+    print("âœ… Examples complete!")
     print("="*60)
-    print("\n📝 Next Steps:")
+    print("\nðŸ“ Next Steps:")
     print("1. Set environment variables:")
     print("   export TOWER_URL='https://your-tower.example.com'")
     print("   export TOWER_API_KEY='your_tower_admin_key'")
@@ -542,3 +542,4 @@ if __name__ == "__main__":
     print("\n3. Integrate with chimera_autarch.py WebSocket/HTTP handlers")
     print("\n4. Update role_mapping for your tower's role names")
     print()
+

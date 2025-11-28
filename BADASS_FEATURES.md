@@ -49,7 +49,7 @@ EventType.SYSTEM_ALERT           # Priority: 10
 import websockets
 import json
 
-async with websockets.connect("ws://localhost:8765") as ws:
+async with websockets.connect("ws://localhost:3001") as ws:
     # Subscribe to all events
     await ws.send(json.dumps({
         "type": "subscribe_events",
@@ -93,7 +93,7 @@ python event_stream_demo.py --ssl --host myserver.com
 
 ```bash
 # Get event broker statistics
-curl http://localhost:8000/api/events
+curl http://localhost:3000/api/events
 
 # Response:
 {
@@ -178,7 +178,7 @@ scrape_configs:
   - job_name: 'chimera'
     scrape_interval: 5s
     static_configs:
-      - targets: ['localhost:8000']
+      - targets: ['localhost:3000']
     metrics_path: '/metrics/prometheus'
 ```
 
@@ -399,7 +399,7 @@ await ws.send(json.dumps({
 
 ```bash
 # Get last 100 events via HTTP
-curl http://localhost:8000/api/events | jq '.recent_events'
+curl http://localhost:3000/api/events | jq '.recent_events'
 ```
 
 ### Multi-Client Broadcasting
@@ -420,7 +420,7 @@ All subscribers receive the same events simultaneously:
 
 ```bash
 # Check if event broker is enabled
-curl http://localhost:8000/api/events
+curl http://localhost:3000/api/events
 
 # Should NOT return: {"error": "Event broker not available"}
 
@@ -447,7 +447,7 @@ python ws_client.py
 curl http://localhost:9090/api/v1/targets
 
 # Check Prometheus metrics endpoint
-curl http://localhost:8000/metrics/prometheus
+curl http://localhost:3000/metrics/prometheus
 ```
 
 ---

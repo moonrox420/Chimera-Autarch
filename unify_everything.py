@@ -1,4 +1,4 @@
-# unify_everything.py
+﻿# unify_everything.py
 # THE ONLY SCRIPT YOU WILL EVER NEED AGAIN
 # Overwrite EVERY OTHER unify script with this exact code.
 # Run once. Done forever.
@@ -25,16 +25,16 @@ def total_lockdown(path):
     text = path.read_text("utf-8")
     old = text
 
-    # 1. HOST → 0.0.0.0 EVERYWHERE
-    text = re.sub(r"127\.0\.0\.1|0.0.0.0", "0.0.0.0", text)
+    # 1. HOST â†’ 127.0.0.1 EVERYWHERE
+    text = re.sub(r"127\.0\.0\.1|127.0.0.1", "127.0.0.1", text)
 
-    # 2. PORTS → ENV VARS (HTTP 3000 / WS 3001)
+    # 2. PORTS â†’ ENV VARS (HTTP 3000 / WS 3000)
     text = re.sub(r"\bport\s*=\s*\d+", "port=int(os.getenv('HTTP_PORT', 3000))", text)
     text = re.sub(r"\bport\s*:\s*\d+", "port: int(os.getenv('HTTP_PORT', 3000))", text)
-    text = re.sub(r"\b8765\b|\b8081\b", "3001", text)
-    text = re.sub(r"\b8000\b|\b5000\b", "3000", text)
+    text = re.sub(r"\b3001\b|\b8081\b", "3000", text)
+    text = re.sub(r"\b3000\b|\b5000\b", "3000", text)
 
-    # 3. DOCKERFILE → FORTRESS
+    # 3. DOCKERFILE â†’ FORTRESS
     if path.name.lower().startswith("dockerfile"):
         text = """FROM python:3.12-slim-bookworm
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
@@ -43,11 +43,11 @@ WORKDIR /app
 COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 USER chimera
-EXPOSE 3000 3001
+EXPOSE 3000 3000
 ENTRYPOINT ["python", "DroxAILauncher.py"]
 """
 
-    # 4. COMPOSE → FORTRESS
+    # 4. COMPOSE â†’ FORTRESS
     if "compose" in path.name.lower():
         text = """services:
   chimera:
@@ -63,40 +63,40 @@ ENTRYPOINT ["python", "DroxAILauncher.py"]
       - no-new-privileges:true
     ports:
       - "3000:3000"
-      - "3001:3001"
+      - "3000:3000"
     environment:
       MASTER_KEY: ${MASTER_KEY}
       ENABLE_FL_RUNTIME: ${ENABLE_FL_RUNTIME:-false}
       IMAGE_DIGEST: ${IMAGE_DIGEST}
       HTTP_PORT: 3000
-      WS_PORT: 3001
+      WS_PORT: 3000
     volumes:
       - ./ssl:/chimera/ssl:ro
       - ./cosign.pub:/chimera/cosign.pub:ro
 """
 
-    # 5. LAUNCHERS → ONE TRUTH
+    # 5. LAUNCHERS â†’ ONE TRUTH
     if "launch" in path.name.lower():
         text = "python DroxAILauncher.py"
 
-    # 6. CONFIG → LOCKED
+    # 6. CONFIG â†’ LOCKED
     if path.name.endswith(".json") and "config" in str(path).lower():
         text = json.dumps({
             "Server": {
-                "HttpHost": "0.0.0.0",
+                "HttpHost": "127.0.0.1",
                 "HttpPort": 3000,
-                "WebSocketHost": "0.0.0.0",
-                "WebSocketPort": 3001
+                "WebSocketHost": "127.0.0.1",
+                "WebSocketPort": 3000
             }
         }, indent=2)
 
     if text != old:
         path.write_text(text, "utf-8")
-        logging.info(f"LOCKED → {path.relative_to(ROOT)}")
+        logging.info(f"LOCKED â†’ {path.relative_to(ROOT)}")
         return True
     return False
 
-logging.info("TOTAL PROJECT LOCKDOWN — ONE PASS")
+logging.info("TOTAL PROJECT LOCKDOWN â€” ONE PASS")
 any_change = any(total_lockdown(p) for p in ROOT.rglob("*") if p.is_file() and not any(ex in p.parts for ex in EXCLUDE))
 
 if not any_change:

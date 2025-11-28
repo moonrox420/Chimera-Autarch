@@ -144,8 +144,8 @@ gcloud auth application-default login  # For GCP
 .\start_nexus.ps1
 
 # 5. Access interfaces
-# - 3D Dashboard: http://localhost:8000
-# - WebSocket: ws://localhost:8765
+# - 3D Dashboard: http://localhost:3000
+# - WebSocket: ws://localhost:3001
 # - Voice: "CHIMERA, show status"
 ```
 
@@ -169,8 +169,8 @@ python3 genetic_evolution.py   # Genetic breeding demo
 python3 chimera_autarch.py
 
 # 5. Access interfaces
-# - 3D Dashboard: http://localhost:8000
-# - WebSocket: ws://localhost:8765
+# - 3D Dashboard: http://localhost:3000
+# - WebSocket: ws://localhost:3001
 # - Voice: "CHIMERA, show status"
 ```
 
@@ -209,8 +209,8 @@ python3 chimera_autarch.py
 CHIMERA NEXUS v3.0
 │
 ├─ chimera_autarch.py (2,444 lines)
-│  ├─ WebSocket Server (port 8765)
-│  ├─ HTTP Dashboard (port 8000)
+│  ├─ WebSocket Server (port 3001)
+│  ├─ HTTP Dashboard (port 3000)
 │  ├─ MetacognitiveEngine
 │  ├─ IntentCompiler
 │  └─ ToolRegistry

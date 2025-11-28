@@ -84,12 +84,12 @@ python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU')
 ```
 
 ### Port Already in Use
-**Problem:** "Address already in use: 8765"
+**Problem:** "Address already in use: 3001"
 
 **Solution:**
 ```powershell
 # Find process using port
-netstat -ano | findstr :8765
+netstat -ano | findstr :3001
 
 # Kill process
 taskkill /PID <PID> /F
@@ -164,10 +164,10 @@ GCP:    C:\Users\<YourName>\AppData\Roaming\gcloud\
 
 ## 🌐 URLs
 
-- **Main Dashboard:** http://localhost:8000
-- **3D Visualization:** http://localhost:8000/dashboard_3d.html
-- **WebSocket API:** ws://localhost:8765
-- **Metrics:** http://localhost:8000/metrics
+- **Main Dashboard:** http://localhost:3000
+- **3D Visualization:** http://localhost:3000/dashboard_3d.html
+- **WebSocket API:** ws://localhost:3001
+- **Metrics:** http://localhost:3000/metrics
 
 ## 📦 Package Management
 

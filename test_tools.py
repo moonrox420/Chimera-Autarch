@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 DroxAI Autarch Tool Validation Client (test_tools.py)
 
@@ -19,8 +19,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger("DroxAI.Client")
 
 # --- Configuration (Reads from environment set by DroxAI_Launcher) ---
-WS_HOST = os.environ.get("WS_HOST", "0.0.0.0")
-WS_PORT = os.environ.get("WS_PORT", "3001")
+WS_HOST = os.environ.get("WS_HOST", "127.0.0.1")
+WS_PORT = os.environ.get("WS_PORT", "3000")
 WS_URL = f"ws://{WS_HOST}:{WS_PORT}"
 
 async def send_message(websocket, message: dict) -> Dict[str, Any]:
@@ -97,7 +97,7 @@ async def run_client_tests():
                  logger.info(f"OPTIMIZE: Successful. Files Improved: {result['files_improved']} | Gain: {result['performance_gain']}")
             
             logger.info(f"==================================================")
-            logger.info("✅ All core API and tool integration tests complete.")
+            logger.info("âœ… All core API and tool integration tests complete.")
             logger.info(f"==================================================")
 
 

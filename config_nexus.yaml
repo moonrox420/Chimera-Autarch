@@ -5,8 +5,8 @@
 # CORE SYSTEM SETTINGS
 # ==========================================
 core:
-  websocket_port: 8765
-  http_port: 8000
+  websocket_port: 3001
+  http_port: 3000
   ssl_enabled: false
   ssl_cert_path: "ssl/cert.pem"
   ssl_key_path: "ssl/key.pem"

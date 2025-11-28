@@ -1,4 +1,4 @@
-# DroxAI_Setup_Sync.ps1
+﻿# DroxAI_Setup_Sync.ps1
 # Runs a comprehensive synchronization and setup process:
 # 1. Finds the project root directory.
 # 2. Creates the .venv if it doesn't exist.
@@ -28,7 +28,7 @@ if (-not (Test-Path $VenvPath)) {
     try {
         python -m venv $VenvPath
     } catch {
-        Write-Host "❌ ERROR: Failed to create Virtual Environment. Ensure Python 3.8+ is installed and in your PATH." -ForegroundColor Red
+        Write-Host "âŒ ERROR: Failed to create Virtual Environment. Ensure Python 3.8+ is installed and in your PATH." -ForegroundColor Red
         exit 1
     }
 }
@@ -41,7 +41,7 @@ Write-Host "Activating .venv..." -ForegroundColor DarkGreen
 
 # --- 4. Install/Update Dependencies ---
 if (-not (Test-Path $RequirementsPath)) {
-    Write-Host "❌ FATAL: requirements.txt not found at $RequirementsPath. Cannot install dependencies." -ForegroundColor Red
+    Write-Host "âŒ FATAL: requirements.txt not found at $RequirementsPath. Cannot install dependencies." -ForegroundColor Red
     exit 1
 }
 
@@ -50,9 +50,9 @@ try {
     pip install --upgrade pip
     # Using 'install -r' handles new installs, updates, and synchronization.
     pip install -r $RequirementsPath
-    Write-Host "✅ Dependencies successfully synchronized." -ForegroundColor Green
+    Write-Host "âœ… Dependencies successfully synchronized." -ForegroundColor Green
 } catch {
-    Write-Host "❌ ERROR: Failed to install Python dependencies. See error above." -ForegroundColor Red
+    Write-Host "âŒ ERROR: Failed to install Python dependencies. See error above." -ForegroundColor Red
     exit 1
 }
 

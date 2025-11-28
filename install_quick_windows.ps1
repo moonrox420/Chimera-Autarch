@@ -1,7 +1,7 @@
-# CHIMERA NEXUS - Windows Installation Quick Fix
+﻿# CHIMERA NEXUS - Windows Installation Quick Fix
 # Run this if regular install fails
 
-Write-Host "🔧 CHIMERA NEXUS - Quick Fix Installer for Windows" -ForegroundColor Cyan
+Write-Host "ðŸ”§ CHIMERA NEXUS - Quick Fix Installer for Windows" -ForegroundColor Cyan
 Write-Host "===================================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -15,7 +15,7 @@ else {
   & .\droxai-env\Scripts\Activate.ps1
 }
 
-Write-Host "📥 Installing packages with pre-built wheels only..." -ForegroundColor Yellow
+Write-Host "ðŸ“¥ Installing packages with pre-built wheels only..." -ForegroundColor Yellow
 Write-Host ""
 
 # Core packages (always work)
@@ -50,11 +50,11 @@ Write-Host "[5/5] Voice Processing (Whisper + TTS)..." -ForegroundColor Cyan
 pip install openai-whisper pyttsx3 sounddevice
 
 Write-Host ""
-Write-Host "✅ Installation complete!" -ForegroundColor Green
+Write-Host "âœ… Installation complete!" -ForegroundColor Green
 Write-Host ""
 
 # Test imports
-Write-Host "🧪 Testing critical imports..." -ForegroundColor Cyan
+Write-Host "ðŸ§ª Testing critical imports..." -ForegroundColor Cyan
 
 $tests = @(
   @("TensorFlow", "import tensorflow as tf; print(f'TensorFlow {tf.__version__}')"),
@@ -70,26 +70,27 @@ foreach ($test in $tests) {
   Write-Host "  Testing $($test[0])..." -NoNewline
   $result = python -c $test[1] 2>&1
   if ($LASTEXITCODE -eq 0) {
-    Write-Host " ✅" -ForegroundColor Green
+    Write-Host " âœ…" -ForegroundColor Green
     $passed++
   }
   else {
-    Write-Host " ❌" -ForegroundColor Red
+    Write-Host " âŒ" -ForegroundColor Red
   }
 }
 
 Write-Host ""
 if ($passed -eq $tests.Count) {
-  Write-Host "🎉 All packages working! Ready to start CHIMERA." -ForegroundColor Green
+  Write-Host "ðŸŽ‰ All packages working! Ready to start CHIMERA." -ForegroundColor Green
   Write-Host ""
   Write-Host "Next steps:" -ForegroundColor Cyan
   Write-Host "  .\start_nexus.ps1" -ForegroundColor White
 }
 else {
-  Write-Host "⚠️  Some packages failed. Try:" -ForegroundColor Yellow
+  Write-Host "âš ï¸  Some packages failed. Try:" -ForegroundColor Yellow
   Write-Host "  pip install --force-reinstall <package-name>" -ForegroundColor Gray
 }
 
 Write-Host ""
-Write-Host "📝 Note: For voice control, download PyAudio wheel from:" -ForegroundColor Cyan
+Write-Host "ðŸ“ Note: For voice control, download PyAudio wheel from:" -ForegroundColor Cyan
 Write-Host "   https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio" -ForegroundColor White
+

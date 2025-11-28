@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA NEXUS - Neural Code Evolution Engine
 AI that literally rewrites its own source code for performance optimization.
@@ -604,12 +604,12 @@ class NeuralEvolutionEngine:
             if should_deploy:
                 self._deploy_variant(variant)
                 logger.info(
-                    f"✅ Deployed optimization: {improvement:.1f}% improvement")
+                    f"âœ… Deployed optimization: {improvement:.1f}% improvement")
             else:
                 reason = self._get_rejection_reason(
                     improvement, optimized_metrics, variant)
                 result.rollback_reason = reason
-                logger.info(f"❌ Rejected variant: {reason}")
+                logger.info(f"âŒ Rejected variant: {reason}")
 
             self.evolution_history.append(result)
             return result
@@ -654,7 +654,7 @@ class NeuralEvolutionEngine:
                     result = await self.evolve_function(func_name, test_inputs)
                     if result and result.deployed:
                         logger.info(
-                            f"🧠 Evolved {func_name}: {result.improvement_percent:.1f}% faster")
+                            f"ðŸ§  Evolved {func_name}: {result.improvement_percent:.1f}% faster")
 
                 except Exception as e:
                     logger.error(f"Evolution error for {func_name}: {e}")
@@ -686,3 +686,4 @@ class NeuralEvolutionEngine:
                 for r in self.evolution_history[-10:]
             ]
         }
+

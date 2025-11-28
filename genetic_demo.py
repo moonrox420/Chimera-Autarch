@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Simple Genetic Algorithm Demo - Drox_AI Evolution Engine
 Demonstrates genetic optimization without complex dependencies
@@ -33,7 +33,7 @@ class GeneticEvolutionDemo:
         
     def initialize_population(self):
         """Create random initial population"""
-        print(f"🧬 Creating initial population of {self.population_size} individuals...")
+        print(f"ðŸ§¬ Creating initial population of {self.population_size} individuals...")
         
         for i in range(self.population_size):
             genes = {
@@ -46,7 +46,7 @@ class GeneticEvolutionDemo:
             genome = SimpleGenome(genes)
             self.population.append(genome)
         
-        print("✅ Population created successfully!")
+        print("âœ… Population created successfully!")
         
     def calculate_fitness(self, genome):
         """Calculate fitness for a genome"""
@@ -123,7 +123,7 @@ class GeneticEvolutionDemo:
     
     def run_evolution(self, generations=5):
         """Run the complete evolution"""
-        print("🚀 Starting Genetic Evolution Demo...")
+        print("ðŸš€ Starting Genetic Evolution Demo...")
         print("=" * 50)
         
         self.initialize_population()
@@ -141,12 +141,12 @@ class GeneticEvolutionDemo:
             print(f"Average fitness: {sum(g.fitness for g in self.population) / len(self.population):.3f}")
         
         print("\n" + "=" * 50)
-        print("🎯 Evolution Complete!")
+        print("ðŸŽ¯ Evolution Complete!")
         print(f"Best fitness achieved: {best_fitness:.3f}")
         print(f"Optimal configuration: {json.dumps(best_overall.genes, indent=2)}")
         
         # Performance analysis
-        print("\n📊 Performance Analysis:")
+        print("\nðŸ“Š Performance Analysis:")
         print(f"Learning Rate: {best_overall.genes['learning_rate']:.4f} (Higher = faster learning)")
         print(f"Batch Size: {best_overall.genes['batch_size']} (Memory efficiency)")
         print(f"Confidence: {best_overall.genes['confidence']:.3f} (Decision quality)")
@@ -166,19 +166,20 @@ def main():
         result = demo.run_evolution(generations=5)
         
         # Drox_AI system integration example
-        print("\n🔗 Integration with Drox_AI System:")
+        print("\nðŸ”— Integration with Drox_AI System:")
         print("This evolved configuration could be applied to:")
-        print("• CHIMERA AUTARCH core parameters")
-        print("• Federated learning optimization")
-        print("• Neural evolution engine settings")
-        print("• Quantum optimization weights")
+        print("â€¢ CHIMERA AUTARCH core parameters")
+        print("â€¢ Federated learning optimization")
+        print("â€¢ Neural evolution engine settings")
+        print("â€¢ Quantum optimization weights")
         
-        print("\n✅ Demo completed successfully!")
+        print("\nâœ… Demo completed successfully!")
         return result
         
     except Exception as e:
-        print(f"❌ Demo failed: {e}")
+        print(f"âŒ Demo failed: {e}")
         return None
 
 if __name__ == "__main__":
     main()
+

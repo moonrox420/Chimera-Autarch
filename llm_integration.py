@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA AUTARCH - LLM Integration Module
 AI-Powered Code Generation with Self-Healing and Rollback
@@ -699,3 +699,4 @@ class CodeGenerator:
             "learned_patterns": sum(len(patterns) for patterns in self.successful_patterns.values()),
             "provider": type(self.provider).__name__ if self.provider else "None"
         }
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Consumer-friendly configuration management for DroxAI
 Supports JSON config files with environment variable overrides and dynamic path resolution
@@ -22,9 +22,9 @@ class AppInfo:
 class ServerConfig:
     """Server configuration settings"""
     websocket_host: str = "localhost"
-    websocket_port: int = 8765
+    websocket_port: int = 3001
     http_host: str = "localhost"
-    http_port: int = 8000
+    http_port: int = 3000
     ssl_enabled: bool = False
     ssl_cert_path: Optional[str] = None
     ssl_key_path: Optional[str] = None
@@ -59,7 +59,7 @@ class NodeConfig:
 @dataclass
 class FederatedLearningConfig:
     """Federated learning settings"""
-    server_address: str = "0.0.0.0:8080"
+    server_address: str = "127.0.0.1:8080"
     default_rounds: int = 3
     min_rounds: int = 3
     max_rounds: int = 10
@@ -135,9 +135,9 @@ class ConfigManager:
             },
             "Server": {
                 "websocket_host": "localhost",
-                "websocket_port": 8765,
+                "websocket_port": 3001,
                 "http_host": "localhost",
-                "http_port": 8000,
+                "http_port": 3000,
                 "ssl_enabled": False,
                 "ssl_cert_path": None,
                 "ssl_key_path": None
@@ -154,7 +154,7 @@ class ConfigManager:
                 "node_timeout": 90.0
             },
             "FederatedLearning": {
-                "server_address": "0.0.0.0:8080",
+                "server_address": "127.0.0.1:8080",
                 "default_rounds": 3,
                 "min_rounds": 3,
                 "max_rounds": 10
@@ -251,9 +251,9 @@ class ConfigManager:
             },
             "Server": {
                 "websocket_host": "localhost",
-                "websocket_port": 8765,
+                "websocket_port": 3001,
                 "http_host": "localhost", 
-                "http_port": 8000,
+                "http_port": 3000,
                 "ssl_enabled": False,
                 "ssl_cert_path": None,
                 "ssl_key_path": None
@@ -275,7 +275,7 @@ class ConfigManager:
                 "node_timeout": 90.0
             },
             "FederatedLearning": {
-                "server_address": "0.0.0.0:8080",
+                "server_address": "127.0.0.1:8080",
                 "default_rounds": 3,
                 "min_rounds": 3,
                 "max_rounds": 10
@@ -313,3 +313,4 @@ if __name__ == "__main__":
     # Generate default config file in release structure
     ConfigManager.save_default_config()
     print("Generated appsettings.json")
+

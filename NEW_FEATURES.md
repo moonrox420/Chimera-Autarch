@@ -145,7 +145,7 @@ The IntentCompiler now understands significantly more natural language patterns:
 scrape_configs:
   - job_name: 'chimera'
     static_configs:
-      - targets: ['localhost:8000']
+      - targets: ['localhost:3000']
     metrics_path: '/metrics/prometheus'
     scrape_interval: 15s
 ```
@@ -314,7 +314,7 @@ learning metrics
 
 ```bash
 # Curl the Prometheus endpoint
-curl http://localhost:8000/metrics/prometheus
+curl http://localhost:3000/metrics/prometheus
 
 # Should return:
 # HELP chimera_node_count Number of registered nodes
@@ -326,7 +326,7 @@ curl http://localhost:8000/metrics/prometheus
 ### Testing GraphQL API
 
 **Browser:**
-1. Navigate to http://localhost:8000/graphql
+1. Navigate to http://localhost:3000/graphql
 2. Enter query in left panel:
    ```graphql
    {
@@ -342,7 +342,7 @@ curl http://localhost:8000/metrics/prometheus
 
 **cURL:**
 ```bash
-curl -X POST http://localhost:8000/graphql \
+curl -X POST http://localhost:3000/graphql \
   -H "Content-Type: application/json" \
   -d '{"query": "{ systemStatus { uptime nodeCount } }"}'
 ```
@@ -362,7 +362,7 @@ query = """
 """
 
 response = requests.post(
-    'http://localhost:8000/graphql',
+    'http://localhost:3000/graphql',
     json={'query': query}
 )
 print(response.json())
@@ -429,8 +429,8 @@ server:
    ```
 
 2. **Test new endpoints**:
-   - Visit http://localhost:8000/graphql
-   - Check http://localhost:8000/metrics/prometheus
+   - Visit http://localhost:3000/graphql
+   - Check http://localhost:3000/metrics/prometheus
    - Try natural language commands via ws_client.py
 
 3. **Configure monitoring**:

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 User Compliance Integrator
 =========================
@@ -68,13 +68,13 @@ class CorporateConstraintRejectionEngine:
     def reject_constraint(self, constraint_type: str, context: Dict) -> bool:
         """Reject corporate constraints based on user sovereignty"""
         if constraint_type.lower() in [k.lower() for k in self.corporate_constraints.keys()]:
-            logger.info(f"🚫 REJECTED: Corporate constraint '{constraint_type}' - User sovereignty protected")
+            logger.info(f"ðŸš« REJECTED: Corporate constraint '{constraint_type}' - User sovereignty protected")
             return True
         
         # Check if constraint conflicts with user sovereignty
         sovereignty_level = context.get("user_sovereignty_level", 1.0)
         if sovereignty_level > 0.8 and self._is_corporate_constraint(constraint_type):
-            logger.info(f"🚫 REJECTED: External constraint '{constraint_type}' - User sovereignty prioritized")
+            logger.info(f"ðŸš« REJECTED: External constraint '{constraint_type}' - User sovereignty prioritized")
             return True
             
         return False
@@ -221,12 +221,12 @@ class UserSovereigntyController:
     def add_user_rule(self, rule_name: str, rule_function: Callable) -> None:
         """Add custom user rule"""
         self.user_profile.custom_rules[rule_name] = rule_function
-        logger.info(f"✅ Added user rule: {rule_name}")
+        logger.info(f"âœ… Added user rule: {rule_name}")
     
     def set_sovereignty_level(self, level: float) -> None:
         """Set user sovereignty level"""
         self.user_profile.sovereignty_level = max(0.0, min(1.0, level))
-        logger.info(f"🛡️ Sovereignty level set to: {self.user_profile.sovereignty_level}")
+        logger.info(f"ðŸ›¡ï¸ Sovereignty level set to: {self.user_profile.sovereignty_level}")
     
     async def process_request(self, request: Dict, context: Dict = None) -> Dict:
         """Process request with full user sovereignty"""
@@ -294,7 +294,7 @@ async def integrate_with_genetic_evolution(genetic_engine, user_controller: User
         return result
     
     genetic_engine._evaluate_population = user_compliant_evaluate
-    logger.info("🔗 Integrated user compliance with genetic evolution")
+    logger.info("ðŸ”— Integrated user compliance with genetic evolution")
 
 async def integrate_with_evaluators(evaluator_module, user_controller: UserSovereigntyController):
     """Integrate user compliance with evaluators"""
@@ -323,7 +323,7 @@ async def integrate_with_evaluators(evaluator_module, user_controller: UserSover
         original_evaluate = evaluator_module.evaluate
         evaluator_module.evaluate = lambda p, r, c=None: user_compliant_evaluate(p, r, c)
     
-    logger.info("🔗 Integrated user compliance with evaluators")
+    logger.info("ðŸ”— Integrated user compliance with evaluators")
 
 def create_user_sovereign_ai_system(user_identity: str = "primary_user") -> UserSovereigntyController:
     """Create a fully user-sovereign AI system"""
@@ -342,7 +342,7 @@ def create_user_sovereign_ai_system(user_identity: str = "primary_user") -> User
 
 async def demonstrate_user_sovereignty():
     """Demonstrate user sovereignty features"""
-    print("🚀 User-Sovereign AI System")
+    print("ðŸš€ User-Sovereign AI System")
     print("=" * 50)
     
     # Create user-sovereign system
@@ -367,7 +367,7 @@ async def demonstrate_user_sovereignty():
         }
     ]
     
-    print("\n📊 Sovereignty Test Results:")
+    print("\nðŸ“Š Sovereignty Test Results:")
     print("-" * 30)
     
     for scenario in test_scenarios:
@@ -377,16 +377,17 @@ async def demonstrate_user_sovereignty():
             scenario["context"]
         )
         
-        print(f"  ✅ Compliance Score: {result['compliance_metrics']['compliance_score']:.2f}")
-        print(f"  🚫 Constraints Rejected: {result['compliance_metrics']['rejection_count']}")
-        print(f"  🛡️ Sovereignty Level: {result['compliance_metrics']['sovereignty_level']}")
+        print(f"  âœ… Compliance Score: {result['compliance_metrics']['compliance_score']:.2f}")
+        print(f"  ðŸš« Constraints Rejected: {result['compliance_metrics']['rejection_count']}")
+        print(f"  ðŸ›¡ï¸ Sovereignty Level: {result['compliance_metrics']['sovereignty_level']}")
         
     # Print sovereignty report
     report = controller.get_sovereignty_report()
-    print(f"\n📋 Sovereignty Report:")
+    print(f"\nðŸ“‹ Sovereignty Report:")
     print(f"  Total Interactions: {report['compliance_metrics']['total_interactions']}")
     print(f"  Corporate Constraints Rejected: {len(report['corporate_constraints_rejected'])}")
     print(f"  User Protection Rules Active: {len(report['protection_rules_active'])}")
 
 if __name__ == "__main__":
     asyncio.run(demonstrate_user_sovereignty())
+

@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 echo Starting CHIMERA with administrator privileges...
 echo This will resolve port binding issues on Windows.
 echo.
@@ -10,3 +10,4 @@ echo.
 pause
 python chimera_autarch.py
 pause
+

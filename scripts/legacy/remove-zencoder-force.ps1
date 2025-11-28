@@ -1,4 +1,4 @@
-# remove-zencoder-force.ps1 - Non-interactive
+﻿# remove-zencoder-force.ps1 - Non-interactive
 # Forcefully uninstall zencoder extension, remove global storage and settings entries
 
 $ErrorActionPreference = 'Stop'
@@ -56,3 +56,4 @@ if (Test-Path $settingsPath) {
 else { Write-Status "settings.json not found at $settingsPath" 'WARN' }
 
 Write-Status "ZenCoder removal complete. Reload VS Code to apply changes." 'SUCCESS'
+

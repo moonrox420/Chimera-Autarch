@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Test script for Chimera Autarch improvements
 Validates all enhanced features and improvements
@@ -32,7 +32,7 @@ class ImprovementValidator:
     
     def log_test(self, test_name: str, success: bool, details: str = ""):
         """Log test result."""
-        status = "✅ PASS" if success else "❌ FAIL"
+        status = "âœ… PASS" if success else "âŒ FAIL"
         result = f"{status} {test_name}"
         if details:
             result += f" - {details}"
@@ -41,7 +41,7 @@ class ImprovementValidator:
     
     async def test_flower_import_improvements(self):
         """Test enhanced Flower import with version validation."""
-        logging.info("\n🔍 Testing Flower Import Improvements:")
+        logging.info("\nðŸ” Testing Flower Import Improvements:")
         
         # Test Flower availability
         self.log_test(
@@ -67,7 +67,7 @@ class ImprovementValidator:
     
     async def test_security_enhancements(self):
         """Test enhanced security features."""
-        logging.info("\n🔐 Testing Security Enhancements:")
+        logging.info("\nðŸ” Testing Security Enhancements:")
         
         # Test input validation
         dangerous_inputs = [
@@ -114,7 +114,7 @@ class ImprovementValidator:
     
     async def test_cryptographic_improvements(self):
         """Test enhanced cryptographic features."""
-        logging.info("\n🔐 Testing Cryptographic Enhancements:")
+        logging.info("\nðŸ” Testing Cryptographic Enhancements:")
         
         # Test secure ID generation
         secure_ids = [QuantumEntropy.secure_id() for _ in range(10)]
@@ -142,7 +142,7 @@ class ImprovementValidator:
     
     async def test_circuit_breaker(self):
         """Test circuit breaker pattern implementation."""
-        logging.info("\n⚡ Testing Circuit Breaker Pattern:")
+        logging.info("\nâš¡ Testing Circuit Breaker Pattern:")
         
         # Test initial state
         self.log_test(
@@ -180,7 +180,7 @@ class ImprovementValidator:
     
     async def test_performance_monitoring(self):
         """Test performance monitoring features."""
-        logging.info("\n📊 Testing Performance Monitoring:")
+        logging.info("\nðŸ“Š Testing Performance Monitoring:")
         
         # Test system metrics sampling
         metrics = performance_monitor.sample_system_metrics()
@@ -208,7 +208,7 @@ class ImprovementValidator:
     
     async def test_enhanced_tool_system(self):
         """Test enhanced tool system with error handling."""
-        logging.info("\n🔧 Testing Enhanced Tool System:")
+        logging.info("\nðŸ”§ Testing Enhanced Tool System:")
         
         # Test tool registry
         tools = self.heart.registry.tools
@@ -236,7 +236,7 @@ class ImprovementValidator:
     
     async def test_system_integration(self):
         """Test system integration and status reporting."""
-        logging.info("\n🌐 Testing System Integration:")
+        logging.info("\nðŸŒ Testing System Integration:")
         
         # Test comprehensive system status
         status = self.heart.get_system_status()
@@ -270,7 +270,7 @@ class ImprovementValidator:
     
     async def run_all_tests(self):
         """Run all improvement validation tests."""
-        logging.info("🚀 Starting Chimera Autarch v4.0 Improvements Validation")
+        logging.info("ðŸš€ Starting Chimera Autarch v4.0 Improvements Validation")
         logging.info("=" * 60)
         
         start_time = time.time()
@@ -290,18 +290,18 @@ class ImprovementValidator:
         total_tests = len(self.test_results)
         
         logging.info("\n" + "=" * 60)
-        logging.info("📋 TEST SUMMARY")
+        logging.info("ðŸ“‹ TEST SUMMARY")
         logging.info("=" * 60)
         logging.info(f"Total tests: {total_tests}")
-        logging.info(f"Passed: {passed_tests} ✅")
-        logging.info(f"Failed: {total_tests - passed_tests} ❌")
+        logging.info(f"Passed: {passed_tests} âœ…")
+        logging.info(f"Failed: {total_tests - passed_tests} âŒ")
         logging.info(f"Success rate: {(passed_tests/total_tests)*100:.1f}%")
         logging.info(f"Execution time: {total_time:.2f}s")
         
         if passed_tests == total_tests:
-            logging.info("\n🎉 ALL TESTS PASSED! Chimera Autarch improvements validated successfully.")
+            logging.info("\nðŸŽ‰ ALL TESTS PASSED! Chimera Autarch improvements validated successfully.")
         else:
-            logging.info(f"\n⚠️  {total_tests - passed_tests} test(s) failed. Review improvements.")
+            logging.info(f"\nâš ï¸  {total_tests - passed_tests} test(s) failed. Review improvements.")
         
         return passed_tests == total_tests
 
@@ -314,3 +314,4 @@ async def main():
 if __name__ == "__main__":
     exit_code = asyncio.run(main())
     sys.exit(exit_code)
+

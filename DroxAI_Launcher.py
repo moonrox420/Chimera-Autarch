@@ -1,84 +1,28 @@
-#!/usr/bin/env python3
-import os
-import sys
-import time
-import subprocess
-import webbrowser
+﻿#!/usr/bin/env python3
+import os, sys, time, subprocess, webbrowser
 from pathlib import Path
-import psutil
-
-# ──────────────────────────────────────────────────────────────
-# 1. NUKE EVERY OLD FORTRESS — NO SURVIVORS
-# ──────────────────────────────────────────────────────────────
-for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
-    try:
-        cmd = proc.info['cmdline']
-        if cmd and len(cmd) > 1:
-            cmd_str = ' '.join(cmd).lower()
-            if any(x in cmd_str for x in ['chimera_autarch', 'droxai_core', 'main.py', 'app.py']):
-                logging.info(f"[LAUNCHER] ☠️  TERMINATING OLD PROCESS → PID {proc.pid}")
-                proc.kill()
-    except:
-        pass
-
-# ──────────────────────────────────────────────────────────────
-# 2. THIS IS THE LAUNCHER — NO RECURSION ALLOWED
-# ──────────────────────────────────────────────────────────────
-if Path(sys.argv[0]).name != "DroxAI_Launcher.py":
-    logging.info("[LAUNCHER] ERROR: You must name this file exactly 'DroxAI_Launcher.py'")
-    sys.exit(1)
-
-logging.info("[LAUNCHER] FINAL LAUNCH SEQUENCE INITIATED — ONE INSTANCE ONLY")
-
-# ──────────────────────────────────────────────────────────────
-# 3. PROJECT ROOT — BULLETPROOF
-# ──────────────────────────────────────────────────────────────
-PROJECT_ROOT = Path(__file__).resolve().parent
+if getattr(sys, "frozen", False): LAUNCHER_HOME = Path(sys.executable).parent
+else: LAUNCHER_HOME = Path(__file__).parent
+PROJECT_ROOT = LAUNCHER_HOME.parent if LAUNCHER_HOME.name == "build" else LAUNCHER_HOME
 sys.path.insert(0, str(PROJECT_ROOT))
-
-# ──────────────────────────────────────────────────────────────
-# 4. CONFIG
-# ──────────────────────────────────────────────────────────────
-try:
-    from DroxAI_ConfigManager import ConfigManager
-    config = ConfigManager.load_config()
-except Exception as e:
-    logging.info(f"[FATAL] Config failed → {e}")
-    sys.exit(1)
-
-# ──────────────────────────────────────────────────────────────
-# 5. FIND AND LAUNCH YOUR LATEST CORE
-# ──────────────────────────────────────────────────────────────
-backend = PROJECT_ROOT / "chimera_autarch.py"
-if not backend.exists():
-    logging.info("[FATAL] chimera_autarch.py not found — did you delete it?")
-    sys.exit(1)
-
-logging.info(f"[DROXAI] EXECUTING → {backend.name}")
-logging.info(f"[DROXAI] DASHBOARD → http://0.0.0.0:{config.server.http_port}")
-logging.info(f"[DROXAI] WEBSOCKET → ws://0.0.0.0:{config.server.websocket_port}")
-
-proc = subprocess.Popen(
-    [sys.executable, str(backend)],
-    cwd=str(PROJECT_ROOT),
-    env=os.environ.copy()
-)
-
-time.sleep(8)
-
+os.environ['PYTHONPATH'] = str(PROJECT_ROOT) + os.pathsep + os.environ.get('PYTHONPATH', '')
+try: from DroxAI_ConfigManager import ConfigManager
+except Exception as e: print(f"FATAL: DroxAI_ConfigManager.py missing → {e}"); sys.exit(1)
+config = ConfigManager.load_config()
+os.environ["HTTP_HOST"] = config.server.http_host
+os.environ["HTTP_PORT"] = str(config.server.http_port)
+os.environ["WS_HOST"] = config.server.websocket_host
+os.environ["WS_PORT"] = str(config.server.websocket_port)
+BACKENDS = ["chimera_autarch_v4_tuned.py","main.py"]
+backend = next((PROJECT_ROOT / f for f in BACKENDS if (PROJECT_ROOT / f).exists()), None)
+if not backend: print("FATAL: No backend"); sys.exit(1)
+print(f"[{config.app.name}] Launching → {backend.name}")
+proc = subprocess.Popen([sys.executable, str(backend)], cwd=str(PROJECT_ROOT), env=os.environ.copy())
+time.sleep(5)
 if proc.poll() is None:
-    # THIS IS THE ONLY URL THAT WORKS — NO MORE 404s
-    url = f"http://0.0.0.0:{config.server.http_port}/dashboard"
-    logging.info(f"[DROXAI] FORTRESS IS LIVE → {url}")
+    url = f"http://localhost:{config.server.http_port}/"
+    print(f"[{config.app.name}] CATHEDRAL LIVE → {url}")
     webbrowser.open(url)
-else:
-    logging.info(f"[DROXAI] CRASHED ON LAUNCH — CODE {proc.poll()}")
-    sys.exit(1)
+try: proc.wait()
+except KeyboardInterrupt: proc.terminate()
 
-try:
-    proc.wait()
-except KeyboardInterrupt:
-    logging.info("\n[DROXAI] Fortress shutdown by king command.")
-    proc.terminate()
-
-logging.info("[DROXAI] Empire secured. King has logged off.")

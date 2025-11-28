@@ -1,4 +1,4 @@
-import pytest
+﻿import pytest
 
 from chimera_autarch import IntentCompiler
 
@@ -30,3 +30,4 @@ def test_compile_federated_learning_and_optimize():
     plan = compiler.compile("optimize function process_image for performance")
     assert isinstance(plan, list)
     assert plan[0]["tool"] == "analyze_and_suggest_patch"
+

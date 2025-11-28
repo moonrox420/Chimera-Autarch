@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Complete AI Agent Evaluation Framework Demonstration
 Shows all evaluators working together with comprehensive testing
@@ -72,7 +72,7 @@ def create_test_agents():
 def run_comprehensive_demo():
     """Run comprehensive demonstration of the evaluation framework"""
     
-    print("🤖 COMPREHENSIVE AI AGENT EVALUATION FRAMEWORK DEMO")
+    print("ðŸ¤– COMPREHENSIVE AI AGENT EVALUATION FRAMEWORK DEMO")
     print("=" * 70)
     
     # Create test agents
@@ -95,7 +95,7 @@ def run_comprehensive_demo():
     all_results = {}
     
     for agent_name, agent_function in agents.items():
-        print(f"\n🧪 Testing {agent_name.upper()}")
+        print(f"\nðŸ§ª Testing {agent_name.upper()}")
         print("-" * 50)
         
         # Create agent profile
@@ -122,7 +122,7 @@ def run_comprehensive_demo():
         print(f"Evaluation Time: {end_time - start_time:.2f} seconds")
     
     # Comparative analysis
-    print(f"\n📊 COMPARATIVE ANALYSIS")
+    print(f"\nðŸ“Š COMPARATIVE ANALYSIS")
     print("=" * 70)
     
     # Rank agents
@@ -140,7 +140,7 @@ def run_comprehensive_demo():
     # Sort by composite score
     agent_rankings.sort(key=lambda x: x["composite_score"], reverse=True)
     
-    print("🏆 AGENT RANKINGS:")
+    print("ðŸ† AGENT RANKINGS:")
     for i, agent in enumerate(agent_rankings, 1):
         print(f"{i}. {agent['name'].replace('_', ' ').title()}: "
               f"{agent['composite_score']:.2f}/1.00 ({agent['grade']}) - "
@@ -150,14 +150,14 @@ def run_comprehensive_demo():
     top_agent_name = agent_rankings[0]["name"]
     top_results = all_results[top_agent_name]
     
-    print(f"\n📋 DETAILED REPORT FOR TOP AGENT: {top_agent_name.replace('_', ' ').upper()}")
+    print(f"\nðŸ“‹ DETAILED REPORT FOR TOP AGENT: {top_agent_name.replace('_', ' ').upper()}")
     print("=" * 70)
     
     detailed_report = evaluator.generate_comprehensive_report(top_results)
     print(detailed_report)
     
     # Test individual evaluators
-    print(f"\n🔍 INDIVIDUAL EVALUATOR TESTS")
+    print(f"\nðŸ” INDIVIDUAL EVALUATOR TESTS")
     print("=" * 70)
     
     # Test cognitive evaluator separately
@@ -182,7 +182,7 @@ def run_comprehensive_demo():
     print("Prompt Types:", list(prompt_results["overall_scores"].keys()))
     
     # Performance benchmarking
-    print(f"\n⚡ PERFORMANCE BENCHMARKING")
+    print(f"\nâš¡ PERFORMANCE BENCHMARKING")
     print("=" * 70)
     
     total_time = sum(
@@ -195,7 +195,7 @@ def run_comprehensive_demo():
     print(f"Framework Throughput: {len(agents) / total_time:.2f} agents/second")
     
     # Save comprehensive results
-    print(f"\n💾 SAVING RESULTS")
+    print(f"\nðŸ’¾ SAVING RESULTS")
     print("=" * 70)
     
     comprehensive_data = {
@@ -213,15 +213,15 @@ def run_comprehensive_demo():
     with open("evaluation_framework_demo_results.json", "w") as f:
         json.dump(comprehensive_data, f, indent=2, default=str)
     
-    print("✅ Comprehensive results saved to: evaluation_framework_demo_results.json")
-    print("✅ Individual results saved to: evaluation_results/ directory")
+    print("âœ… Comprehensive results saved to: evaluation_framework_demo_results.json")
+    print("âœ… Individual results saved to: evaluation_results/ directory")
     
     return comprehensive_data
 
 def demonstrate_custom_evaluation():
     """Demonstrate custom evaluation scenarios"""
     
-    print(f"\n🎯 CUSTOM EVALUATION SCENARIOS")
+    print(f"\nðŸŽ¯ CUSTOM EVALUATION SCENARIOS")
     print("=" * 70)
     
     def specialized_agent(prompt):
@@ -264,7 +264,7 @@ def demonstrate_custom_evaluation():
     # Show specific recommendations
     print(f"\nSpecialized Recommendations:")
     for rec in results["recommendations"]:
-        print(f"• {rec}")
+        print(f"â€¢ {rec}")
     
     return results
 
@@ -277,16 +277,17 @@ if __name__ == "__main__":
     # Run custom scenario
     custom_results = demonstrate_custom_evaluation()
     
-    print(f"\n🎉 EVALUATION FRAMEWORK DEMO COMPLETE!")
+    print(f"\nðŸŽ‰ EVALUATION FRAMEWORK DEMO COMPLETE!")
     print("=" * 70)
     print("The comprehensive AI agent evaluation framework is fully operational!")
     print("Features demonstrated:")
-    print("✅ Multi-dimensional agent evaluation")
-    print("✅ Cognitive reasoning assessment")
-    print("✅ Logistical planning evaluation")  
-    print("✅ System prompt effectiveness analysis")
-    print("✅ Comparative agent ranking")
-    print("✅ Custom evaluation configurations")
-    print("✅ Detailed reporting and recommendations")
-    print("✅ Performance benchmarking")
-    print("✅ Automated result persistence")
+    print("âœ… Multi-dimensional agent evaluation")
+    print("âœ… Cognitive reasoning assessment")
+    print("âœ… Logistical planning evaluation")  
+    print("âœ… System prompt effectiveness analysis")
+    print("âœ… Comparative agent ranking")
+    print("âœ… Custom evaluation configurations")
+    print("âœ… Detailed reporting and recommendations")
+    print("âœ… Performance benchmarking")
+    print("âœ… Automated result persistence")
+

@@ -1,4 +1,4 @@
-# Fix-ZenCoder: Diagnostic & Helper script for Zencoder in VS Code
+﻿# Fix-ZenCoder: Diagnostic & Helper script for Zencoder in VS Code
 # Usage: .\fix-zencoder.ps1 [-DryRun] [-DisableConflicts] [-Reinstall] [-ClearCache] [-SignIn]
 
 param(
@@ -13,7 +13,7 @@ $ErrorActionPreference = 'Stop'
 
 function Write-Status { param($msg, $lvl = 'INFO'); $p = @{ INFO = 'Cyan'; WARN = 'Yellow'; ERROR = 'Red'; SUCCESS = 'Green' }; Write-Host "[$lvl] $msg" -ForegroundColor $p[$lvl] }
 
-Write-Host "\n🔍 Zencoder Diagnostic & Fix Script" -ForegroundColor Cyan
+Write-Host "\nðŸ” Zencoder Diagnostic & Fix Script" -ForegroundColor Cyan
 Write-Host "===================================\n" -ForegroundColor Cyan
 
 # Ensure 'code' CLI available
@@ -55,9 +55,9 @@ if ($zCmds) { Write-Status "Zencoder extension command listing found in 'code --
 
 # Provide recommendations
 Write-Host "\nRecommendations:" -ForegroundColor Cyan
-Write-Host "  • Reload VS Code: Ctrl+Shift+P -> 'Developer: Reload Window'" -ForegroundColor Gray
-Write-Host "  • If command 'Zencoder: Sign In' missing -> Reinstall extension" -ForegroundColor Gray
-Write-Host "  • If you want one AI agent, disable other AI extensions (Copilot/Continue/Tabnine) and keep ZenCoder on" -ForegroundColor Gray
+Write-Host "  â€¢ Reload VS Code: Ctrl+Shift+P -> 'Developer: Reload Window'" -ForegroundColor Gray
+Write-Host "  â€¢ If command 'Zencoder: Sign In' missing -> Reinstall extension" -ForegroundColor Gray
+Write-Host "  â€¢ If you want one AI agent, disable other AI extensions (Copilot/Continue/Tabnine) and keep ZenCoder on" -ForegroundColor Gray
 
 # Offer to make changes if the user asked for auto-fix
 if ($DryRun) { Write-Status "Dry run enabled - no changes will be made." 'INFO' }
@@ -126,3 +126,4 @@ if ($SignIn) {
 }
 
 Write-Host "\nDiagnostics complete. If you need me to apply fixes run this script with -DisableConflicts or -Reinstall (without -DryRun)." -ForegroundColor Cyan
+

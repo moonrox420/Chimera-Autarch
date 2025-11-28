@@ -1,4 +1,4 @@
-# chimera_install.ps1 - Chimera God CLI Auto Installer
+﻿# chimera_install.ps1 - Chimera God CLI Auto Installer
 #Requires -RunAsAdministrator
 
 Write-Host "Chimera God CLI - Auto Installer" -ForegroundColor Cyan
@@ -14,7 +14,7 @@ if (!(Get-Command docker -ErrorAction SilentlyContinue)) {
     Write-Host "Docker installed. Please restart and re-run." -ForegroundColor Green
     exit
 }
-Write-Host "✓ Docker found" -ForegroundColor Green
+Write-Host "âœ“ Docker found" -ForegroundColor Green
 
 # Check Python
 Write-Host "[2/7] Checking Python..." -ForegroundColor Yellow
@@ -22,13 +22,13 @@ if (!(Get-Command python -ErrorAction SilentlyContinue)) {
     Write-Host "Installing Python 3.11..." -ForegroundColor Red
     winget install Python.Python.3.11 --silent --accept-package-agreements
 }
-Write-Host "✓ Python found" -ForegroundColor Green
+Write-Host "âœ“ Python found" -ForegroundColor Green
 
 # Create directory
 Write-Host "[3/7] Creating project structure..." -ForegroundColor Yellow
 New-Item -ItemType Directory -Force -Path $InstallPath | Out-Null
 Set-Location $InstallPath
-Write-Host "✓ Directory created: $InstallPath" -ForegroundColor Green
+Write-Host "âœ“ Directory created: $InstallPath" -ForegroundColor Green
 
 # Create DroxAI_Core.py
 Write-Host "[4/7] Creating backend..." -ForegroundColor Yellow
@@ -43,10 +43,10 @@ import webbrowser
 import websockets
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-os.environ["HTTP_HOST"] = "0.0.0.0"
+os.environ["HTTP_HOST"] = "127.0.0.1"
 os.environ["HTTP_PORT"] = "3000"
-os.environ["WS_HOST"] = "0.0.0.0"
-os.environ["WS_PORT"] = "3001"
+os.environ["WS_HOST"] = "127.0.0.1"
+os.environ["WS_PORT"] = "3000"
 
 logging.basicConfig(level=logging.INFO, format="[%(asctime)s] %(message)s")
 log = logging.getLogger("droxai")
@@ -78,21 +78,21 @@ async def ws_handler(websocket):
         await websocket.send(f"echo: {message}")
 
 async def ws_main():
-    async with websockets.serve(ws_handler, "0.0.0.0", 3001):
-        log.info("WebSocket live on 0.0.0.0:3001")
+    async with websockets.serve(ws_handler, "127.0.0.1", 3000):
+        log.info("WebSocket live on 127.0.0.1:3000")
         await asyncio.Future()
 
-threading.Thread(target=HTTPServer(("0.0.0.0", 3000), UIHandler).serve_forever, daemon=True).start()
-log.info("Dashboard live -> http://0.0.0.0:3000")
+threading.Thread(target=HTTPServer(("127.0.0.1", 3000), UIHandler).serve_forever, daemon=True).start()
+log.info("Dashboard live -> http://127.0.0.1:3000")
 
 asyncio.run(ws_main())
 '@ | Out-File -FilePath "DroxAI_Core.py" -Encoding UTF8
-Write-Host "✓ Backend created" -ForegroundColor Green
+Write-Host "âœ“ Backend created" -ForegroundColor Green
 
 # Download dashboard
 Write-Host "[5/7] Downloading dashboard UI..." -ForegroundColor Yellow
 Invoke-WebRequest -Uri "https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/968dcc553f0161431d00dec5506d450a/fdfefc30-efc8-43a6-b468-5255460984fa/canvas-app/index.html" -OutFile "dashboard.html"
-Write-Host "✓ Dashboard downloaded" -ForegroundColor Green
+Write-Host "âœ“ Dashboard downloaded" -ForegroundColor Green
 
 # Create Docker files
 Write-Host "[6/7] Creating Docker configuration..." -ForegroundColor Yellow
@@ -104,7 +104,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-EXPOSE 3000 3001
+EXPOSE 3000 3000
 CMD ["python", "DroxAI_Core.py"]
 '@ | Out-File -FilePath "Dockerfile" -Encoding UTF8
 
@@ -122,11 +122,11 @@ services:
     container_name: chimera-fortress
     ports:
       - "3000:3000"
-      - "3001:3001"
+      - "3000:3000"
     restart: unless-stopped
 '@ | Out-File -FilePath "docker-compose.yml" -Encoding UTF8
 
-Write-Host "✓ Docker config created" -ForegroundColor Green
+Write-Host "âœ“ Docker config created" -ForegroundColor Green
 
 # Deploy
 Write-Host "[7/7] Deploying fortress..." -ForegroundColor Yellow
@@ -138,10 +138,10 @@ Write-Host "Installation completed successfully" -ForegroundColor Green
 Write-Host "================================================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "Installation Path: $InstallPath" -ForegroundColor Cyan
-Write-Host "Dashboard URL: http://0.0.0.0:3000" -ForegroundColor Cyan
+Write-Host "Dashboard URL: http://127.0.0.1:3000" -ForegroundColor Cyan
 Write-Host ""
 
 Start-Sleep -Seconds 8
-Start-Process "http://0.0.0.0:3000"
+Start-Process "http://127.0.0.1:3000"
 
 Write-Host "System operational" -ForegroundColor Cyan

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 DroxAI Core Engine - Consumer Version
 Advanced AI Orchestration System with consumer-friendly configuration
@@ -399,13 +399,13 @@ class ConsumerHTTPRequestHandler(BaseHTTPRequestHandler):
 <body>
     <div class="container">
         <header>
-            <h1>🚀 DroxAI v1.0.0</h1>
+            <h1>ðŸš€ DroxAI v1.0.0</h1>
             <div class="subtitle">Advanced AI Orchestration System</div>
         </header>
         
         <div class="dashboard">
             <div class="card">
-                <h2>📊 System Status</h2>
+                <h2>ðŸ“Š System Status</h2>
                 <div class="status-grid">
                     <div class="status-item">
                         <div class="status-value" id="uptime">--</div>
@@ -423,14 +423,14 @@ class ConsumerHTTPRequestHandler(BaseHTTPRequestHandler):
             </div>
             
             <div class="card">
-                <h2>🔌 Connection Info</h2>
+                <h2>ðŸ”Œ Connection Info</h2>
                 <div class="status-grid">
                     <div class="status-item">
-                        <div class="status-value" id="http-port">8000</div>
+                        <div class="status-value" id="http-port">3000</div>
                         <div class="status-label">HTTP Port</div>
                     </div>
                     <div class="status-item">
-                        <div class="status-value" id="ws-port">8765</div>
+                        <div class="status-value" id="ws-port">3001</div>
                         <div class="status-label">WebSocket Port</div>
                     </div>
                 </div>
@@ -441,7 +441,7 @@ class ConsumerHTTPRequestHandler(BaseHTTPRequestHandler):
         </div>
         
         <div class="card">
-            <h2>⚡ Quick Actions</h2>
+            <h2>âš¡ Quick Actions</h2>
             <div class="controls">
                 <button class="btn" onclick="sendEcho()">Send Echo Test</button>
                 <button class="btn btn-secondary" onclick="checkHealth()">Health Check</button>
@@ -450,7 +450,7 @@ class ConsumerHTTPRequestHandler(BaseHTTPRequestHandler):
         </div>
         
         <div class="footer">
-            <p>© 2025 DroxAI - Advanced AI Orchestration System</p>
+            <p>Â© 2025 DroxAI - Advanced AI Orchestration System</p>
             <p>Built with consumer-friendly packaging and dynamic configuration</p>
         </div>
     </div>
@@ -469,7 +469,7 @@ class ConsumerHTTPRequestHandler(BaseHTTPRequestHandler):
         }
         
         function testConnection() {
-            const ws = new WebSocket('ws://localhost:8765');
+            const ws = new WebSocket('ws://localhost:3001');
             ws.onopen = function() {
                 ws.send(JSON.stringify({type: 'ping'}));
             };
@@ -485,7 +485,7 @@ class ConsumerHTTPRequestHandler(BaseHTTPRequestHandler):
         function sendEcho() {
             const message = prompt('Enter message to echo:');
             if (message) {
-                const ws = new WebSocket('ws://localhost:8765');
+                const ws = new WebSocket('ws://localhost:3001');
                 ws.onopen = function() {
                     ws.send(JSON.stringify({type: 'echo', message: message}));
                 };
@@ -512,7 +512,7 @@ class ConsumerHTTPRequestHandler(BaseHTTPRequestHandler):
         }
         
         function openWebSocket() {
-            window.open('ws://localhost:8765', '_blank');
+            window.open('ws://localhost:3001', '_blank');
         }
         
         // Auto-refresh status every 5 seconds
@@ -600,3 +600,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+

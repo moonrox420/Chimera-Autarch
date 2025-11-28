@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA NEXUS v3.0 - Integration Layer
 Wires all 10 revolutionary systems into the CHIMERA core
@@ -124,9 +124,9 @@ class ChimeraNexusIntegration:
         if NEURAL_AVAILABLE and self.config.get('neural_evolution', {}).get('enabled', True):
             try:
                 self.neural_engine = NeuralEvolutionEngine()
-                logger.info("[NEXUS] ✅ Neural Evolution Engine initialized")
+                logger.info("[NEXUS] âœ… Neural Evolution Engine initialized")
             except Exception as e:
-                logger.error(f"[NEXUS] ❌ Neural Evolution failed: {e}")
+                logger.error(f"[NEXUS] âŒ Neural Evolution failed: {e}")
 
         # 2. Quantum Optimizer
         if QUANTUM_AVAILABLE and self.config.get('quantum_optimizer', {}).get('enabled', True):
@@ -136,9 +136,9 @@ class ChimeraNexusIntegration:
                     initial_temp=config.get('initial_temperature', 1000.0),
                     cooling_rate=config.get('cooling_rate', 0.95)
                 )
-                logger.info("[NEXUS] ✅ Quantum Optimizer initialized")
+                logger.info("[NEXUS] âœ… Quantum Optimizer initialized")
             except Exception as e:
-                logger.error(f"[NEXUS] ❌ Quantum Optimizer failed: {e}")
+                logger.error(f"[NEXUS] âŒ Quantum Optimizer failed: {e}")
 
         # 3. Personality System
         if PERSONALITY_AVAILABLE and self.config.get('personality', {}).get('enabled', True):
@@ -147,9 +147,9 @@ class ChimeraNexusIntegration:
                     'personality', {}).get('default_mode', 'balanced')
                 self.personality = PersonalityEngine(default_mode=default_mode)
                 logger.info(
-                    f"[NEXUS] ✅ Personality System initialized (mode: {default_mode})")
+                    f"[NEXUS] âœ… Personality System initialized (mode: {default_mode})")
             except Exception as e:
-                logger.error(f"[NEXUS] ❌ Personality System failed: {e}")
+                logger.error(f"[NEXUS] âŒ Personality System failed: {e}")
 
         # 4. Blockchain Audit Logger
         if BLOCKCHAIN_AVAILABLE and self.config.get('blockchain', {}).get('enabled', True):
@@ -160,14 +160,14 @@ class ChimeraNexusIntegration:
                     difficulty=config.get('difficulty', 4)
                 )
                 await self.blockchain.initialize()
-                logger.info("[NEXUS] ✅ Blockchain Audit Logger initialized")
+                logger.info("[NEXUS] âœ… Blockchain Audit Logger initialized")
             except Exception as e:
-                logger.error(f"[NEXUS] ❌ Blockchain failed: {e}")
+                logger.error(f"[NEXUS] âŒ Blockchain failed: {e}")
 
         # 5. 3D VR Dashboard
         if self.config.get('dashboard_3d', {}).get('enabled', True):
             self.dashboard_3d_enabled = True
-            logger.info("[NEXUS] ✅ 3D VR Dashboard enabled")
+            logger.info("[NEXUS] âœ… 3D VR Dashboard enabled")
 
         # 6. Voice Interface
         if VOICE_AVAILABLE and self.config.get('voice', {}).get('enabled', True):
@@ -178,9 +178,9 @@ class ChimeraNexusIntegration:
                     sample_rate=config.get('sample_rate', 16000)
                 )
                 await self.voice.initialize()
-                logger.info("[NEXUS] ✅ Voice Interface initialized")
+                logger.info("[NEXUS] âœ… Voice Interface initialized")
             except Exception as e:
-                logger.error(f"[NEXUS] ❌ Voice Interface failed: {e}")
+                logger.error(f"[NEXUS] âŒ Voice Interface failed: {e}")
 
         # 7. Genetic Evolution
         if GENETIC_AVAILABLE and self.config.get('genetic', {}).get('enabled', True):
@@ -190,9 +190,9 @@ class ChimeraNexusIntegration:
                     population_size=config.get('population_size', 50),
                     generations=config.get('generations', 100)
                 )
-                logger.info("[NEXUS] ✅ Genetic Evolution Engine initialized")
+                logger.info("[NEXUS] âœ… Genetic Evolution Engine initialized")
             except Exception as e:
-                logger.error(f"[NEXUS] ❌ Genetic Evolution failed: {e}")
+                logger.error(f"[NEXUS] âŒ Genetic Evolution failed: {e}")
 
         # 8. Predictive Monitor
         if PREDICTIVE_AVAILABLE and self.config.get('predictive_monitor', {}).get('enabled', True):
@@ -203,9 +203,9 @@ class ChimeraNexusIntegration:
                     sequence_length=config.get('sequence_length', 50)
                 )
                 await self.predictive.initialize()
-                logger.info("[NEXUS] ✅ Predictive Monitor initialized")
+                logger.info("[NEXUS] âœ… Predictive Monitor initialized")
             except Exception as e:
-                logger.error(f"[NEXUS] ❌ Predictive Monitor failed: {e}")
+                logger.error(f"[NEXUS] âŒ Predictive Monitor failed: {e}")
 
         # 9. Cloud Orchestrator
         if CLOUD_AVAILABLE and self.config.get('cloud', {}).get('enabled', True):
@@ -214,9 +214,9 @@ class ChimeraNexusIntegration:
                 self.cloud = MultiCloudOrchestrator(
                     providers_config=config.get('providers', {}))
                 await self.cloud.initialize()
-                logger.info("[NEXUS] ✅ Cloud Orchestrator initialized")
+                logger.info("[NEXUS] âœ… Cloud Orchestrator initialized")
             except Exception as e:
-                logger.error(f"[NEXUS] ❌ Cloud Orchestrator failed: {e}")
+                logger.error(f"[NEXUS] âŒ Cloud Orchestrator failed: {e}")
 
         # 10. Plugin System
         if PLUGIN_AVAILABLE and self.config.get('plugins', {}).get('enabled', True):
@@ -227,11 +227,11 @@ class ChimeraNexusIntegration:
                     allowed_permissions=config.get('allowed_permissions', [])
                 )
                 await self.plugins.initialize()
-                logger.info("[NEXUS] ✅ Plugin System initialized")
+                logger.info("[NEXUS] âœ… Plugin System initialized")
             except Exception as e:
-                logger.error(f"[NEXUS] ❌ Plugin System failed: {e}")
+                logger.error(f"[NEXUS] âŒ Plugin System failed: {e}")
 
-        logger.info("[NEXUS] 🎉 CHIMERA NEXUS v3.0 fully initialized!")
+        logger.info("[NEXUS] ðŸŽ‰ CHIMERA NEXUS v3.0 fully initialized!")
         self._print_status()
 
     def _print_status(self):
@@ -251,7 +251,7 @@ class ChimeraNexusIntegration:
 
         logger.info("[NEXUS] System Status:")
         for name, status in systems:
-            icon = "✅" if status else "❌"
+            icon = "âœ…" if status else "âŒ"
             logger.info(f"[NEXUS]   {icon} {name}")
 
     async def optimize_code(self, code: str, goal: str = "performance") -> Dict[str, Any]:
@@ -381,7 +381,7 @@ class ChimeraNexusIntegration:
         if self.blockchain:
             await self.blockchain.save_chain()
 
-        logger.info("[NEXUS] ✅ Shutdown complete")
+        logger.info("[NEXUS] âœ… Shutdown complete")
 
 
 # Convenience function for quick initialization
@@ -390,3 +390,4 @@ async def initialize_nexus(config_path: str = "config_nexus.yaml") -> ChimeraNex
     nexus = ChimeraNexusIntegration(config_path)
     await nexus.initialize()
     return nexus
+

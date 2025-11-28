@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 REM CHIMERA AUTARCH - Independent Launcher (Windows)
 REM Run anywhere - no VS Code, no Microsoft dependencies required
 
@@ -67,12 +67,12 @@ set IP=%IP:~1%
 echo [INFO] Your IP: %IP%
 echo.
 echo Access CHIMERA from:
-echo   * Local:   http://localhost:8000
-echo   * Network: http://%IP%:8000
+echo   * Local:   http://localhost:3000
+echo   * Network: http://%IP%:3000
 echo.
 echo WebSocket endpoint:
-echo   * Local:   ws://localhost:8000
-echo   * Network: ws://%IP%:8765
+echo   * Local:   ws://localhost:3000
+echo   * Network: ws://%IP%:3001
 echo.
 echo ============================================================
 echo.
@@ -84,3 +84,4 @@ echo Press Ctrl+C to stop
 echo.
 
 python chimera_autarch.py
+

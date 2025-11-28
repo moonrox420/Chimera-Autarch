@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA AUTARCH - New Features Demo
 Demonstrates the new tools, intent patterns, and APIs added in v2.1
@@ -7,7 +7,7 @@ import requests
 import json
 import time
 
-CHIMERA_BASE_URL = "http://localhost:8000"
+CHIMERA_BASE_URL = "http://localhost:3000"
 
 
 def print_section(title):
@@ -34,7 +34,7 @@ def demo_json_metrics():
             print(f"  - {tool}: {success_rate:.1%} success rate")
 
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"âŒ Error: {e}")
 
 
 def demo_prometheus_metrics():
@@ -52,7 +52,7 @@ def demo_prometheus_metrics():
                 print(f"  {line}")
 
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"âŒ Error: {e}")
 
 
 def demo_health_check():
@@ -66,11 +66,11 @@ def demo_health_check():
         print(f"Status: {data['status'].upper()}")
         print(f"Checks:")
         for check, status in data['checks'].items():
-            emoji = "✅" if status == "ok" else "⚠️" if status == "warning" else "❌"
+            emoji = "âœ…" if status == "ok" else "âš ï¸" if status == "warning" else "âŒ"
             print(f"  {emoji} {check}: {status}")
 
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"âŒ Error: {e}")
 
 
 def demo_graphql_system_status():
@@ -97,7 +97,7 @@ def demo_graphql_system_status():
         data = response.json()
 
         if 'errors' in data:
-            print(f"❌ GraphQL Error: {data['errors']}")
+            print(f"âŒ GraphQL Error: {data['errors']}")
             return
 
         status = data['data']['systemStatus']
@@ -107,7 +107,7 @@ def demo_graphql_system_status():
         print(f"Active Topics: {', '.join(status['activeTopics']) or 'None'}")
 
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"âŒ Error: {e}")
 
 
 def demo_graphql_tools():
@@ -135,20 +135,20 @@ def demo_graphql_tools():
         data = response.json()
 
         if 'errors' in data:
-            print(f"❌ GraphQL Error: {data['errors']}")
+            print(f"âŒ GraphQL Error: {data['errors']}")
             return
 
         tools = data['data']['tools']
         print(f"Total Tools: {len(tools)}\n")
 
         for tool in tools[:8]:  # Show first 8 tools
-            print(f"📦 {tool['name']} v{tool['version']}")
+            print(f"ðŸ“¦ {tool['name']} v{tool['version']}")
             print(f"   {tool['description']}")
             print(f"   Success Rate: {tool['successRate']:.1%}")
             print(f"   Avg Latency: {tool['avgLatency']:.4f}s\n")
 
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"âŒ Error: {e}")
 
 
 def demo_graphql_topics():
@@ -175,7 +175,7 @@ def demo_graphql_topics():
         data = response.json()
 
         if 'errors' in data:
-            print(f"❌ GraphQL Error: {data['errors']}")
+            print(f"âŒ GraphQL Error: {data['errors']}")
             return
 
         topics = data['data']['topics']
@@ -187,13 +187,13 @@ def demo_graphql_topics():
         print(f"Total Topics: {len(topics)}\n")
 
         for topic in topics:
-            print(f"🎯 {topic['name']}")
+            print(f"ðŸŽ¯ {topic['name']}")
             print(f"   Confidence: {topic['confidence']:.2%}")
             print(f"   Failures: {topic['failureCount']}")
             print(f"   Success Rate: {topic['successRate']:.1%}\n")
 
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"âŒ Error: {e}")
 
 
 def demo_graphql_evolutions():
@@ -221,7 +221,7 @@ def demo_graphql_evolutions():
         data = response.json()
 
         if 'errors' in data:
-            print(f"❌ GraphQL Error: {data['errors']}")
+            print(f"âŒ GraphQL Error: {data['errors']}")
             return
 
         evolutions = data['data']['evolutions']
@@ -236,20 +236,20 @@ def demo_graphql_evolutions():
         for evo in evolutions:
             timestamp = time.strftime(
                 '%Y-%m-%d %H:%M:%S', time.localtime(evo['timestamp']))
-            print(f"🔄 [{timestamp}] {evo['topic']}")
+            print(f"ðŸ”„ [{timestamp}] {evo['topic']}")
             print(f"   Issue: {evo['failureReason']}")
             print(f"   Fix: {evo['appliedFix']}")
             print(f"   Improvement: {evo['observedImprovement']:+.2%}\n")
 
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"âŒ Error: {e}")
 
 
 def main():
     """Run all demonstrations"""
-    print("\n" + "🔮"*30)
+    print("\n" + "ðŸ”®"*30)
     print("  CHIMERA AUTARCH v2.1 - New Features Demo")
-    print("🔮"*30)
+    print("ðŸ”®"*30)
 
     print(f"\nConnecting to: {CHIMERA_BASE_URL}")
     print("Make sure CHIMERA is running (python chimera_autarch.py)\n")
@@ -278,10 +278,10 @@ def main():
     demo_graphql_evolutions()
 
     print("\n" + "="*60)
-    print("  Demo Complete! 🎉")
+    print("  Demo Complete! ðŸŽ‰")
     print("="*60)
     print("\nNext steps:")
-    print("  1. Visit http://localhost:8000/graphql for interactive queries")
+    print("  1. Visit http://localhost:3000/graphql for interactive queries")
     print("  2. Try natural language commands via ws_client.py:")
     print("     - 'show system stats'")
     print("     - 'read file config.yaml'")
@@ -296,5 +296,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\n\nDemo interrupted by user.")
     except Exception as e:
-        print(f"\n\n❌ Unexpected error: {e}")
-        print("Make sure CHIMERA is running on http://localhost:8000")
+        print(f"\n\nâŒ Unexpected error: {e}")
+        print("Make sure CHIMERA is running on http://localhost:3000")
+

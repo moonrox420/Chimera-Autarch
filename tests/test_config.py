@@ -1,4 +1,4 @@
-"""
+﻿"""
 Unit tests for CHIMERA AUTARCH configuration system
 """
 import unittest
@@ -7,12 +7,19 @@ import tempfile
 from pathlib import Path
 import sys
 
-# Add parent directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add src directory to path
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from config import (
-    ChimeraConfig, ServerConfig, MetacognitiveConfig, PersistenceConfig,
-    NodeConfig, FederatedLearningConfig, LoggingConfig, load_config, save_default_config
+    Settings as ChimeraConfig,
+    ServerSettings as ServerConfig,
+    MetacognitiveSettings as MetacognitiveConfig,
+    PersistenceSettings as PersistenceConfig,
+    NodeSettings as NodeConfig,
+    FederatedLearningSettings as FederatedLearningConfig,
+    LoggingSettings as LoggingConfig,
+    get_settings as load_config,
+    save_default_config
 )
 
 
@@ -34,8 +41,8 @@ class TestConfigLoading(unittest.TestCase):
         """Test loading default configuration"""
         config = load_config(str(self.config_file))  # Non-existent file
         
-        self.assertEqual(config.server.websocket_port, 8765)
-        self.assertEqual(config.server.http_port, 8000)
+        self.assertEqual(config.server.websocket_port, 3001)
+        self.assertEqual(config.server.http_port, 3000)
         self.assertEqual(config.metacognitive.confidence_threshold, 0.6)
         self.assertEqual(config.persistence.database_path, "chimera_memory.db")
     
@@ -44,7 +51,7 @@ class TestConfigLoading(unittest.TestCase):
         # Create test config
         yaml_content = """
 server:
-  websocket_port: 9000
+  websocket_port: 3000
   http_port: 9001
   
 metacognitive:
@@ -57,7 +64,7 @@ persistence:
         
         config = load_config(str(self.config_file))
         
-        self.assertEqual(config.server.websocket_port, 9000)
+        self.assertEqual(config.server.websocket_port, 3000)
         self.assertEqual(config.server.http_port, 9001)
         self.assertEqual(config.metacognitive.confidence_threshold, 0.7)
         self.assertEqual(config.persistence.database_path, "test_db.db")
@@ -69,7 +76,7 @@ persistence:
         os.environ["CHIMERA_METACOGNITIVE_CONFIDENCE_THRESHOLD"] = "0.8"
         
         try:
-            config = load_config(str(self.config_file))
+            config = load_config()  # Don't pass config file for env var test
             
             self.assertEqual(config.server.websocket_port, 10000)
             self.assertEqual(config.metacognitive.confidence_threshold, 0.8)
@@ -86,7 +93,7 @@ persistence:
         
         # Load saved config
         config = load_config(str(self.config_file))
-        self.assertEqual(config.server.websocket_port, 8765)
+        self.assertEqual(config.server.websocket_port, 3001)
 
 
 class TestConfigValues(unittest.TestCase):
@@ -97,9 +104,9 @@ class TestConfigValues(unittest.TestCase):
         config = ServerConfig()
         
         self.assertEqual(config.websocket_host, "localhost")
-        self.assertEqual(config.websocket_port, 8765)
+        self.assertEqual(config.websocket_port, 3001)
         self.assertEqual(config.http_host, "localhost")
-        self.assertEqual(config.http_port, 8000)
+        self.assertEqual(config.http_port, 3000)
         self.assertFalse(config.ssl_enabled)
     
     def test_metacognitive_config_defaults(self):
@@ -123,3 +130,4 @@ class TestConfigValues(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

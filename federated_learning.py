@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
-Flower optional import – guarded at runtime
+Flower optional import â€“ guarded at runtime
 
 This module implements the exact optional import pattern requested:
 - Graceful fallback when Flower is not installed
@@ -39,9 +39,9 @@ class FlowerIntegration:
         self.logger = __import__('logging').getLogger(__name__)
         
         if FLOWER_AVAILABLE:
-            self.logger.info("🌸 Flower framework available - real federated learning enabled")
+            self.logger.info("ðŸŒ¸ Flower framework available - real federated learning enabled")
         else:
-            self.logger.info("🎭 Flower framework not available - using mock implementation")
+            self.logger.info("ðŸŽ­ Flower framework not available - using mock implementation")
     
     def is_flower_available(self) -> bool:
         """Check if Flower framework is available"""
@@ -72,3 +72,4 @@ __all__ = [
     'FlowerIntegration',
     'get_flower_status'
 ]
+

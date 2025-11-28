@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 DroxAI Consumer Launcher
 Single entry point for end users - handles environment setup and service orchestration
@@ -65,9 +65,9 @@ class DroxAILauncher:
             },
             "Server": {
                 "WebSocketHost": "localhost",
-                "WebSocketPort": 8765,
+                "WebSocketPort": 3001,
                 "HttpHost": "localhost",
-                "HttpPort": 8000,
+                "HttpPort": 3000,
                 "SSLEnabled": False,
                 "SSLCertPath": "",
                 "SSLKeyPath": ""
@@ -89,7 +89,7 @@ class DroxAILauncher:
                 "NodeTimeout": 90.0
             },
             "FederatedLearning": {
-                "ServerAddress": "0.0.0.0:8080",
+                "ServerAddress": "127.0.0.1:8080",
                 "DefaultRounds": 3,
                 "MinRounds": 3,
                 "MaxRounds": 10
@@ -244,7 +244,7 @@ class DroxAILauncher:
     def open_web_interface(self, config: dict) -> None:
         """Open web interface in default browser"""
         host = config.get("Server", {}).get("HttpHost", "localhost")
-        port = config.get("Server", {}).get("HttpPort", 8000)
+        port = config.get("Server", {}).get("HttpPort", 3000)
         
         # Wait a moment for server to be ready
         time.sleep(2)
@@ -288,8 +288,8 @@ class DroxAILauncher:
             print("[DroxAI]  DroxAI is now running!")
             print("[DroxAI] ====================================================")
             print()
-            print(f"[DroxAI] Web Interface: http://localhost:{config.get('Server', {}).get('HttpPort', 8000)}")
-            print(f"[DroxAI] WebSocket API: ws://localhost:{config.get('Server', {}).get('WebSocketPort', 8765)}")
+            print(f"[DroxAI] Web Interface: http://localhost:{config.get('Server', {}).get('HttpPort', 3000)}")
+            print(f"[DroxAI] WebSocket API: ws://localhost:{config.get('Server', {}).get('WebSocketPort', 3001)}")
             print()
             print("[DroxAI] Press Ctrl+C to stop the application")
             print()
@@ -339,3 +339,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

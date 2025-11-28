@@ -91,9 +91,9 @@ result = await reload.execute_tool_versioned(
 
 ```bash
 # Core
-GET  http://localhost:8000              # Dashboard
-GET  http://localhost:8000/metrics      # All metrics
-WS   ws://localhost:8765                # WebSocket
+GET  http://localhost:3000              # Dashboard
+GET  http://localhost:3000/metrics      # All metrics
+WS   ws://localhost:3001                # WebSocket
 
 # v3.0 Endpoints
 POST /api/auth/login                    # JWT authentication
@@ -132,7 +132,7 @@ export CHIMERA_ENABLE_SWARM="true"
 ## Metrics
 
 ```bash
-curl http://localhost:8000/metrics | jq
+curl http://localhost:3000/metrics | jq
 
 {
   "llm": {

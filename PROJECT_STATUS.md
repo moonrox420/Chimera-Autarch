@@ -76,7 +76,7 @@ Drox_AI/
 .\run_tests.ps1 -Coverage
 
 # Access dashboard
-http://localhost:8000
+http://localhost:3000
 ```
 
 ### Docker Deployment
@@ -101,8 +101,8 @@ docker-compose down
 ### Key Settings
 ```yaml
 server:
-  websocket_port: 8765
-  http_port: 8000
+  websocket_port: 3001
+  http_port: 3000
   
 metacognitive:
   confidence_threshold: 0.6
@@ -118,7 +118,7 @@ persistence:
 - **Lines of Code**: ~1,480 (main) + ~300 (config) + ~250 (tests)
 - **Test Coverage**: Core components covered
 - **Dependencies**: 8 required, 3 optional (testing)
-- **Ports Used**: 8765 (WebSocket), 8000 (HTTP), 8080 (Federated Learning)
+- **Ports Used**: 3001 (WebSocket), 3000 (HTTP), 8080 (Federated Learning)
 
 ## 🎯 Key Features
 
@@ -152,7 +152,7 @@ persistence:
 1. Run full test suite: `.\run_tests.ps1 -Coverage`
 2. Review configuration: `config.example.yaml`
 3. Test Docker deployment: `docker-compose up`
-4. Verify dashboard: `http://localhost:8000`
+4. Verify dashboard: `http://localhost:3000`
 
 ### Future Enhancements
 - [ ] Integration tests for WebSocket protocol

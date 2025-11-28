@@ -1,56 +1,64 @@
-# Multi-stage build for CHIMERA AUTARCH
-FROM python:3.12-slim as builder
+﻿# Multi-stage Docker build for CHIMERA AUTARCH
 
-# Set working directory
-WORKDIR /app
+# Build stage
+FROM python:3.12-slim AS builder
 
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  gcc \
-  g++ \
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+  PYTHONUNBUFFERED=1 \
+  PIP_NO_CACHE_DIR=1 \
+  PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+  build-essential \
   && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-# Final stage
+# Install Python dependencies
+COPY requirements/ /tmp/requirements/
+RUN pip install --upgrade pip && \
+  pip install -r /tmp/requirements/base.txt
+
+# Production stage
 FROM python:3.12-slim
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+  curl \
+  && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd --create-home --shell /bin/bash chimera
+
+# Copy virtual environment
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Set working directory
 WORKDIR /app
 
-# Copy Python dependencies from builder
-COPY --from=builder /root/.local /root/.local
+# Copy application code
+COPY src/ ./src/
+COPY config.yaml ./config.yaml
 
-# Make sure scripts in .local are usable
-ENV PATH=/root/.local/bin:$PATH
+# Create data directories
+RUN mkdir -p data/backups logs && \
+  chown -R chimera:chimera /app
 
-# Copy application files
-COPY chimera_autarch.py .
-COPY ws_client.py .
-COPY config.py* ./
-
-# Create directories for persistence
-RUN mkdir -p /app/backups /app/logs /app/ssl
-
-# Expose ports
-EXPOSE 8765 8000 8080
+# Switch to non-root user
+USER chimera
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/metrics')" || exit 1
+  CMD curl -f http://localhost:3000/api/health || exit 1
 
-# Run as non-root user for security
-RUN useradd -m -u 1000 chimera && \
-  chown -R chimera:chimera /app
-USER chimera
+# Expose ports
+EXPOSE 3000 3001
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1 \
-  CHIMERA_PERSISTENCE_DATABASE_PATH=/app/chimera_memory.db \
-  CHIMERA_PERSISTENCE_BACKUP_DIR=/app/backups \
-  CHIMERA_LOGGING_FILE_PATH=/app/logs/chimera.log
+# Default command
+CMD ["python", "-m", "src.main", "server"]
 
-# Start CHIMERA
-CMD ["python", "chimera_autarch.py"]

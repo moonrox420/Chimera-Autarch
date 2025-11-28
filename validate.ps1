@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
     Validate CHIMERA AUTARCH installation and configuration
@@ -22,7 +22,7 @@ function Write-Status {
 }
 
 Write-Host ""
-Write-Host "🔍 CHIMERA AUTARCH System Validation" -ForegroundColor Cyan
+Write-Host "ðŸ” CHIMERA AUTARCH System Validation" -ForegroundColor Cyan
 Write-Host "=====================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -30,7 +30,7 @@ $Issues = 0
 $Warnings = 0
 
 # Check Python version
-Write-Host "🐍 Python Environment" -ForegroundColor Yellow
+Write-Host "ðŸ Python Environment" -ForegroundColor Yellow
 Write-Host "---------------------" -ForegroundColor Yellow
 $PythonVersion = python --version 2>&1
 if ($LASTEXITCODE -eq 0) {
@@ -38,7 +38,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Status "Python version: $PythonVersion" "OK"
   }
   else {
-    Write-Status "Python version: $PythonVersion (3.12+ recommended)" "WARN"
+    Write-Status "Python version: $PythonVersion (3.12 + recommended)" "WARN"
     $Warnings++
   }
 }
@@ -68,7 +68,7 @@ else {
 Write-Host ""
 
 # Check required files
-Write-Host "📁 Project Files" -ForegroundColor Yellow
+Write-Host "ðŸ“ Project Files" -ForegroundColor Yellow
 Write-Host "----------------" -ForegroundColor Yellow
 
 $RequiredFiles = @(
@@ -111,7 +111,7 @@ foreach ($File in $OptionalFiles) {
 Write-Host ""
 
 # Check dependencies
-Write-Host "📦 Dependencies" -ForegroundColor Yellow
+Write-Host "ðŸ“¦ Dependencies" -ForegroundColor Yellow
 Write-Host "---------------" -ForegroundColor Yellow
 
 $RequiredPackages = @(
@@ -174,7 +174,7 @@ foreach ($Package in $TestPackages) {
 Write-Host ""
 
 # Check syntax
-Write-Host "🔧 Syntax Validation" -ForegroundColor Yellow
+Write-Host "ðŸ”§ Syntax Validation" -ForegroundColor Yellow
 Write-Host "---------------------" -ForegroundColor Yellow
 
 $PythonFiles = @("chimera_autarch.py", "config.py", "ws_client.py")
@@ -194,10 +194,10 @@ foreach ($File in $PythonFiles) {
 Write-Host ""
 
 # Check ports
-Write-Host "🌐 Port Availability" -ForegroundColor Yellow
+Write-Host "ðŸŒ Port Availability" -ForegroundColor Yellow
 Write-Host "---------------------" -ForegroundColor Yellow
 
-$Ports = @(8765, 8000, 8080)
+$Ports = @(3001, 3000, 8080)
 foreach ($Port in $Ports) {
   $Connection = Get-NetTCPConnection -LocalPort $Port -ErrorAction SilentlyContinue
   if ($Connection) {
@@ -212,7 +212,7 @@ foreach ($Port in $Ports) {
 Write-Host ""
 
 # Check Docker (if available)
-Write-Host "🐳 Docker Support" -ForegroundColor Yellow
+Write-Host "ðŸ³ Docker Support" -ForegroundColor Yellow
 Write-Host "-----------------" -ForegroundColor Yellow
 
 $DockerInstalled = Get-Command docker -ErrorAction SilentlyContinue
@@ -234,7 +234,7 @@ else {
 Write-Host ""
 
 # Check database
-Write-Host "💾 Persistence" -ForegroundColor Yellow
+Write-Host "ðŸ’¾ Persistence" -ForegroundColor Yellow
 Write-Host "--------------" -ForegroundColor Yellow
 
 if (Test-Path "chimera_memory.db") {
@@ -256,34 +256,35 @@ else {
 Write-Host ""
 
 # Summary
-Write-Host "📊 Validation Summary" -ForegroundColor Cyan
+Write-Host "ðŸ“Š Validation Summary" -ForegroundColor Cyan
 Write-Host "=====================" -ForegroundColor Cyan
 Write-Host ""
 
 if ($Issues -eq 0 -and $Warnings -eq 0) {
-  Write-Host "✅ All checks passed! System is ready." -ForegroundColor Green
+  Write-Host "âœ… All checks passed! System is ready." -ForegroundColor Green
   Write-Host ""
   Write-Host "Next steps:" -ForegroundColor Cyan
   Write-Host "  1. Start the system: .\start.ps1" -ForegroundColor White
   Write-Host "  2. Run tests: .\run_tests.ps1" -ForegroundColor White
-  Write-Host "  3. Open dashboard: http://localhost:8000" -ForegroundColor White
+  Write-Host "  3. Open dashboard: http://localhost:3000" -ForegroundColor White
   exit 0
 }
 elseif ($Issues -eq 0) {
-  Write-Host "⚠️  $Warnings warning(s) found, but system should work." -ForegroundColor Yellow
+  Write-Host "âš ï¸  $Warnings warning(s) found, but system should work." -ForegroundColor Yellow
   Write-Host ""
   Write-Host "You can proceed with:" -ForegroundColor Cyan
   Write-Host "  .\start.ps1" -ForegroundColor White
   exit 0
 }
 else {
-  Write-Host "❌ $Issues critical issue(s) found, $Warnings warning(s)." -ForegroundColor Red
+  Write-Host "âŒ $Issues critical issue(s) found, $Warnings warning(s)." -ForegroundColor Red
   Write-Host ""
   Write-Host "Please fix the issues above before starting the system." -ForegroundColor Yellow
   Write-Host ""
   Write-Host "Common fixes:" -ForegroundColor Cyan
-  Write-Host "  • Install Python 3.12+: https://www.python.org/downloads/" -ForegroundColor White
-  Write-Host "  • Create virtual environment: python -m venv droxai-env" -ForegroundColor White
-  Write-Host "  • Install dependencies: pip install -r requirements.txt" -ForegroundColor White
+  Write-Host "  â€¢ Install Python 3.12+: https://www.python.org/downloads/" -ForegroundColor White
+  Write-Host "  â€¢ Create virtual environment: python -m venv droxai-env" -ForegroundColor White
+  Write-Host "  â€¢ Install dependencies: pip install -r requirements.txt" -ForegroundColor White
   exit 1
 }
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA AUTARCH - Hot Code Reload Module
 Dynamic module reloading without restart, versioned tool registry
@@ -442,3 +442,4 @@ class HotReloadManager:
             "module_stats": self.module_reloader.get_reload_stats(),
             "tool_stats": self.tool_registry.get_stats()
         }
+

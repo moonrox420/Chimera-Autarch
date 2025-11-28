@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 System Prompt Effectiveness Evaluator for AI Agents
 Analyzes prompt quality, effectiveness, clarity, and behavioral consistency
@@ -784,3 +784,4 @@ if __name__ == "__main__":
     # Generate and print report
     report = evaluator.generate_comprehensive_report(results)
     print(report)
+

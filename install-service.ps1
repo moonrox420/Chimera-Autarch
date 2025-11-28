@@ -1,4 +1,4 @@
-# CHIMERA AUTARCH - Windows Service Installer
+﻿# CHIMERA AUTARCH - Windows Service Installer
 # Install CHIMERA as a Windows service using NSSM
 # Runs on boot, completely independent of VS Code or any IDE
 
@@ -42,7 +42,7 @@ if (-not (Test-Path $NssmPath)) {
   exit 1
 }
 
-Write-Success "✓ Found NSSM at: $NssmPath"
+Write-Success "âœ“ Found NSSM at: $NssmPath"
 
 # Verify CHIMERA directory
 if (-not (Test-Path $ChimeraPath)) {
@@ -51,7 +51,7 @@ if (-not (Test-Path $ChimeraPath)) {
   exit 1
 }
 
-Write-Success "✓ Found CHIMERA at: $ChimeraPath"
+Write-Success "âœ“ Found CHIMERA at: $ChimeraPath"
 
 # Check for Python
 $pythonPath = Get-Command python -ErrorAction SilentlyContinue
@@ -62,7 +62,7 @@ if (-not $pythonPath) {
 }
 
 $pythonVersion = & python --version 2>&1
-Write-Success "✓ Python version: $pythonVersion"
+Write-Success "âœ“ Python version: $pythonVersion"
 
 # Check for virtual environment
 $venvPath = Join-Path $ChimeraPath "venv"
@@ -70,7 +70,7 @@ if (-not (Test-Path $venvPath)) {
   Write-Info "Creating virtual environment..."
   Set-Location $ChimeraPath
   & python -m venv venv
-  Write-Success "✓ Virtual environment created"
+  Write-Success "âœ“ Virtual environment created"
 }
 
 $pythonExe = Join-Path $venvPath "Scripts\python.exe"
@@ -87,8 +87,8 @@ if (-not (Test-Path $chimeraScript)) {
   exit 1
 }
 
-Write-Success "✓ Python executable: $pythonExe"
-Write-Success "✓ CHIMERA script: $chimeraScript"
+Write-Success "âœ“ Python executable: $pythonExe"
+Write-Success "âœ“ CHIMERA script: $chimeraScript"
 Write-Host ""
 
 # Handle commands
@@ -115,7 +115,7 @@ if ($Status) {
 if ($Stop) {
   Write-Info "Stopping service..."
   & sc.exe stop $ServiceName
-  Write-Success "✓ Service stopped"
+  Write-Success "âœ“ Service stopped"
   exit 0
 }
 
@@ -125,18 +125,18 @@ if ($Start) {
   Start-Sleep -Seconds 2
   $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
   if ($service.Status -eq 'Running') {
-    Write-Success "✓ Service started successfully"
-    Write-Host ""
-    Write-Info "Access CHIMERA at:"
-    Write-Host "  • Dashboard: http://localhost:8000"
-    Write-Host "  • WebSocket: ws://localhost:8765"
-    Write-Host "  • Metrics: http://localhost:8000/metrics"
-  }
-  else {
-    Write-Error "ERROR: Service failed to start"
-    Write-Info "Check logs with: Get-EventLog -LogName Application -Source $ServiceName -Newest 10"
-  }
-  exit 0
+    Write-Success "âœ“ Service started successfully"
+  Write-Host ""
+  Write-Info "Access CHIMERA at:"
+  Write-Host "  â€¢ Dashboard: http://localhost:3000"
+  Write-Host "  â€¢ WebSocket: ws://localhost:3001"
+  Write-Host "  â€¢ Metrics: http://localhost:3000/metrics"
+}
+else {
+  Write-Error "ERROR: Service failed to start"
+  Write-Info "Check logs with: Get-EventLog -LogName Application -Source $ServiceName -Newest 10"
+}
+exit 0
 }
 
 if ($Uninstall) {
@@ -154,7 +154,7 @@ if ($Uninstall) {
   Write-Info "Removing service..."
   & $NssmPath remove $ServiceName confirm
     
-  Write-Success "✓ Service uninstalled"
+  Write-Success "âœ“ Service uninstalled"
   exit 0
 }
 
@@ -178,45 +178,45 @@ Write-Info "Installing Python dependencies..."
 Set-Location $ChimeraPath
 & $pythonExe -m pip install --upgrade pip -q
 & $pythonExe -m pip install -r requirements.txt -q
-Write-Success "✓ Dependencies installed"
-Write-Host ""
+Write-Success "âœ“ Dependencies installed"
+  Write-Host ""
 
-# Install service with NSSM
-Write-Info "Installing service with NSSM..."
-& $NssmPath install $ServiceName $pythonExe $chimeraScript
+  # Install service with NSSM
+  Write-Info "Installing service with NSSM..."
+  & $NssmPath install $ServiceName $pythonExe $chimeraScript
 
-# Configure service
-Write-Info "Configuring service..."
-& $NssmPath set $ServiceName AppDirectory $ChimeraPath
-& $NssmPath set $ServiceName DisplayName "CHIMERA AUTARCH - AI Orchestrator"
-& $NssmPath set $ServiceName Description "Self-evolving AI orchestration system with real-time event streaming"
-& $NssmPath set $ServiceName Start SERVICE_AUTO_START
+  # Configure service
+  Write-Info "Configuring service..."
+  & $NssmPath set $ServiceName AppDirectory $ChimeraPath
+  & $NssmPath set $ServiceName DisplayName "CHIMERA AUTARCH - AI Orchestrator"
+  & $NssmPath set $ServiceName Description "Self-evolving AI orchestration system with real-time event streaming"
+  & $NssmPath set $ServiceName Start SERVICE_AUTO_START
 
-# Set output/error logs
-$logDir = Join-Path $ChimeraPath "logs"
-if (-not (Test-Path $logDir)) {
-  New-Item -ItemType Directory -Path $logDir | Out-Null
-}
+  # Set output/error logs
+  $logDir = Join-Path $ChimeraPath "logs"
+  if (-not (Test-Path $logDir)) {
+    New-Item -ItemType Directory -Path $logDir | Out-Null
+  }
 
-$stdoutLog = Join-Path $logDir "chimera-stdout.log"
-$stderrLog = Join-Path $logDir "chimera-stderr.log"
+  $stdoutLog = Join-Path $logDir "chimera-stdout.log"
+  $stderrLog = Join-Path $logDir "chimera-stderr.log"
 
-& $NssmPath set $ServiceName AppStdout $stdoutLog
-& $NssmPath set $ServiceName AppStderr $stderrLog
+  & $NssmPath set $ServiceName AppStdout $stdoutLog
+  & $NssmPath set $ServiceName AppStderr $stderrLog
 
-# Set restart behavior
-& $NssmPath set $ServiceName AppExit Default Restart
-& $NssmPath set $ServiceName AppRestartDelay 10000  # 10 seconds
+  # Set restart behavior
+  & $NssmPath set $ServiceName AppExit Default Restart
+  & $NssmPath set $ServiceName AppRestartDelay 10000  # 10 seconds
 
-Write-Success "✓ Service configured"
+  Write-Success "âœ“ Service configured"
 Write-Host ""
 
 # Configure Windows Firewall
 Write-Info "Configuring Windows Firewall..."
 try {
-  New-NetFirewallRule -DisplayName "CHIMERA HTTP" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow -ErrorAction SilentlyContinue | Out-Null
-  New-NetFirewallRule -DisplayName "CHIMERA WebSocket" -Direction Inbound -Protocol TCP -LocalPort 8765 -Action Allow -ErrorAction SilentlyContinue | Out-Null
-  Write-Success "✓ Firewall rules created"
+  New-NetFirewallRule -DisplayName "CHIMERA HTTP" -Direction Inbound -Protocol TCP -LocalPort 3000 -Action Allow -ErrorAction SilentlyContinue | Out-Null
+  New-NetFirewallRule -DisplayName "CHIMERA WebSocket" -Direction Inbound -Protocol TCP -LocalPort 3001 -Action Allow -ErrorAction SilentlyContinue | Out-Null
+  Write-Success "âœ“ Firewall rules created"
 }
 catch {
   Write-Warning "Could not create firewall rules (may already exist)"
@@ -233,43 +233,43 @@ $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
 if ($service.Status -eq 'Running') {
   Write-Host ""
   Write-Host "============================================================" -ForegroundColor Green
-  Write-Success "✓ CHIMERA SERVICE INSTALLED AND RUNNING!"
+  Write-Success "âœ“ CHIMERA SERVICE INSTALLED AND RUNNING!"
   Write-Host "============================================================" -ForegroundColor Green
   Write-Host ""
     
   Write-Info "Service Details:"
-  Write-Host "  • Name: $ServiceName"
-  Write-Host "  • Status: $($service.Status)"
-  Write-Host "  • Startup: Automatic (runs on boot)"
-  Write-Host "  • Logs: $logDir"
+  Write-Host "  â€¢ Name: $ServiceName"
+  Write-Host "  â€¢ Status: $($service.Status)"
+  Write-Host "  â€¢ Startup: Automatic (runs on boot)"
+  Write-Host "  â€¢ Logs: $logDir"
   Write-Host ""
     
   Write-Info "Access CHIMERA:"
-  Write-Host "  • Dashboard: http://localhost:8000"
-  Write-Host "  • WebSocket: ws://localhost:8765"
-  Write-Host "  • Metrics: http://localhost:8000/metrics"
-  Write-Host "  • GraphQL: http://localhost:8000/graphql"
+  Write-Host "  â€¢ Dashboard: http://localhost:3000"
+  Write-Host "  â€¢ WebSocket: ws://localhost:3001"
+  Write-Host "  â€¢ Metrics: http://localhost:3000/metrics"
+  Write-Host "  â€¢ GraphQL: http://localhost:3000/graphql"
   Write-Host ""
     
   # Get local IP
   $localIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -notlike "*Loopback*" -and $_.IPAddress -notlike "169.*" } | Select-Object -First 1).IPAddress
   if ($localIP) {
     Write-Info "Network Access (from other devices):"
-    Write-Host "  • http://$localIP:8000"
+    Write-Host "  â€¢ http://$localIP:3000"
     Write-Host ""
   }
     
   Write-Info "Service Management:"
-  Write-Host "  • View status: .\install-service.ps1 -Status"
-  Write-Host "  • Stop service: .\install-service.ps1 -Stop"
-  Write-Host "  • Start service: .\install-service.ps1 -Start"
-  Write-Host "  • Uninstall: .\install-service.ps1 -Uninstall"
-  Write-Host "  • View logs: Get-Content $stdoutLog -Tail 50 -Wait"
+  Write-Host "  â€¢ View status: .\install-service.ps1 -Status"
+  Write-Host "  â€¢ Stop service: .\install-service.ps1 -Stop"
+  Write-Host "  â€¢ Start service: .\install-service.ps1 -Start"
+  Write-Host "  â€¢ Uninstall: .\install-service.ps1 -Uninstall"
+  Write-Host "  â€¢ View logs: Get-Content $stdoutLog -Tail 50 -Wait"
   Write-Host ""
     
-  Write-Success "✓ CHIMERA is now running independently!"
-  Write-Success "✓ No VS Code needed, no manual starting required"
-  Write-Success "✓ Auto-starts on Windows boot"
+  Write-Success "âœ“ CHIMERA is now running independently!"
+  Write-Success "âœ“ No VS Code needed, no manual starting required"
+  Write-Success "âœ“ Auto-starts on Windows boot"
   Write-Host ""
     
 }
@@ -323,7 +323,7 @@ if (-not (Test-Path $NssmPath)) {
   exit 1
 }
 
-Write-Success "✓ Found NSSM at: $NssmPath"
+Write-Success "âœ“ Found NSSM at: $NssmPath"
 
 # Verify CHIMERA directory
 if (-not (Test-Path $ChimeraPath)) {
@@ -332,7 +332,7 @@ if (-not (Test-Path $ChimeraPath)) {
   exit 1
 }
 
-Write-Success "✓ Found CHIMERA at: $ChimeraPath"
+Write-Success "âœ“ Found CHIMERA at: $ChimeraPath"
 
 # Check for Python
 $pythonPath = Get-Command python -ErrorAction SilentlyContinue
@@ -343,7 +343,7 @@ if (-not $pythonPath) {
 }
 
 $pythonVersion = & python --version 2>&1
-Write-Success "✓ Python version: $pythonVersion"
+Write-Success "âœ“ Python version: $pythonVersion"
 
 # Check for virtual environment
 $venvPath = Join-Path $ChimeraPath "venv"
@@ -351,7 +351,7 @@ if (-not (Test-Path $venvPath)) {
   Write-Info "Creating virtual environment..."
   Set-Location $ChimeraPath
   & python -m venv venv
-  Write-Success "✓ Virtual environment created"
+  Write-Success "âœ“ Virtual environment created"
 }
 
 $pythonExe = Join-Path $venvPath "Scripts\python.exe"
@@ -368,8 +368,8 @@ if (-not (Test-Path $chimeraScript)) {
   exit 1
 }
 
-Write-Success "✓ Python executable: $pythonExe"
-Write-Success "✓ CHIMERA script: $chimeraScript"
+Write-Success "âœ“ Python executable: $pythonExe"
+Write-Success "âœ“ CHIMERA script: $chimeraScript"
 Write-Host ""
 
 # Handle commands
@@ -396,7 +396,7 @@ if ($Status) {
 if ($Stop) {
   Write-Info "Stopping service..."
   & sc.exe stop $ServiceName
-  Write-Success "✓ Service stopped"
+  Write-Success "âœ“ Service stopped"
   exit 0
 }
 
@@ -406,18 +406,18 @@ if ($Start) {
   Start-Sleep -Seconds 2
   $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
   if ($service.Status -eq 'Running') {
-    Write-Success "✓ Service started successfully"
-    Write-Host ""
-    Write-Info "Access CHIMERA at:"
-    Write-Host "  • Dashboard: http://localhost:8000"
-    Write-Host "  • WebSocket: ws://localhost:8765"
-    Write-Host "  • Metrics: http://localhost:8000/metrics"
-  }
-  else {
-    Write-Error "ERROR: Service failed to start"
-    Write-Info "Check logs with: Get-EventLog -LogName Application -Source $ServiceName -Newest 10"
-  }
-  exit 0
+    Write-Success "âœ“ Service started successfully"
+  Write-Host ""
+  Write-Info "Access CHIMERA at:"
+  Write-Host "  â€¢ Dashboard: http://localhost:3000"
+  Write-Host "  â€¢ WebSocket: ws://localhost:3001"
+  Write-Host "  â€¢ Metrics: http://localhost:3000/metrics"
+}
+else {
+  Write-Error "ERROR: Service failed to start"
+  Write-Info "Check logs with: Get-EventLog -LogName Application -Source $ServiceName -Newest 10"
+}
+exit 0
 }
 
 if ($Uninstall) {
@@ -435,7 +435,7 @@ if ($Uninstall) {
   Write-Info "Removing service..."
   & $NssmPath remove $ServiceName confirm
     
-  Write-Success "✓ Service uninstalled"
+  Write-Success "âœ“ Service uninstalled"
   exit 0
 }
 
@@ -459,45 +459,45 @@ Write-Info "Installing Python dependencies..."
 Set-Location $ChimeraPath
 & $pythonExe -m pip install --upgrade pip -q
 & $pythonExe -m pip install -r requirements.txt -q
-Write-Success "✓ Dependencies installed"
-Write-Host ""
+Write-Success "âœ“ Dependencies installed"
+  Write-Host ""
 
-# Install service with NSSM
-Write-Info "Installing service with NSSM..."
-& $NssmPath install $ServiceName $pythonExe $chimeraScript
+  # Install service with NSSM
+  Write-Info "Installing service with NSSM..."
+  & $NssmPath install $ServiceName $pythonExe $chimeraScript
 
-# Configure service
-Write-Info "Configuring service..."
-& $NssmPath set $ServiceName AppDirectory $ChimeraPath
-& $NssmPath set $ServiceName DisplayName "CHIMERA AUTARCH - AI Orchestrator"
-& $NssmPath set $ServiceName Description "Self-evolving AI orchestration system with real-time event streaming"
-& $NssmPath set $ServiceName Start SERVICE_AUTO_START
+  # Configure service
+  Write-Info "Configuring service..."
+  & $NssmPath set $ServiceName AppDirectory $ChimeraPath
+  & $NssmPath set $ServiceName DisplayName "CHIMERA AUTARCH - AI Orchestrator"
+  & $NssmPath set $ServiceName Description "Self-evolving AI orchestration system with real-time event streaming"
+  & $NssmPath set $ServiceName Start SERVICE_AUTO_START
 
-# Set output/error logs
-$logDir = Join-Path $ChimeraPath "logs"
-if (-not (Test-Path $logDir)) {
-  New-Item -ItemType Directory -Path $logDir | Out-Null
-}
+  # Set output/error logs
+  $logDir = Join-Path $ChimeraPath "logs"
+  if (-not (Test-Path $logDir)) {
+    New-Item -ItemType Directory -Path $logDir | Out-Null
+  }
 
-$stdoutLog = Join-Path $logDir "chimera-stdout.log"
-$stderrLog = Join-Path $logDir "chimera-stderr.log"
+  $stdoutLog = Join-Path $logDir "chimera-stdout.log"
+  $stderrLog = Join-Path $logDir "chimera-stderr.log"
 
-& $NssmPath set $ServiceName AppStdout $stdoutLog
-& $NssmPath set $ServiceName AppStderr $stderrLog
+  & $NssmPath set $ServiceName AppStdout $stdoutLog
+  & $NssmPath set $ServiceName AppStderr $stderrLog
 
-# Set restart behavior
-& $NssmPath set $ServiceName AppExit Default Restart
-& $NssmPath set $ServiceName AppRestartDelay 10000  # 10 seconds
+  # Set restart behavior
+  & $NssmPath set $ServiceName AppExit Default Restart
+  & $NssmPath set $ServiceName AppRestartDelay 10000  # 10 seconds
 
-Write-Success "✓ Service configured"
+  Write-Success "âœ“ Service configured"
 Write-Host ""
 
 # Configure Windows Firewall
 Write-Info "Configuring Windows Firewall..."
 try {
-  New-NetFirewallRule -DisplayName "CHIMERA HTTP" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow -ErrorAction SilentlyContinue | Out-Null
-  New-NetFirewallRule -DisplayName "CHIMERA WebSocket" -Direction Inbound -Protocol TCP -LocalPort 8765 -Action Allow -ErrorAction SilentlyContinue | Out-Null
-  Write-Success "✓ Firewall rules created"
+  New-NetFirewallRule -DisplayName "CHIMERA HTTP" -Direction Inbound -Protocol TCP -LocalPort 3000 -Action Allow -ErrorAction SilentlyContinue | Out-Null
+  New-NetFirewallRule -DisplayName "CHIMERA WebSocket" -Direction Inbound -Protocol TCP -LocalPort 3001 -Action Allow -ErrorAction SilentlyContinue | Out-Null
+  Write-Success "âœ“ Firewall rules created"
 }
 catch {
   Write-Warning "Could not create firewall rules (may already exist)"
@@ -514,43 +514,43 @@ $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
 if ($service.Status -eq 'Running') {
   Write-Host ""
   Write-Host "============================================================" -ForegroundColor Green
-  Write-Success "✓ CHIMERA SERVICE INSTALLED AND RUNNING!"
+  Write-Success "âœ“ CHIMERA SERVICE INSTALLED AND RUNNING!"
   Write-Host "============================================================" -ForegroundColor Green
   Write-Host ""
     
   Write-Info "Service Details:"
-  Write-Host "  • Name: $ServiceName"
-  Write-Host "  • Status: $($service.Status)"
-  Write-Host "  • Startup: Automatic (runs on boot)"
-  Write-Host "  • Logs: $logDir"
+  Write-Host "  â€¢ Name: $ServiceName"
+  Write-Host "  â€¢ Status: $($service.Status)"
+  Write-Host "  â€¢ Startup: Automatic (runs on boot)"
+  Write-Host "  â€¢ Logs: $logDir"
   Write-Host ""
     
   Write-Info "Access CHIMERA:"
-  Write-Host "  • Dashboard: http://localhost:8000"
-  Write-Host "  • WebSocket: ws://localhost:8765"
-  Write-Host "  • Metrics: http://localhost:8000/metrics"
-  Write-Host "  • GraphQL: http://localhost:8000/graphql"
+  Write-Host "  â€¢ Dashboard: http://localhost:3000"
+  Write-Host "  â€¢ WebSocket: ws://localhost:3001"
+  Write-Host "  â€¢ Metrics: http://localhost:3000/metrics"
+  Write-Host "  â€¢ GraphQL: http://localhost:3000/graphql"
   Write-Host ""
     
   # Get local IP
   $localIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -notlike "*Loopback*" -and $_.IPAddress -notlike "169.*" } | Select-Object -First 1).IPAddress
   if ($localIP) {
     Write-Info "Network Access (from other devices):"
-    Write-Host "  • http://$localIP:8000"
+    Write-Host "  â€¢ http://$localIP:3000"
     Write-Host ""
   }
     
   Write-Info "Service Management:"
-  Write-Host "  • View status: .\install-service.ps1 -Status"
-  Write-Host "  • Stop service: .\install-service.ps1 -Stop"
-  Write-Host "  • Start service: .\install-service.ps1 -Start"
-  Write-Host "  • Uninstall: .\install-service.ps1 -Uninstall"
-  Write-Host "  • View logs: Get-Content $stdoutLog -Tail 50 -Wait"
+  Write-Host "  â€¢ View status: .\install-service.ps1 -Status"
+  Write-Host "  â€¢ Stop service: .\install-service.ps1 -Stop"
+  Write-Host "  â€¢ Start service: .\install-service.ps1 -Start"
+  Write-Host "  â€¢ Uninstall: .\install-service.ps1 -Uninstall"
+  Write-Host "  â€¢ View logs: Get-Content $stdoutLog -Tail 50 -Wait"
   Write-Host ""
     
-  Write-Success "✓ CHIMERA is now running independently!"
-  Write-Success "✓ No VS Code needed, no manual starting required"
-  Write-Success "✓ Auto-starts on Windows boot"
+  Write-Success "âœ“ CHIMERA is now running independently!"
+  Write-Success "âœ“ No VS Code needed, no manual starting required"
+  Write-Success "âœ“ Auto-starts on Windows boot"
   Write-Host ""
     
 }
@@ -560,3 +560,4 @@ else {
   Write-Info "Check logs at: $stderrLog"
   Write-Info "Try starting manually: .\install-service.ps1 -Start"
 }
+

@@ -45,7 +45,7 @@ python chimera_autarch.py
 DroxAI is designed for natural, conversational interaction. Here are the main ways to communicate:
 
 #### 1. **Web Dashboard** (Visual Interface)
-- Open browser: `http://localhost:8000`
+- Open browser: `http://localhost:3000`
 - **Click, monitor, and control** through the web interface
 - View real-time metrics, logs, and system status
 
@@ -82,22 +82,22 @@ You can say things like:
 #### 3. **API Commands** (Programmatic)
 ```bash
 # Check system health
-curl http://localhost:8000/health
+curl http://localhost:3000/health
 
 # Generate code
-curl -X POST http://localhost:8000/api/llm/generate \
+curl -X POST http://localhost:3000/api/llm/generate \
   -H "Content-Type: application/json" \
   -d '{"prompt": "Create a REST API for user management"}'
 
 # Get metrics
-curl http://localhost:8000/metrics
+curl http://localhost:3000/metrics
 
 # Monitor events
-curl http://localhost:8000/api/events
+curl http://localhost:3000/api/events
 ```
 
 #### 4. **WebSocket** (Real-time)
-Connect to `ws://localhost:8765` for real-time updates and commands.
+Connect to `ws://localhost:3001` for real-time updates and commands.
 
 ---
 
@@ -180,14 +180,14 @@ Connect to `ws://localhost:8765` for real-time updates and commands.
 ## 🌐 Access Points
 
 ### Web Interface
-- **Dashboard**: `http://localhost:8000`
-- **Metrics**: `http://localhost:8000/metrics`
-- **API Docs**: `http://localhost:8000/docs`
+- **Dashboard**: `http://localhost:3000`
+- **Metrics**: `http://localhost:3000/metrics`
+- **API Docs**: `http://localhost:3000/docs`
 
 ### Programmatic Access
-- **REST API**: `http://localhost:8000/api/*`
-- **GraphQL**: `http://localhost:8000/graphql`
-- **WebSocket**: `ws://localhost:8765`
+- **REST API**: `http://localhost:3000/api/*`
+- **GraphQL**: `http://localhost:3000/graphql`
+- **WebSocket**: `ws://localhost:3001`
 
 ### Direct File Access
 - **3D Dashboard**: `dashboard_3d.html`
@@ -317,7 +317,7 @@ python chimera_autarch.py
 - Kill existing process: `taskkill /f /im python.exe`
 
 ### Getting Help
-- Check system status: `http://localhost:8000/health`
+- Check system status: `http://localhost:3000/health`
 - View logs: Check console output
 - Reset configuration: Delete `.env` file and restart
 
@@ -328,7 +328,7 @@ python chimera_autarch.py
 **DroxAI is designed to understand natural language and help you accomplish complex tasks. Start simple:**
 
 1. **Launch it**: `python chimera_autarch.py`
-2. **Open the dashboard**: `http://localhost:8000`
+2. **Open the dashboard**: `http://localhost:3000`
 3. **Talk to it naturally**: "Hey, can you help me with..."
 4. **Explore the features**: Try different requests and see what it can do
 

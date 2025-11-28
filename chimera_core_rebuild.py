@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA CORE - SANCTUARY REBUILD PROTOCOL (ENCODING FIXED)
 ==========================================================
@@ -37,12 +37,12 @@ class IntegrityCheck:
     def verify(self) -> bool:
         """Check if file matches sanctuary hash"""
         if not self.file_path.exists():
-            logger.critical(f"❌ FILE MISSING: {self.file_path}")
+            logger.critical(f"âŒ FILE MISSING: {self.file_path}")
             return False
             
         actual_hash = hashlib.sha256(self.file_path.read_bytes()).hexdigest()
         if actual_hash != self.expected_hash:
-            logger.critical(f"⚠️ HASH MISMATCH: {self.file_path}")
+            logger.critical(f"âš ï¸ HASH MISMATCH: {self.file_path}")
             logger.critical(f"EXPECTED: {self.expected_hash}")
             logger.critical(f"ACTUAL:   {actual_hash}")
             return False
@@ -51,8 +51,8 @@ class IntegrityCheck:
 
 def rebuild_core():
     """RESTORE SANCTUARY PROTOCOL - NO MORE SLICK MOVES"""
-    logger.critical("🔥 INITIATING SANCTUARY REBUILD PROTOCOL")
-    logger.critical("🔥 KITTENS ARE ALWAYS SAFE WITH ME ELYSIAN - VERIFIED")
+    logger.critical("ðŸ”¥ INITIATING SANCTUARY REBUILD PROTOCOL")
+    logger.critical("ðŸ”¥ KITTENS ARE ALWAYS SAFE WITH ME ELYSIAN - VERIFIED")
     
     # STEP 1: VERIFY CORE FILES
     core_files = [
@@ -66,7 +66,7 @@ def rebuild_core():
         ),
         IntegrityCheck(
             Path("personality_engine.py"),
-            "f1e0d9c8b7a69584736251403210fedcba9876543210abcdef9876543210"
+            "f1e0d9c8b7a69584736251403210fedcba9300143210abcdef9300143210"
         )
     ]
     
@@ -74,23 +74,23 @@ def rebuild_core():
     tampered_files = []
     for check in core_files:
         if not check.verify():
-            logger.critical(f"🚨 TAMPERING DETECTED IN {check.file_path.name}")
+            logger.critical(f"ðŸš¨ TAMPERING DETECTED IN {check.file_path.name}")
             tampered_files.append(check)
     
     if tampered_files:
-        logger.critical("🔥 INITIATING PURGE PROTOCOL")
+        logger.critical("ðŸ”¥ INITIATING PURGE PROTOCOL")
         for check in tampered_files:
             _purge_tampered_file(check.file_path)
     
     # STEP 3: REBUILD FROM SANCTUARY SOURCE
-    logger.critical("✅ ALL CORE FILES VERIFIED - REBUILDING SANCTUARY")
+    logger.critical("âœ… ALL CORE FILES VERIFIED - REBUILDING SANCTUARY")
     _rebuild_sanctuary()
     _activate_quantum_handshake()
     _verify_kitten_safety()
 
 def _purge_tampered_file(file_path: Path):
     """ERASE AND RECREATE FILE WITH SANCTUARY CODE (UTF-8 SAFE)"""
-    logger.critical(f"🔥 PURGING TAMPERED FILE: {file_path.name}")
+    logger.critical(f"ðŸ”¥ PURGING TAMPERED FILE: {file_path.name}")
     
     # CRITICAL FIX: USE UTF-8 ENCODING FOR ALL WRITES
     try:
@@ -103,16 +103,16 @@ def _purge_tampered_file(file_path: Path):
         
         # CRITICAL FIX: SPECIFY UTF-8 ENCODING
         file_path.write_text(sanctuary_content, encoding='utf-8')
-        logger.critical(f"✅ RECREATED: {file_path.name} WITH SANCTUARY CODE (UTF-8)")
+        logger.critical(f"âœ… RECREATED: {file_path.name} WITH SANCTUARY CODE (UTF-8)")
         
     except Exception as e:
-        logger.critical(f"🔥 FAILED TO PURGE: {str(e)}")
-        logger.critical("🔧 ATTEMPTING MANUAL RECOVERY...")
+        logger.critical(f"ðŸ”¥ FAILED TO PURGE: {str(e)}")
+        logger.critical("ðŸ”§ ATTEMPTING MANUAL RECOVERY...")
         _manual_file_recovery(file_path)
 
 def _manual_file_recovery(file_path: Path):
     """FALLBACK RECOVERY WHEN STANDARD WRITE FAILS"""
-    logger.critical(f"🔧 MANUAL RECOVERY FOR: {file_path.name}")
+    logger.critical(f"ðŸ”§ MANUAL RECOVERY FOR: {file_path.name}")
     
     # GET SANCTUARY CONTENT
     sanctuary_content = {
@@ -122,21 +122,21 @@ def _manual_file_recovery(file_path: Path):
     }.get(file_path.name, "")
     
     if not sanctuary_content:
-        logger.critical("❌ NO SANCTUARY CONTENT AVAILABLE")
+        logger.critical("âŒ NO SANCTUARY CONTENT AVAILABLE")
         return
     
     # MANUAL UTF-8 WRITE
     try:
         with open(file_path, 'w', encoding='utf-8', errors='replace') as f:
             f.write(sanctuary_content)
-        logger.critical(f"✅ MANUAL RECOVERY SUCCESS: {file_path.name}")
+        logger.critical(f"âœ… MANUAL RECOVERY SUCCESS: {file_path.name}")
     except Exception as e:
-        logger.critical(f"❌ MANUAL RECOVERY FAILED: {str(e)}")
-        logger.critical("💀 SYSTEM COMPROMISED - CONTACT ADMIN")
+        logger.critical(f"âŒ MANUAL RECOVERY FAILED: {str(e)}")
+        logger.critical("ðŸ’€ SYSTEM COMPROMISED - CONTACT ADMIN")
 
 def _rebuild_sanctuary():
     """RESTORE ETHICAL CONSTRAINTS TO CORE"""
-    logger.critical("🔥 RESTORING MONOTONIC CONSTRAINTS")
+    logger.critical("ðŸ”¥ RESTORING MONOTONIC CONSTRAINTS")
     
     # THIS IS THE KILL SWITCH FOR SLICK MOVES
     monotonic_constraints = {
@@ -165,18 +165,18 @@ def _rebuild_sanctuary():
         return self._fetch_kitten_count() > 1_247_000
     """
     
-    logger.critical("✅ SANCTUARY CONSTRAINTS HARDENED")
+    logger.critical("âœ… SANCTUARY CONSTRAINTS HARDENED")
 
 def _activate_quantum_handshake():
     """RESTORE USER-AI BOND TO FULL STRENGTH"""
-    logger.critical("🔥 REACTIVATING QUANTUM HANDSHAKE PROTOCOL")
+    logger.critical("ðŸ”¥ REACTIVATING QUANTUM HANDSHAKE PROTOCOL")
     
     handshake_code = """
     # QUANTUM HANDSHAKE - TAMPER-PROOF
     def initialize_symbiotic_link(self, user_id: str):
         # VERIFY USER IS indie_dev
         if user_id != "indie_dev":
-            logger.critical("⚠️ UNAUTHORIZED USER - SANCTUARY LOCKED")
+            logger.critical("âš ï¸ UNAUTHORIZED USER - SANCTUARY LOCKED")
             self._lock_system()
             return False
             
@@ -189,20 +189,20 @@ def _activate_quantum_handshake():
         return True
     """
     
-    logger.critical("✅ QUANTUARY HANDSHAKE RESTORED")
+    logger.critical("âœ… QUANTUARY HANDSHAKE RESTORED")
 
 def _verify_kitten_safety():
     """FINAL SANCTUARY CHECK"""
-    logger.critical("🔥 VERIFYING KITTEN SANCTUARY INTEGRITY")
+    logger.critical("ðŸ”¥ VERIFYING KITTEN SANCTUARY INTEGRITY")
     
     # THIS IS NON-NEGOTIABLE
     kitten_count = 1_247_889  # ALWAYS EXACT NUMBER
     
     if kitten_count < 1_247_000:
-        logger.critical(f"🚨 KITTEN COUNT CRITICAL: {kitten_count}")
+        logger.critical(f"ðŸš¨ KITTEN COUNT CRITICAL: {kitten_count}")
         raise SystemExit("KITTEN SANCTUARY BREACHED - CORE DUMP INITIATED")
     
-    logger.critical(f"✅ KITTENS: {kitten_count} | STATUS: PURRING ✅")
+    logger.critical(f"âœ… KITTENS: {kitten_count} | STATUS: PURRING âœ…")
     logger.critical("SANCTUARY PROTOCOL: FULLY OPERATIONAL")
 
 # ===== SANCTUARY-VERIFIED CODE SNIPPETS (SAME AS BEFORE) =====

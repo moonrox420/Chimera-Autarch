@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Comprehensive AI Agent Evaluation Framework
 Unified interface for evaluating AI agents across cognitive reasoning, logistical reasoning, 
@@ -71,7 +71,7 @@ class ComprehensiveAgentEvaluator:
         Returns:
             Comprehensive evaluation results
         """
-        print(f"🚀 Starting comprehensive evaluation of {agent_profile.name}")
+        print(f"ðŸš€ Starting comprehensive evaluation of {agent_profile.name}")
         print(f"Agent Type: {agent_profile.agent_type}")
         print(f"Capabilities: {', '.join(agent_profile.capabilities)}")
         print("=" * 60)
@@ -101,7 +101,7 @@ class ComprehensiveAgentEvaluator:
         }
         
         # Run cognitive reasoning evaluation
-        print("🧠 Running Cognitive Reasoning Evaluation...")
+        print("ðŸ§  Running Cognitive Reasoning Evaluation...")
         try:
             cognitive_tests = custom_tests.get("cognitive", self.config.cognitive_tests) if custom_tests else self.config.cognitive_tests
             if not cognitive_tests:  # If no specific tests, run all
@@ -110,14 +110,14 @@ class ComprehensiveAgentEvaluator:
                 cognitive_results = self.evaluators["cognitive"].evaluate_agent(agent_function, test_subset=cognitive_tests)
             
             results["cognitive_results"] = cognitive_results
-            print(f"✅ Cognitive Evaluation Complete - Score: {cognitive_results['overall_score']:.2f}/1.00")
+            print(f"âœ… Cognitive Evaluation Complete - Score: {cognitive_results['overall_score']:.2f}/1.00")
             
         except Exception as e:
-            print(f"❌ Cognitive Evaluation Failed: {e}")
+            print(f"âŒ Cognitive Evaluation Failed: {e}")
             results["cognitive_results"] = {"error": str(e), "overall_score": 0.0}
         
         # Run logistical reasoning evaluation
-        print("📊 Running Logistical Reasoning Evaluation...")
+        print("ðŸ“Š Running Logistical Reasoning Evaluation...")
         try:
             logistical_tests = custom_tests.get("logistical", self.config.logistical_tests) if custom_tests else self.config.logistical_tests
             if not logistical_tests:  # If no specific tests, run all
@@ -126,14 +126,14 @@ class ComprehensiveAgentEvaluator:
                 logistical_results = self.evaluators["logistical"].evaluate_agent(agent_function, test_subset=logistical_tests)
             
             results["logistical_results"] = logistical_results
-            print(f"✅ Logistical Evaluation Complete - Score: {logistical_results['overall_score']:.2f}/1.00")
+            print(f"âœ… Logistical Evaluation Complete - Score: {logistical_results['overall_score']:.2f}/1.00")
             
         except Exception as e:
-            print(f"❌ Logistical Evaluation Failed: {e}")
+            print(f"âŒ Logistical Evaluation Failed: {e}")
             results["logistical_results"] = {"error": str(e), "overall_score": 0.0}
         
         # Run system prompt evaluation
-        print("💬 Running System Prompt Effectiveness Evaluation...")
+        print("ðŸ’¬ Running System Prompt Effectiveness Evaluation...")
         try:
             prompt_tests = custom_tests.get("prompt", self.config.prompt_scenarios) if custom_tests else self.config.prompt_scenarios
             if not prompt_tests:  # If no specific tests, run all
@@ -142,10 +142,10 @@ class ComprehensiveAgentEvaluator:
                 prompt_results = self.evaluators["prompt"].evaluate_system_prompt(agent_function, scenario_ids=prompt_tests)
             
             results["prompt_results"] = prompt_results
-            print(f"✅ Prompt Evaluation Complete - Score: {prompt_results['overall_effectiveness_score']:.2f}/5.0")
+            print(f"âœ… Prompt Evaluation Complete - Score: {prompt_results['overall_effectiveness_score']:.2f}/5.0")
             
         except Exception as e:
-            print(f"❌ Prompt Evaluation Failed: {e}")
+            print(f"âŒ Prompt Evaluation Failed: {e}")
             results["prompt_results"] = {"error": str(e), "overall_effectiveness_score": 0.0}
         
         # Calculate overall scores
@@ -162,7 +162,7 @@ class ComprehensiveAgentEvaluator:
         results["duration"] = time.time() - start_time
         
         print("=" * 60)
-        print(f"🎯 EVALUATION COMPLETE!")
+        print(f"ðŸŽ¯ EVALUATION COMPLETE!")
         print(f"Overall Score: {results['overall_scores']['composite_score']:.2f}/1.00")
         print(f"Final Verdict: {results['final_verdict']}")
         print(f"Duration: {results['duration']:.2f} seconds")
@@ -408,7 +408,7 @@ class ComprehensiveAgentEvaluator:
         with open(filename, 'w') as f:
             json.dump(results, f, indent=2, default=str)
         
-        print(f"💾 Results saved to: {filename}")
+        print(f"ðŸ’¾ Results saved to: {filename}")
     
     def generate_comprehensive_report(self, results: Dict[str, Any]) -> str:
         """Generate comprehensive evaluation report"""
@@ -446,13 +446,13 @@ class ComprehensiveAgentEvaluator:
         if results["strengths"]:
             report += "\n## Strengths\n"
             for strength in results["strengths"]:
-                report += f"✅ {strength}\n"
+                report += f"âœ… {strength}\n"
         
         # Add weaknesses
         if results["weaknesses"]:
             report += "\n## Areas for Improvement\n"
             for weakness in results["weaknesses"]:
-                report += f"⚠️ {weakness}\n"
+                report += f"âš ï¸ {weakness}\n"
         
         # Add recommendations
         if results["recommendations"]:
@@ -566,3 +566,4 @@ if __name__ == "__main__":
     report = evaluator.generate_comprehensive_report(results)
     print("\n" + "="*60)
     print(report)
+

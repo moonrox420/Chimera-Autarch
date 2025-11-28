@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 REM CHIMERA AUTARCH - Windows Batch Launcher
 REM Run this in Windows Command Prompt or PowerShell
 
@@ -35,11 +35,12 @@ REM Start CHIMERA
 echo.
 echo ========================================
 echo Starting CHIMERA AUTARCH...
-echo Dashboard: http://localhost:8000
-echo WebSocket: ws://localhost:8765
+echo Dashboard: http://localhost:3000
+echo WebSocket: ws://localhost:3001
 echo ========================================
 echo.
 
 python chimera_autarch.py
 
 pause
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA NEXUS - Blockchain Audit Trail
 Immutable cryptographic audit log of all AI decisions and evolutions.
@@ -544,3 +544,4 @@ class ChimeraBlockchainIntegration:
         )
 
         await self.audit_logger.blockchain.add_transaction(tx)
+

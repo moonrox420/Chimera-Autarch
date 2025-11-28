@@ -24,10 +24,10 @@ That's it! CHIMERA is now:
 - ✅ Accessible from network
 
 ### Access CHIMERA
-- **Dashboard:** http://localhost:8000
-- **WebSocket:** ws://localhost:8765
-- **Metrics:** http://localhost:8000/metrics
-- **GraphQL:** http://localhost:8000/graphql
+- **Dashboard:** http://localhost:3000
+- **WebSocket:** ws://localhost:3001
+- **Metrics:** http://localhost:3000/metrics
+- **GraphQL:** http://localhost:3000/graphql
 
 ### Service Management
 
@@ -72,8 +72,8 @@ You can also manage via Windows Services:
 ### Firewall
 
 The installer automatically creates firewall rules:
-- **Port 8000** (HTTP) - Dashboard and APIs
-- **Port 8765** (WebSocket) - Real-time events
+- **Port 3000** (HTTP) - Dashboard and APIs
+- **Port 3001** (WebSocket) - Real-time events
 
 ### Custom Paths
 
@@ -124,7 +124,7 @@ Get-NetFirewallRule -DisplayName "CHIMERA*"
 ipconfig
 
 # Access from other device
-# http://YOUR_IP:8000
+# http://YOUR_IP:3000
 ```
 
 **Service exists but won't install?**

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Quick Ollama connection test"""
 import asyncio
 import httpx
@@ -11,20 +11,20 @@ async def test_ollama():
         # Test 1: Check if server is responding
         try:
             response = await client.get("http://localhost:11434/api/tags")
-            print(f"✅ Server responding: {response.status_code}")
+            print(f"âœ… Server responding: {response.status_code}")
             if response.status_code == 200:
                 data = response.json()
                 models = data.get("models", [])
-                print(f"✅ Found {len(models)} models:")
+                print(f"âœ… Found {len(models)} models:")
                 for m in models:
                     print(f"   - {m.get('name')}")
         except Exception as e:
-            print(f"❌ Connection failed: {e}")
+            print(f"âŒ Connection failed: {e}")
             return
 
         # Test 2: Try generation
         try:
-            print("\n🧪 Testing code generation...")
+            print("\nðŸ§ª Testing code generation...")
             response = await client.post(
                 "http://localhost:11434/api/generate",
                 json={
@@ -37,12 +37,13 @@ async def test_ollama():
             print(f"Response status: {response.status_code}")
             if response.status_code == 200:
                 result = response.json()
-                print(f"✅ Generation successful!")
+                print(f"âœ… Generation successful!")
                 print(f"Response: {result.get('response', '')[:200]}...")
             else:
-                print(f"❌ Generation failed: {response.text}")
+                print(f"âŒ Generation failed: {response.text}")
         except Exception as e:
-            print(f"❌ Generation error: {e}")
+            print(f"âŒ Generation error: {e}")
 
 if __name__ == "__main__":
     asyncio.run(test_ollama())
+

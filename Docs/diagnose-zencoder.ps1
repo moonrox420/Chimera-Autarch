@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+﻿#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
   Diagnose ZenCoder extension issues
@@ -8,28 +8,28 @@
 #>
 
 Write-Host ""
-Write-Host "🔍 ZenCoder Diagnostic Tool" -ForegroundColor Cyan
+Write-Host "ðŸ” ZenCoder Diagnostic Tool" -ForegroundColor Cyan
 Write-Host "============================" -ForegroundColor Cyan
 Write-Host ""
 
 # Check VS Code
 $VSCodeVersion = code --version 2>$null
 if ($LASTEXITCODE -eq 0) {
-  Write-Host "✅ VS Code: $(($VSCodeVersion -split '\n')[0])" -ForegroundColor Green
+  Write-Host "âœ… VS Code: $(($VSCodeVersion -split '\n')[0])" -ForegroundColor Green
 }
 else {
-  Write-Host "❌ VS Code not found in PATH" -ForegroundColor Red
+  Write-Host "âŒ VS Code not found in PATH" -ForegroundColor Red
   exit 1
 }
 
 Write-Host ""
 
 # Check installed extensions
-Write-Host "📦 Checking Extensions..." -ForegroundColor Yellow
+Write-Host "ðŸ“¦ Checking Extensions..." -ForegroundColor Yellow
 $Extensions = code --list-extensions 2>$null
 
 if ($Extensions -match "zencoderai.zencoder") {
-  Write-Host "✅ ZenCoder is installed" -ForegroundColor Green
+  Write-Host "âœ… ZenCoder is installed" -ForegroundColor Green
     
   # Get extension info
   $ExtInfo = code --show-versions --list-extensions 2>$null | Select-String "zencoderai.zencoder"
@@ -38,7 +38,7 @@ if ($Extensions -match "zencoderai.zencoder") {
   }
 }
 else {
-  Write-Host "❌ ZenCoder NOT installed" -ForegroundColor Red
+  Write-Host "âŒ ZenCoder NOT installed" -ForegroundColor Red
   Write-Host ""
   Write-Host "To install:" -ForegroundColor Yellow
   Write-Host "  code --install-extension zencoderai.zencoder" -ForegroundColor White
@@ -53,39 +53,39 @@ if (Test-Path $ExtDir) {
   $ZencoderDirs = Get-ChildItem $ExtDir -Directory | Where-Object { $_.Name -like "*zencoder*" }
     
   if ($ZencoderDirs) {
-    Write-Host "✅ Extension files found:" -ForegroundColor Green
+    Write-Host "âœ… Extension files found:" -ForegroundColor Green
     foreach ($Dir in $ZencoderDirs) {
       Write-Host "   $($Dir.Name)" -ForegroundColor Cyan
     }
   }
   else {
-    Write-Host "⚠️  No extension files found (may need reinstall)" -ForegroundColor Yellow
+    Write-Host "âš ï¸  No extension files found (may need reinstall)" -ForegroundColor Yellow
   }
 }
 else {
-  Write-Host "⚠️  Extensions directory not found" -ForegroundColor Yellow
+  Write-Host "âš ï¸  Extensions directory not found" -ForegroundColor Yellow
 }
 
 Write-Host ""
 
 # Check for common issues
-Write-Host "🔍 Common Issues Check:" -ForegroundColor Yellow
+Write-Host "ðŸ” Common Issues Check:" -ForegroundColor Yellow
 Write-Host ""
 
 # Check internet connection
 try {
   $null = Test-Connection -ComputerName api.zencoder.ai -Count 1 -ErrorAction Stop
-  Write-Host "✅ Internet connection OK" -ForegroundColor Green
+  Write-Host "âœ… Internet connection OK" -ForegroundColor Green
 }
 catch {
-  Write-Host "❌ Cannot reach ZenCoder API" -ForegroundColor Red
+  Write-Host "âŒ Cannot reach ZenCoder API" -ForegroundColor Red
   Write-Host "   Check firewall/proxy settings" -ForegroundColor Yellow
 }
 
 # Check VS Code settings
 $SettingsPath = "$env:APPDATA\Code\User\settings.json"
 if (Test-Path $SettingsPath) {
-  Write-Host "✅ VS Code settings found" -ForegroundColor Green
+  Write-Host "âœ… VS Code settings found" -ForegroundColor Green
     
   $Settings = Get-Content $SettingsPath -Raw | ConvertFrom-Json -ErrorAction SilentlyContinue
   if ($Settings) {
@@ -98,21 +98,22 @@ if (Test-Path $SettingsPath) {
 }
 
 Write-Host ""
-Write-Host "📋 Troubleshooting Steps:" -ForegroundColor Cyan
+Write-Host "ðŸ“‹ Troubleshooting Steps:" -ForegroundColor Cyan
 Write-Host "=========================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "1. Reload VS Code Window:" -ForegroundColor White
-Write-Host "   Ctrl+Shift+P → 'Developer: Reload Window'" -ForegroundColor Gray
+Write-Host "   Ctrl+Shift+P â†’ 'Developer: Reload Window'" -ForegroundColor Gray
 Write-Host ""
 Write-Host "2. Sign in to ZenCoder:" -ForegroundColor White
-Write-Host "   Ctrl+Shift+P → 'Zencoder: Sign In'" -ForegroundColor Gray
+Write-Host "   Ctrl+Shift+P â†’ 'Zencoder: Sign In'" -ForegroundColor Gray
 Write-Host ""
 Write-Host "3. Check Output Panel:" -ForegroundColor White
-Write-Host "   View → Output → Select 'Zencoder' from dropdown" -ForegroundColor Gray
+Write-Host "   View â†’ Output â†’ Select 'Zencoder' from dropdown" -ForegroundColor Gray
 Write-Host ""
 Write-Host "4. Reinstall Extension:" -ForegroundColor White
-Write-Host "   Extensions → Zencoder → Uninstall → Reinstall" -ForegroundColor Gray
+Write-Host "   Extensions â†’ Zencoder â†’ Uninstall â†’ Reinstall" -ForegroundColor Gray
 Write-Host ""
 Write-Host "5. Contact Support:" -ForegroundColor White
 Write-Host "   https://zencoder.ai/support" -ForegroundColor Gray
 Write-Host ""
+

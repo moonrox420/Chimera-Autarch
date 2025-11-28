@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA v3.0 - LLM Integration Test
 Tests AI code generation with auto-detected LLM provider (OpenAI/Claude/Ollama)
@@ -16,13 +16,13 @@ async def test_llm():
     print()
 
     # Test 1: Auto-detect provider
-    print("🔍 Test 1: Auto-detecting LLM provider...")
+    print("ðŸ” Test 1: Auto-detecting LLM provider...")
     generator = CodeGenerator()
 
     if generator.provider is None:
-        print("❌ No LLM provider available")
+        print("âŒ No LLM provider available")
         print()
-        print("📋 Setup instructions:")
+        print("ðŸ“‹ Setup instructions:")
         print()
         print("Option A - OpenAI GPT-4:")
         print("  1. Get API key: https://platform.openai.com/api-keys")
@@ -38,7 +38,7 @@ async def test_llm():
         print("  1. Install: curl -fsSL https://ollama.com/install.sh | sh")
         print("  2. Download model:")
         print(
-            "     🔥 BEST: ollama pull dagbs/qwen2.5-coder-14b-instruct-abliterated:q5_k_m")
+            "     ðŸ”¥ BEST: ollama pull dagbs/qwen2.5-coder-14b-instruct-abliterated:q5_k_m")
         print("     OR: ollama pull deepseek-coder:6.7b")
         print("     OR: ollama pull codellama")
         print("  3. pip install httpx")
@@ -46,21 +46,21 @@ async def test_llm():
         return
 
     provider_name = type(generator.provider).__name__
-    print(f"✅ Found: {provider_name}")
+    print(f"âœ… Found: {provider_name}")
 
     # Show which model is being used for local LLM
     if isinstance(generator.provider, LocalLLMProvider):
         print(f"   Model: {generator.provider.model}")
         if "qwen" in generator.provider.model.lower():
-            print("   🔥 Using Qwen 2.5 Coder - Excellent choice!")
+            print("   ðŸ”¥ Using Qwen 2.5 Coder - Excellent choice!")
         elif "deepseek" in generator.provider.model.lower():
-            print("   ⚡ Using DeepSeek Coder - Fast and capable!")
+            print("   âš¡ Using DeepSeek Coder - Fast and capable!")
         elif "codellama" in generator.provider.model.lower():
-            print("   ✅ Using CodeLlama - Reliable and tested!")
+            print("   âœ… Using CodeLlama - Reliable and tested!")
     print()
 
     # Test 2: Generate simple code
-    print("🧪 Test 2: Generating simple Python function...")
+    print("ðŸ§ª Test 2: Generating simple Python function...")
     print("Task: Create a function to calculate fibonacci number")
     print()
 
@@ -72,7 +72,7 @@ async def test_llm():
         )
 
         if patch:
-            print(f"✅ Code generation successful!")
+            print(f"âœ… Code generation successful!")
             print(f"   Confidence: {patch.confidence:.2f}")
             print(f"   Risk level: {patch.risk_level}")
             print(f"   Has tests: {'Yes' if patch.test_code else 'No'}")
@@ -80,14 +80,14 @@ async def test_llm():
             if patch.test_code:
                 print(f"   Test lines: {len(patch.test_code.splitlines())}")
             print()
-            print("📝 Generated code:")
+            print("ðŸ“ Generated code:")
             print("-" * 60)
             print(patch.code)
             print("-" * 60)
             print()
 
             if patch.test_code:
-                print("🧪 Generated tests:")
+                print("ðŸ§ª Generated tests:")
                 print("-" * 60)
                 print(patch.test_code)
                 print("-" * 60)
@@ -95,41 +95,41 @@ async def test_llm():
 
             # Test 3: Run tests
             if patch.test_code:
-                print("🔬 Test 3: Running generated tests...")
+                print("ðŸ”¬ Test 3: Running generated tests...")
                 result = await generator.test_patch(patch)
 
                 if result.success:
                     print(
-                        f"✅ All tests passed! ({result.execution_time:.2f}s)")
+                        f"âœ… All tests passed! ({result.execution_time:.2f}s)")
                     print()
-                    print("🎉 Your LLM provider is working perfectly!")
+                    print("ðŸŽ‰ Your LLM provider is working perfectly!")
                 else:
-                    print(f"❌ Tests failed:")
+                    print(f"âŒ Tests failed:")
                     print(result.error)
                 print()
         else:
-            print("❌ Code generation failed")
+            print("âŒ Code generation failed")
             print()
 
     except Exception as e:
-        print(f"❌ Error during code generation: {e}")
+        print(f"âŒ Error during code generation: {e}")
         print()
         import traceback
         traceback.print_exc()
         return
 
     # Show stats
-    print("📊 Generator stats:")
+    print("ðŸ“Š Generator stats:")
     stats = generator.get_stats()
     for key, value in stats.items():
         print(f"   {key}: {value}")
     print()
 
     print("=" * 60)
-    print("✅ LLM Integration Test Complete!")
+    print("âœ… LLM Integration Test Complete!")
     print("=" * 60)
     print()
-    print("🚀 Next steps:")
+    print("ðŸš€ Next steps:")
     print("   1. Start CHIMERA: python chimera_autarch.py")
     print("   2. CHIMERA will auto-detect and use your LLM provider")
     print("   3. AI code generation will be ENABLED!")
@@ -137,31 +137,32 @@ async def test_llm():
 
     # Show provider-specific tips
     if isinstance(generator.provider, LocalLLMProvider):
-        print("💡 Local LLM Tips:")
+        print("ðŸ’¡ Local LLM Tips:")
         if "qwen" in generator.provider.model.lower():
-            print("   • Qwen 2.5 Coder excels at complex code generation")
-            print("   • See QWEN_CODER_GUIDE.md for advanced usage")
-            print("   • Hardware: 16GB RAM minimum, 32GB recommended")
+            print("   â€¢ Qwen 2.5 Coder excels at complex code generation")
+            print("   â€¢ See QWEN_CODER_GUIDE.md for advanced usage")
+            print("   â€¢ Hardware: 16GB RAM minimum, 32GB recommended")
         elif "deepseek" in generator.provider.model.lower():
-            print("   • DeepSeek Coder is fast and efficient")
-            print("   • Good for rapid prototyping")
+            print("   â€¢ DeepSeek Coder is fast and efficient")
+            print("   â€¢ Good for rapid prototyping")
         else:
-            print("   • CodeLlama is lightweight and fast")
-            print("   • Good for simple tasks")
-        print("   • FREE forever - no API costs!")
-        print("   • Complete privacy - code never leaves your machine")
+            print("   â€¢ CodeLlama is lightweight and fast")
+            print("   â€¢ Good for simple tasks")
+        print("   â€¢ FREE forever - no API costs!")
+        print("   â€¢ Complete privacy - code never leaves your machine")
         print()
     elif isinstance(generator.provider, OpenAIProvider):
-        print("💡 OpenAI Tips:")
-        print("   • Cost: ~$0.01-0.03 per code generation")
-        print("   • Monitor usage at: https://platform.openai.com/usage")
+        print("ðŸ’¡ OpenAI Tips:")
+        print("   â€¢ Cost: ~$0.01-0.03 per code generation")
+        print("   â€¢ Monitor usage at: https://platform.openai.com/usage")
         print()
     elif isinstance(generator.provider, AnthropicProvider):
-        print("💡 Claude Tips:")
-        print("   • Cost: ~$0.015 per code generation")
-        print("   • Monitor usage at: https://console.anthropic.com/")
+        print("ðŸ’¡ Claude Tips:")
+        print("   â€¢ Cost: ~$0.015 per code generation")
+        print("   â€¢ Monitor usage at: https://console.anthropic.com/")
         print()
 
 
 if __name__ == "__main__":
     asyncio.run(test_llm())
+

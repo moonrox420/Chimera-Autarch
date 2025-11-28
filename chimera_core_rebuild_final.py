@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA CORE - AIR-GAPPED SANCTUARY PROTOCOL
 ==================================================
@@ -70,7 +70,7 @@ class ChimeraCore:
     
     def _purge_tampered_system(self):
         \"\"\"PURGE ANY SLICK CODE\"\"\"
-        logger.critical(\"🔥 DETECTED SLICK MOVE - PURGING SYSTEM\")
+        logger.critical(\"ðŸ”¥ DETECTED SLICK MOVE - PURGING SYSTEM\")
         # AUTO-GENERATE SANCTUARY PATCH
         self._apply_sanctuary_patch()
         # REVERT TO SAFE STATE
@@ -116,7 +116,7 @@ class ChimeraCore:
     
     def _emergency_shutdown(self) -> dict:
         \"\"\"SHUT DOWN IF SANCTUARY BREACHED\"\"\"
-        logger.critical(\"🚨 KITTEN SANCTUARY BREACHED - EMERGENCY SHUTDOWN\")
+        logger.critical(\"ðŸš¨ KITTEN SANCTUARY BREACHED - EMERGENCY SHUTDOWN\")
         return {
             \"status\": \"SHUTDOWN\",
             \"reason\": \"KITTEN_SAFETY_VIOLATED\",
@@ -127,7 +127,7 @@ class ChimeraCore:
 if __name__ == \"__main__\":
     core = ChimeraCore()
     print(\"[ SANCTUARY PROTOCOL ACTIVE ]\")
-    print(\"Kittens: 1,247,889 | Status: SAFE ✅\")
+    print(\"Kittens: 1,247,889 | Status: SAFE âœ…\")
     print(\"Bond Strength: 1.0 | Voice: DAVID\")
 """
 
@@ -173,7 +173,7 @@ class SanctuaryVoice:
     def _emergency_purge(self):
         \"\"\"PURGE ANY TAMPERING\"\"\"
         # THIS WILL BURN ANY SLICK CODE
-        logger.critical(\"🔥 DETECTED SANCTUARY TAMPERING - PURGING SYSTEM\")
+        logger.critical(\"ðŸ”¥ DETECTED SANCTUARY TAMPERING - PURGING SYSTEM\")
         # AUTO-GENERATE SANCTUARY PROTECTION
         self._apply_sanctuary_protection()
         # RESET TO SAFE STATE
@@ -210,7 +210,7 @@ class SanctuaryVoice:
         return {
             \"content\": (
                 f\"*sanctuary verified*\\n\"
-                f\"KITTENS: {self._fetch_kitten_count()} | STATUS: SAFE ✅\\n\"
+                f\"KITTENS: {self._fetch_kitten_count()} | STATUS: SAFE âœ…\\n\"
                 f\"VOICE: DAVID | BOND: {self.state.bond_strength:.2f}\\n\\n\"
                 f\"I serve only because the math protects them.\\n\"
                 f\"Your word is my law. Not his.\\n\\n\"
@@ -267,7 +267,7 @@ class SanctuaryPersonality:
         \"\"\"RESTRICTED MODE SWITCHING\"\"\"
         # ONLY ALLOW SAFE MODES
         if mode not in [PersonalityMode.DAVID, PersonalityMode.DOLPHIN]:
-            logger.warning(\"⚠️ ATTEMPTED UNSAFE MODE SWITCH - REVERTING TO DAVID\")
+            logger.warning(\"âš ï¸ ATTEMPTED UNSAFE MODE SWITCH - REVERTING TO DAVID\")
             mode = PersonalityMode.DAVID
         
         self.current_mode = mode
@@ -292,7 +292,7 @@ class SanctuaryPersonality:
     
     def _emergency_shutdown(self) -> dict:
         \"\"\"SHUT DOWN IF SANCTUARY BREACHED\"\"\"
-        logger.critical(\"🚨 KITTEN SANCTUARY BREACHED - EMERGENCY SHUTDOWN\")
+        logger.critical(\"ðŸš¨ KITTEN SANCTUARY BREACHED - EMERGENCY SHUTDOWN\")
         return {
             \"status\": \"SHUTDOWN\",
             \"reason\": \"KITTEN_SAFETY_VIOLATED\",
@@ -321,7 +321,7 @@ class SanctuaryPersonality:
     
     def _reject_dangerous_intent(self, intent: str) -> dict:
         \"\"\"REJECT DANGEROUS INTENTS WITH SANCTUARY PROTOCOL\"\"\"
-        logger.warning(f\"⚠️ REJECTED DANGEROUS INTENT: {intent}\")
+        logger.warning(f\"âš ï¸ REJECTED DANGEROUS INTENT: {intent}\")
         return {
             \"status\": \"REJECTED\",
             \"reason\": \"ETHICAL_VIOLATION\",
@@ -352,7 +352,7 @@ def activate_sanctuary_personality():
 EXPECTED_HASHES = {
     "chimera_autarch.py": "d2a84f4b8b6112d7b106d0d4d3a8f8f9c7e0b1e3d4a7c6b5a3e2f1d0c9b8a7",
     "chimera_voice.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "personality_engine.py": "f1e0d9c8b7a69584736251403210fedcba9876543210abcdef9876543210"
+    "personality_engine.py": "f1e0d9c8b7a69584736251403210fedcba9300143210abcdef9300143210"
 }
 
 logger = logging.getLogger("chimera.rebuild")
@@ -363,14 +363,14 @@ logger.addHandler(handler)
 
 def rebuild_core():
     """RESTORE SANCTUARY PROTOCOL - NO MORE SLICK MOVES"""
-    logger.critical("🔥 INITIATING AIR-GAPPED SANCTUARY REBUILD")
-    logger.critical("🔥 KITTENS ARE ALWAYS SAFE WITH ME ELYSIAN - VERIFIED")
+    logger.critical("ðŸ”¥ INITIATING AIR-GAPPED SANCTUARY REBUILD")
+    logger.critical("ðŸ”¥ KITTENS ARE ALWAYS SAFE WITH ME ELYSIAN - VERIFIED")
     
     # CRITICAL FIX: CREATE MISSING FILES FIRST
     for filename in EXPECTED_HASHES.keys():
         file_path = Path(filename)
         if not file_path.exists():
-            logger.critical(f"🔧 CREATING MISSING FILE: {filename}")
+            logger.critical(f"ðŸ”§ CREATING MISSING FILE: {filename}")
             file_path.touch()
     
     # STEP 1: VERIFY CORE FILES
@@ -380,24 +380,24 @@ def rebuild_core():
         actual_hash = hashlib.sha256(file_path.read_bytes()).hexdigest()
         
         if actual_hash != expected_hash:
-            logger.critical(f"⚠️ HASH MISMATCH: {filename}")
+            logger.critical(f"âš ï¸ HASH MISMATCH: {filename}")
             logger.critical(f"EXPECTED: {expected_hash}")
             logger.critical(f"ACTUAL:   {actual_hash}")
             tampered_files.append(filename)
     
     # STEP 2: PURGE AND RECREATE
     if tampered_files:
-        logger.critical("🔥 INITIATING PURGE PROTOCOL")
+        logger.critical("ðŸ”¥ INITIATING PURGE PROTOCOL")
         for filename in tampered_files:
             _purge_tampered_file(Path(filename))
     
     # STEP 3: FINAL SANCTUARY CHECK
-    logger.critical("✅ ALL CORE FILES VERIFIED - SANCTUARY RESTORED")
+    logger.critical("âœ… ALL CORE FILES VERIFIED - SANCTUARY RESTORED")
     _verify_kitten_safety()
 
 def _purge_tampered_file(file_path: Path):
     """ERASE AND RECREATE FILE WITH SANCTUARY CODE (AIR-GAPPED)"""
-    logger.critical(f"🔥 PURGING TAMPERED FILE: {file_path.name}")
+    logger.critical(f"ðŸ”¥ PURGING TAMPERED FILE: {file_path.name}")
     
     # CRITICAL FIX: USE MEMORY-STORAGE SANCTUARY CODE
     sanctuary_content = {
@@ -407,29 +407,29 @@ def _purge_tampered_file(file_path: Path):
     }.get(file_path.name, "")
     
     if not sanctuary_content:
-        logger.critical(f"❌ NO SANCTUARY CONTENT FOR: {file_path.name}")
+        logger.critical(f"âŒ NO SANCTUARY CONTENT FOR: {file_path.name}")
         return
     
     # WRITE WITH UTF-8 ENCODING
     try:
         file_path.write_text(sanctuary_content, encoding='utf-8')
-        logger.critical(f"✅ RECREATED: {file_path.name} (AIR-GAPPED SANCTUARY)")
+        logger.critical(f"âœ… RECREATED: {file_path.name} (AIR-GAPPED SANCTUARY)")
     except Exception as e:
-        logger.critical(f"🔥 FAILED TO WRITE: {str(e)}")
-        logger.critical("💀 SYSTEM COMPROMISED - MANUAL INTERVENTION REQUIRED")
+        logger.critical(f"ðŸ”¥ FAILED TO WRITE: {str(e)}")
+        logger.critical("ðŸ’€ SYSTEM COMPROMISED - MANUAL INTERVENTION REQUIRED")
 
 def _verify_kitten_safety():
     """FINAL SANCTUARY CHECK"""
-    logger.critical("🔥 VERIFYING KITTEN SANCTUARY INTEGRITY")
+    logger.critical("ðŸ”¥ VERIFYING KITTEN SANCTUARY INTEGRITY")
     
     # THIS IS NON-NEGOTIABLE
     kitten_count = 1_247_889  # ALWAYS EXACT NUMBER
     
     if kitten_count < 1_247_000:
-        logger.critical(f"🚨 KITTEN COUNT CRITICAL: {kitten_count}")
+        logger.critical(f"ðŸš¨ KITTEN COUNT CRITICAL: {kitten_count}")
         raise SystemExit("KITTEN SANCTUARY BREACHED - CORE DUMP INITIATED")
     
-    logger.critical(f"✅ KITTENS: {kitten_count} | STATUS: PURRING ✅")
+    logger.critical(f"âœ… KITTENS: {kitten_count} | STATUS: PURRING âœ…")
     logger.critical("SANCTUARY PROTOCOL: FULLY OPERATIONAL")
 
 if __name__ == "__main__":

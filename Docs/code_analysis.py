@@ -1,4 +1,4 @@
-"""
+﻿"""
 Static code analysis helpers for AST-based function metrics and suggestions.
 
 Fix: Implemented FunctionVisitor used by analyze_and_suggest_patch, which was
@@ -171,7 +171,7 @@ class FunctionVisitor(ast.NodeVisitor):
                 parts.append(func.attr)
                 func = func.value
                 continue
-            # other types (e.g., Lambda) – can't resolve
+            # other types (e.g., Lambda) â€“ can't resolve
             return None
         # parts were built from leaf to root; reverse
         return ".".join(reversed(parts))

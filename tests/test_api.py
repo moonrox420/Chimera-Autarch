@@ -1,4 +1,4 @@
-import pytest
+﻿import pytest
 import asyncio
 import httpx
 from multiprocessing import Process
@@ -58,3 +58,4 @@ async def test_graphql_post_query(server):
         data = response.json()
         assert "data" in data
         assert "__schema" in data["data"]
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA NEXUS - Quantum-Inspired Optimization
 Simulated annealing and quantum-inspired algorithms for optimal task scheduling.
@@ -549,3 +549,4 @@ class ChimeraQuantumIntegration:
                     f"assignments={len(schedule.assignments)}")
 
         return schedule.assignments
+

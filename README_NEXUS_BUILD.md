@@ -41,8 +41,8 @@ Success Rate:  97.8%
 ### **ORIGINAL CHIMERA v2.0 FEATURES (5)**
 1. ✅ **Metacognitive Self-Evolution** - AI learns from failures automatically
 2. ✅ **Federated Learning** - Distributed training with Flower framework
-3. ✅ **WebSocket Server** - Real-time communication (port 8765)
-4. ✅ **HTTP Dashboard** - Web interface (port 8000)
+3. ✅ **WebSocket Server** - Real-time communication (port 3001)
+4. ✅ **HTTP Dashboard** - Web interface (port 3000)
 5. ✅ **SQLite Persistence** - Database with automatic backups
 
 ### **NEW REVOLUTIONARY SYSTEMS (10)**
@@ -170,9 +170,9 @@ Success Rate:  97.8%
 .\start_nexus_v3.ps1
 
 # 4. Access dashboards
-# Web: http://localhost:8000
-# VR:  http://localhost:8000/dashboard_3d.html
-# WS:  ws://localhost:8765
+# Web: http://localhost:3000
+# VR:  http://localhost:3000/dashboard_3d.html
+# WS:  ws://localhost:3001
 ```
 
 **POWERSHELL ONLY - NO BASH, NO LINUX COMPATIBILITY**
@@ -300,7 +300,7 @@ cloud:
 - **Memory:** ~500MB base + ML models (~2GB with TensorFlow)
 - **CPU:** 1-4 cores (adaptive based on load)
 - **Disk:** ~100MB code + models (expandable)
-- **Network:** WebSocket (8765), HTTP (8000)
+- **Network:** WebSocket (3001), HTTP (3000)
 
 ---
 

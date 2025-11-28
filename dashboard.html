@@ -19,9 +19,9 @@
       --warning: #f59e0b;
       --danger: #ef4444;
       # Start CHIMERA NEXUS v3.0 .\start_nexus_v3.ps1 # Access:
-        # Web Dashboard: http: //localhost:8000
-        # 3D VR View: http: //localhost:8000/dashboard_3d.html
-        # WebSocket: ws: //localhost:8765        # Install (if not done)
+        # Web Dashboard: http: //localhost:3000
+        # 3D VR View: http: //localhost:3000/dashboard_3d.html
+        # WebSocket: ws: //localhost:3001        # Install (if not done)
         .\install_quick_windows.ps1 # Test all systems .\test_nexus_v3.ps1 # LAUNCH CHIMERA NEXUS v3.0 .\start_nexus_v3.ps1 --bg-dark: #0f0f23;
       --bg-card: #1a1a2e;
       --bg-hover: #23233a;
@@ -439,7 +439,7 @@
           </div>
           <div class="console-line console-success">
             <span class="console-timestamp">[OK]</span>
-            WebSocket connection: ws://localhost:8765
+            WebSocket connection: ws://localhost:3001
           </div>
           <div class="console-line console-info">
             <span class="console-timestamp">[INFO]</span>
@@ -489,7 +489,7 @@
 
     // Connect to WebSocket
     function connectWebSocket() {
-      ws = new WebSocket('ws://localhost:8765');
+      ws = new WebSocket('ws://localhost:3001');
 
       ws.onopen = () => {
         logToConsole('WebSocket connected', 'success');
@@ -590,7 +590,7 @@
 
     async function updateMetrics() {
       try {
-        const response = await fetch('http://localhost:8000/metrics');
+        const response = await fetch('http://localhost:3000/metrics');
         const data = await response.json();
 
         document.getElementById('nodeCount').textContent = data.nodes || 0;

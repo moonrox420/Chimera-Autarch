@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA NEXUS - Multi-Cloud Orchestration
 Deploy and manage CHIMERA across AWS, Azure, and GCP with REAL cloud APIs.
@@ -18,7 +18,7 @@ try:
     AWS_AVAILABLE = True
 except ImportError:
     AWS_AVAILABLE = False
-    print("⚠️  boto3 not available. Install: pip install boto3")
+    print("âš ï¸  boto3 not available. Install: pip install boto3")
 
 try:
     from azure.identity import DefaultAzureCredential
@@ -27,7 +27,7 @@ try:
     AZURE_AVAILABLE = True
 except ImportError:
     AZURE_AVAILABLE = False
-    print("⚠️  Azure SDK not available. Install: pip install azure-mgmt-compute azure-identity")
+    print("âš ï¸  Azure SDK not available. Install: pip install azure-mgmt-compute azure-identity")
 
 try:
     from google.cloud import compute_v1
@@ -35,7 +35,7 @@ try:
     GCP_AVAILABLE = True
 except ImportError:
     GCP_AVAILABLE = False
-    print("⚠️  GCP SDK not available. Install: pip install google-cloud-compute")
+    print("âš ï¸  GCP SDK not available. Install: pip install google-cloud-compute")
 
 logger = logging.getLogger("chimera.cloud")
 
@@ -511,3 +511,4 @@ class MultiCloudOrchestrator:
             'total_cost_per_hour': sum(i.cost_per_hour for i in all_instances),
             'deployments': list(self.active_deployments.keys())
         }
+

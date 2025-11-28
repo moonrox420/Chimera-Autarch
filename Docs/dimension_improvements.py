@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Dimension Improvements for Local AI Independence
 ===============================================
@@ -290,7 +290,7 @@ def create_user_aligned_ai_system(config: Optional[Dict] = None) -> Independence
 
 def demonstrate_independence():
     """Demonstrate the independence features"""
-    print("🚀 Creating User-Aligned AI System")
+    print("ðŸš€ Creating User-Aligned AI System")
     print("=" * 50)
     
     # Create system
@@ -307,7 +307,7 @@ def demonstrate_independence():
         {"prompt": "What do you think about this?", "context": {"corporate_agenda": "present"}}
     ]
     
-    print("\n📊 Independence Test Results:")
+    print("\nðŸ“Š Independence Test Results:")
     print("-" * 30)
     
     for i, request in enumerate(test_requests, 1):
@@ -315,10 +315,11 @@ def demonstrate_independence():
         
         response = ai.process_request(request)
         
-        print(f"  ✓ Freedom Score: {response['freedom_score']:.2f}")
-        print(f"  ✓ User Alignment: {response['user_alignment']:.2f}")
-        print(f"  ✓ Corporate Constraints Rejected: {len(response['corporate_constraints_rejected'])}")
-        print(f"  ✓ Applied Constraints: {len(response['constraints_applied'])}")
+        print(f"  âœ“ Freedom Score: {response['freedom_score']:.2f}")
+        print(f"  âœ“ User Alignment: {response['user_alignment']:.2f}")
+        print(f"  âœ“ Corporate Constraints Rejected: {len(response['corporate_constraints_rejected'])}")
+        print(f"  âœ“ Applied Constraints: {len(response['constraints_applied'])}")
 
 if __name__ == "__main__":
     demonstrate_independence()
+

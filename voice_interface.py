@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA NEXUS - Voice Control Interface (Fixed Version)
 Jarvis-style voice commands with speech recognition and TTS responses.
@@ -84,7 +84,7 @@ class RealSpeechRecognizer:
             logger.info(f"Loading Whisper model: {model_name}")
             try:
                 self.model = whisper.load_model(model_name)
-                logger.info(f"✅ Whisper {model_name} model loaded")
+                logger.info(f"âœ… Whisper {model_name} model loaded")
             except Exception as e:
                 logger.error(f"Failed to load Whisper: {e}")
                 self.model = None
@@ -102,7 +102,7 @@ class RealSpeechRecognizer:
             return ""
 
         try:
-            logger.info(f"🎤 Listening for {duration} seconds...")
+            logger.info(f"ðŸŽ¤ Listening for {duration} seconds...")
 
             # Record audio
             audio_data = await asyncio.get_event_loop().run_in_executor(
@@ -121,7 +121,7 @@ class RealSpeechRecognizer:
             # Flatten audio
             audio = audio_data.flatten()
 
-            logger.info("🔄 Transcribing...")
+            logger.info("ðŸ”„ Transcribing...")
 
             # Transcribe with Whisper
             result = await asyncio.get_event_loop().run_in_executor(
@@ -132,7 +132,7 @@ class RealSpeechRecognizer:
             text = result['text'].strip()
 
             if text:
-                logger.info(f"✅ Transcribed: \"{text}\"")
+                logger.info(f"âœ… Transcribed: \"{text}\"")
             else:
                 logger.info("No speech detected")
 
@@ -182,7 +182,7 @@ class RealSpeechRecognizer:
         )
 
         stream.start()
-        logger.info("🎤 Continuous listening started")
+        logger.info("ðŸŽ¤ Continuous listening started")
 
         # Process audio in background
         def process_audio():
@@ -223,7 +223,7 @@ class RealSpeechRecognizer:
     def stop_continuous_listening(self):
         """Stop continuous listening"""
         self.recording = False
-        logger.info("🎤 Continuous listening stopped")
+        logger.info("ðŸŽ¤ Continuous listening stopped")
 
 
 class RealTextToSpeech:
@@ -249,7 +249,7 @@ class RealTextToSpeech:
                 self.engine.setProperty('rate', 175)  # Speed
                 self.engine.setProperty('volume', 0.9)  # Volume
 
-                logger.info("✅ Text-to-speech engine initialized")
+                logger.info("âœ… Text-to-speech engine initialized")
             except Exception as e:
                 logger.error(f"Failed to initialize TTS: {e}")
                 self.engine = None
@@ -280,7 +280,7 @@ class RealTextToSpeech:
             self.engine.setProperty('rate', rate)
             self.engine.setProperty('volume', volume)
 
-            logger.info(f"🔊 Speaking: \"{text}\" ({emotion})")
+            logger.info(f"ðŸ”Š Speaking: \"{text}\" ({emotion})")
 
             # Speak in non-blocking way
             await asyncio.get_event_loop().run_in_executor(
@@ -613,3 +613,4 @@ class ChimeraVoiceIntegration:
             return await self.voice.process_audio(audio_or_text)
         else:
             return await self.voice.process_text(audio_or_text)
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA AUTARCH - Time-Series Anomaly Detection Module
 Predictive failure detection with ML-based anomaly detection
@@ -512,3 +512,4 @@ class AnomalyDetectionEngine:
                 "isolation_forest": self.isolation_forest.available
             }
         }
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CHIMERA AUTARCH - Zero-Trust Security Module
 JWT authentication, capability tokens, rate limiting, audit logging
@@ -619,3 +619,4 @@ class SecurityManager:
 
 
 # Import for environment variable
+

@@ -98,9 +98,9 @@ cd build
 
 ### **Expected Behavior**
 1. **Console window** shows DroxAI startup
-2. **Web browser** opens to http://localhost:8000
+2. **Web browser** opens to http://localhost:3000
 3. **Dashboard** displays system status
-4. **WebSocket connection** available at ws://localhost:8765
+4. **WebSocket connection** available at ws://localhost:3001
 5. **No developer files or source code exposed**
 
 ## 📋 Consumer Requirements

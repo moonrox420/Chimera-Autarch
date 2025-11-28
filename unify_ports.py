@@ -1,5 +1,5 @@
-# unify_maxed_out.py
-# ULTIMATE FORTRESS DOMINATOR — MAXED OUT FOR ANYTHING BADASS
+﻿# unify_maxed_out.py
+# ULTIMATE FORTRESS DOMINATOR â€” MAXED OUT FOR ANYTHING BADASS
 # One script to rule them all: Ports, security, AI evolution, Docker, configs, imports, types, scans, and more.
 # Run: python unify_maxed_out.py [--dry-run] [--evolve]
 # Features: Total domination + auto-imports + type hints + security + scans + self-evolution.
@@ -15,11 +15,18 @@ from pathlib import Path
 from argparse import ArgumentParser
 
 try:
-    import schedule
+
+    import schedule  # type: ignore
+
     import time
+
     SCHEDULE_AVAILABLE = True
+
 except ImportError:
+
     SCHEDULE_AVAILABLE = False
+
+    schedule = None  # type: ignore
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -39,15 +46,15 @@ def backup_file(path):
     BACKUP_DIR.mkdir(exist_ok=True)
     backup_path = BACKUP_DIR / f"{path.name}.bak"
     shutil.copy2(path, backup_path)
-    logging.info(f"BACKED UP → {backup_path}")
+    logging.info(f"BACKED UP â†’ {backup_path}")
 
 def apply_core_transformations(text, path):
-    # 1. Bind to 0.0.0.0
-    text = re.sub(r'\b(127\.0\.0\.1|0\.0\.0\.0)\b', '0.0.0.0', text)
+    # 1. Bind to 127.0.0.1
+    text = re.sub(r'\b(127\.0\.0\.1|0\.0\.0\.0)\b', '127.0.0.1', text)
     
     # 2. Ports to env vars
     text = re.sub(r'\bport\s*[:=]\s*(\d+)', lambda m: f"port = int(os.getenv('HTTP_PORT' if 'http' in path.name.lower() else 'WS_PORT', {m.group(1)}))", text)
-    text = re.sub(r'\b(3001|3001)\b', '3001', text)
+    text = re.sub(r'\b(3000|3000)\b', '3000', text)
     text = re.sub(r'\b(3000|3000)\b', '3000', text)
     
     # 3. Security hardening
@@ -67,13 +74,13 @@ WORKDIR /app
 COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 USER chimera
-EXPOSE 3000 3001
+EXPOSE 3000 3000
 ENTRYPOINT ["python", "DroxAILauncher.py"]
 """
         if not dry_run:
             backup_file(path)
             path.write_text(new_content, "utf-8")
-        logging.info(f"{'WOULD UPDATE' if dry_run else 'UPDATED'} DOCKERFILE → {path}")
+        logging.info(f"{'WOULD UPDATE' if dry_run else 'UPDATED'} DOCKERFILE â†’ {path}")
         return True
     
     if "compose" in path.name.lower():
@@ -91,13 +98,13 @@ ENTRYPOINT ["python", "DroxAILauncher.py"]
       - no-new-privileges:true
     ports:
       - "3000:3000"
-      - "3001:3001"
+      - "3000:3000"
     environment:
       MASTER_KEY: ${MASTER_KEY}
       ENABLE_FL_RUNTIME: ${ENABLE_FL_RUNTIME:-false}
       IMAGE_DIGEST: ${IMAGE_DIGEST}
       HTTP_PORT: 3000
-      WS_PORT: 3001
+      WS_PORT: 3000
     volumes:
       - ./ssl:/chimera/ssl:ro
       - ./cosign.pub:/chimera/cosign.pub:ro
@@ -105,22 +112,22 @@ ENTRYPOINT ["python", "DroxAILauncher.py"]
         if not dry_run:
             backup_file(path)
             path.write_text(new_content, "utf-8")
-        logging.info(f"{'WOULD UPDATE' if dry_run else 'UPDATED'} COMPOSE → {path}")
+        logging.info(f"{'WOULD UPDATE' if dry_run else 'UPDATED'} COMPOSE â†’ {path}")
         return True
     
     if path.name.endswith(".json") and "config" in str(path).lower():
         new_content = json.dumps({
             "Server": {
-                "HttpHost": "0.0.0.0",
+                "HttpHost": "127.0.0.1",
                 "HttpPort": 3000,
-                "WebSocketHost": "0.0.0.0",
-                "WebSocketPort": 3001
+                "WebSocketHost": "127.0.0.1",
+                "WebSocketPort": 3000
             }
         }, indent=2)
         if not dry_run:
             backup_file(path)
             path.write_text(new_content, "utf-8")
-        logging.info(f"{'WOULD UPDATE' if dry_run else 'UPDATED'} CONFIG → {path}")
+        logging.info(f"{'WOULD UPDATE' if dry_run else 'UPDATED'} CONFIG â†’ {path}")
         return True
     
     return False
@@ -159,7 +166,7 @@ def apply_ai_features(text, path, dry_run):
                     # Full AST rewrite needed for precision
         
         if not dry_run:
-            logging.info(f"AI-ENHANCED → {path.relative_to(ROOT)}")
+            logging.info(f"AI-ENHANCED â†’ {path.relative_to(ROOT)}")
     except:
         pass
     
@@ -169,9 +176,9 @@ def scan_security(path):
     if path.name.lower().startswith("dockerfile"):
         try:
             subprocess.run(["trivy", "config", str(path)], check=True, capture_output=True)
-            logging.info(f"SECURITY SCANNED → {path.relative_to(ROOT)}")
+            logging.info(f"SECURITY SCANNED â†’ {path.relative_to(ROOT)}")
         except:
-            logging.info(f"TRIVY SCAN FAILED → {path.relative_to(ROOT)}")
+            logging.info(f"TRIVY SCAN FAILED â†’ {path.relative_to(ROOT)}")
 
 def process_file(path, dry_run, evolve):
     if not is_text(path):
@@ -192,18 +199,18 @@ def process_file(path, dry_run, evolve):
         if not dry_run:
             backup_file(path)
             path.write_text(text, "utf-8")
-        logging.info(f"{'WOULD DOMINATE' if dry_run else 'DOMINATED'} → {path.relative_to(ROOT)}")
+        logging.info(f"{'WOULD DOMINATE' if dry_run else 'DOMINATED'} â†’ {path.relative_to(ROOT)}")
         return True
     
     return False
 
 def self_evolve():
-    if not SCHEDULE_AVAILABLE:
-        logging.warning("SCHEDULE NOT AVAILABLE — SELF-EVOLUTION DISABLED")
+    if not SCHEDULE_AVAILABLE or schedule is None:
+        logging.warning("SCHEDULE NOT AVAILABLE â€" SELF-EVOLUTION DISABLED")
         return
     
     schedule.every(24).hours.do(lambda: main(dry_run=False, evolve=True))
-    logging.info("SELF-EVOLUTION ENABLED — RUNNING EVERY 24 HOURS")
+    logging.info("SELF-EVOLUTION ENABLED â€" RUNNING EVERY 24 HOURS")
     try:
         while True:
             schedule.run_pending()
@@ -212,7 +219,7 @@ def self_evolve():
         logging.info("SELF-EVOLUTION STOPPED")
 
 def main(dry_run=False, evolve=False):
-    logging.info(f"{'DRY RUN: ' if dry_run else ''}ULTIMATE FORTRESS DOMINATION — MAXED OUT")
+    logging.info(f"{'DRY RUN: ' if dry_run else ''}ULTIMATE FORTRESS DOMINATION â€” MAXED OUT")
     
     changes = 0
     for path in ROOT.rglob("*"):
@@ -226,7 +233,7 @@ def main(dry_run=False, evolve=False):
     else:
         logging.info(f"{'WOULD MAKE' if dry_run else 'MADE'} {changes} BADASS CHANGES")
     
-    logging.info("DOMINATION COMPLETE — READY FOR ANYTHING.")
+    logging.info("DOMINATION COMPLETE â€” READY FOR ANYTHING.")
     
     if evolve:
         self_evolve()

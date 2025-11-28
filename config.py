@@ -1,21 +1,15 @@
-#!/usr/bin/env python3
-"""
-Configuration management for CHIMERA AUTARCH
-Supports YAML config files with environment variable overrides
-"""
-import os
-from pathlib import Path
-from dataclasses import dataclass
-from typing import Optional
-import yaml
+﻿
+# Renamed to avoid shadowing config package. See config/settings.py for settings classes.
+
+# (This file is intentionally left as a stub or can be deleted if not needed.)
 
 @dataclass
 class ServerConfig:
     """Server configuration settings"""
     websocket_host: str = "localhost"
-    websocket_port: int = 8765
+    websocket_port: int = 3001
     http_host: str = "localhost"
-    http_port: int = 8000
+    http_port: int = 3000
     ssl_enabled: bool = False
     ssl_cert_path: Optional[str] = None
     ssl_key_path: Optional[str] = None
@@ -45,7 +39,7 @@ class NodeConfig:
 @dataclass
 class FederatedLearningConfig:
     """Federated learning settings"""
-    server_address: str = "0.0.0.0:8080"
+    server_address: str = "127.0.0.1:8080"
     default_rounds: int = 3
     min_rounds: int = 3
     max_rounds: int = 10
@@ -76,7 +70,7 @@ def load_config(config_path: str = "config.yaml") -> ChimeraConfig:
     Load configuration from YAML file with environment variable overrides
     
     Environment variables override YAML settings using pattern:
-    CHIMERA_SECTION_SETTING (e.g., CHIMERA_SERVER_WEBSOCKET_PORT=9000)
+    CHIMERA_SECTION_SETTING (e.g., CHIMERA_SERVER_WEBSOCKET_PORT=3000)
     """
     # Default configuration
     config_dict = {
@@ -129,9 +123,9 @@ def save_default_config(config_path: str = "config.yaml"):
     default_config = {
         "server": {
             "websocket_host": "localhost",
-            "websocket_port": 8765,
+            "websocket_port": 3001,
             "http_host": "localhost",
-            "http_port": 8000,
+            "http_port": 3000,
             "ssl_enabled": False,
             "ssl_cert_path": None,
             "ssl_key_path": None
@@ -153,7 +147,7 @@ def save_default_config(config_path: str = "config.yaml"):
             "node_timeout": 90.0
         },
         "federated_learning": {
-            "server_address": "0.0.0.0:8080",
+            "server_address": "127.0.0.1:8080",
             "default_rounds": 3,
             "min_rounds": 3,
             "max_rounds": 10
@@ -176,3 +170,4 @@ if __name__ == "__main__":
     # Generate default config file
     save_default_config("config.example.yaml")
     print("Generated config.example.yaml")
+

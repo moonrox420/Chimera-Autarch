@@ -70,10 +70,10 @@ self.tts = RealTextToSpeech()  # Was: TextToSpeech()
 🟢 **OPERATIONAL** - All critical components working
 
 **Services Available:**
-- WebSocket Server: ws://localhost:8765
-- HTTP Dashboard: http://localhost:8000
-- GraphQL API: http://localhost:8000/graphql
-- Metrics Endpoint: http://localhost:8000/metrics
+- WebSocket Server: ws://localhost:3001
+- HTTP Dashboard: http://localhost:3000
+- GraphQL API: http://localhost:3000/graphql
+- Metrics Endpoint: http://localhost:3000/metrics
 
 ## Test Results
 ```bash

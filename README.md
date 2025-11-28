@@ -1,6 +1,6 @@
-# CHIMERA AUTARCH v3.0 - WICKEDLY BADASS EDITION 🔥
+# CHIMERA AUTARCH v3.0
 
-**Self-Evolving AI Orchestration System with AI Code Generation, Predictive Anomaly Detection, and Swarm Intelligence**
+A self-evolving AI orchestration system with federated learning capabilities, built with modern Python patterns.
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -218,9 +218,9 @@ python chimera_autarch.py
 ```
 
 **Access the dashboard:**
-- Web UI: http://localhost:8000
-- WebSocket: ws://localhost:8765
-- Metrics API: http://localhost:8000/metrics
+- Web UI: http://localhost:3000
+- WebSocket: ws://localhost:3001
+- Metrics API: http://localhost:3000/metrics
 
 **Connect a client:**
 ```powershell
@@ -235,9 +235,9 @@ python ws_client.py
 ```yaml
 server:
   websocket_host: localhost
-  websocket_port: 8765
+  websocket_port: 3001
   http_host: localhost
-  http_port: 8000
+  http_port: 3000
   ssl_enabled: false
 
 metacognitive:
@@ -509,3 +509,206 @@ Structured logging with component tags:
        failureReason
        appliedFix
        observedImprovement
+<<<<<<< HEAD
+=======
+       timestamp
+     }
+   }
+   ```
+
+4. **Topic Metrics**
+   ```graphql
+   {
+     topics {
+       name
+       confidence
+       failureCount
+       successRate
+     }
+   }
+   ```
+
+### WebSocket Protocol
+
+**Connection:** `ws://localhost:3001`
+
+**Message Types:**
+
+1. **Register Node**
+   ```json
+   {
+     "type": "register",
+     "data": {
+       "type": "worker",
+       "capabilities": ["compute", "storage"],
+       "resources": {"cpu": 4, "memory_gb": 16}
+     }
+   }
+   ```
+
+2. **Send Intent**
+   ```json
+   {
+     "type": "intent",
+     "data": {
+       "intent": "show system stats"
+     }
+   }
+   ```
+
+3. **Heartbeat**
+   ```json
+   {
+     "type": "heartbeat",
+     "data": {
+       "resources": {"cpu_percent": 45}
+     }
+   }
+   ```
+
+4. **Subscribe to Events (NEW in v2.2)**
+   ```json
+   {
+     "type": "subscribe_events",
+     "client_id": "my_monitor",
+     "event_type": "*"
+   }
+   ```
+   
+   **Response:**
+   ```json
+   {
+     "type": "subscribed",
+     "client_id": "my_monitor",
+     "event_type": "*"
+   }
+   ```
+   
+   **Event Messages:**
+   ```json
+   {
+     "type": "event",
+     "event": {
+       "id": "evt_1699834567123",
+       "type": "evolution_applied",
+       "data": {
+         "topic": "optimization",
+         "improvement": 0.15,
+         "fix": "Federated learning (rounds=5)"
+       },
+       "timestamp": 1699834567.123,
+       "priority": 8
+     }
+   }
+   ```
+
+### Event Types (v2.2)
+
+Subscribe to real-time system events via WebSocket:
+
+- `evolution_applied` - System learns from failures (priority: 8)
+- `confidence_changed` - Topic confidence shifts (priority: 7)
+- `learning_started` / `learning_completed` - Federated training (priority: 6)
+- `node_registered` / `node_disconnected` - Node lifecycle (priority: 5)
+- `task_dispatched` / `task_completed` - Task orchestration (priority: 4)
+- `tool_executed` - Tool execution events (priority: 3)
+- `system_alert` - Critical notifications (priority: 10)
+
+**Monitor events:**
+```bash
+python event_stream_demo.py
+```
+
+### Available Tools
+
+The system includes these built-in tools accessible via natural language:
+
+#### File Operations
+- **read_file** - "read file config.yaml"
+- **write_file** - "write hello world to output.txt"
+- **list_directory** - "list directory src" or "ls src recursive"
+
+#### System Monitoring
+- **get_system_stats** - "show system stats" or "cpu usage"
+- **get_node_status** - "show nodes" or "node health"
+
+#### Database Queries
+- **query_evolutions** - "show evolutions for optimization"
+- **get_learning_metrics** - "learning metrics for networking"
+
+#### Code Analysis
+- **analyze_and_suggest_patch** - "optimize function calculate_score"
+
+#### Federated Learning
+- **start_federated_training** - "federated learning to improve optimization"
+
+#### Symbiotic Integration
+- **initialize_symbiotic_link** - "create quantum symbiotic arm"
+
+### Natural Language Examples
+
+The IntentCompiler understands these patterns:
+
+```
+"read file chimera_autarch.py"
+"show system stats"
+"list nodes"
+"show evolutions for optimization"
+"learning metrics"
+"optimize function process_data for performance"
+"federated learning to improve networking"
+"list directory src recursive"
+"show file config.yaml and then list directory backups"
+```
+
+## �🐛 Troubleshooting
+
+### Common Issues
+
+**Port already in use:**
+```bash
+# Change ports in config.yaml or via environment variables
+export CHIMERA_SERVER_WEBSOCKET_PORT=9765
+export CHIMERA_SERVER_HTTP_PORT=9000
+```
+
+**Database locked:**
+```bash
+# Check if another instance is running
+# Close it or delete chimera_memory.db-journal
+```
+
+**Flower not available:**
+```bash
+# System degrades gracefully - federated learning features disabled
+# To enable: pip install flwr
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Built with [Flower](https://flower.dev/) for federated learning
+- Uses [websockets](https://websockets.readthedocs.io/) for real-time communication
+- Powered by [aiosqlite](https://aiosqlite.omnilib.dev/) for async persistence
+
+## 📞 Support
+
+- 📖 Documentation: See `.github/copilot-instructions.md` for detailed architecture
+- 🐛 Issues: Open an issue on GitHub
+- 💬 Discussions: Start a discussion for questions
+
+---
+
+**Built with 🧠 by the CHIMERA team | Self-evolving since 2025**
+>>>>>>> c4db94e (� Nuked all locked .bak files)

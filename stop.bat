@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 REM DroxAI Stop Script
 REM This batch file is intended to find and kill the DroxAI backend process.
 

@@ -1,6 +1,6 @@
-# DroxAI_2.5 Full Bootstrap: Modern Stack + Complete Project Build
+﻿# DroxAI_2.5 Full Bootstrap: Modern Stack + Complete Project Build
 # Run as Administrator in PowerShell 7+
-$dir = "C:\Users\dusti\DroxAI\DroxAI_2.5"; New-Item -ItemType Directory -Force -Path $dir | Out-Null; Set-Location $dir; Write-Host "🚀 Building DroxAI_2.5 in $dir..."; winget install --id Python.Python.3.12 -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id OpenJS.NodeJS.LTS -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id GoLang.Go -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Microsoft.DotNet.SDK.9 -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Git.Git -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Docker.DockerDesktop -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Microsoft.VisualStudioCode -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Microsoft.PowerShell -e --source winget --silent --accept-package-agreements --accept-source-agreements; RefreshEnv; python --version; node --version; go version; dotnet --info; git --version; pwsh --version; code --version; Write-Host "`n📦 Installing Python deps..."; python -m pip install --upgrade pip; python -m pip install fastapi==0.115.2 uvicorn[standard]==0.30.6 pydantic==2.9.2 pydantic-settings==2.5.2 SQLAlchemy==2.0.36 asyncpg==0.29.0 alembic==1.13.2 passlib[argon2]==1.7.4 python-jose==3.3.0 cryptography==43.0.1 httpx==0.27.2 redis==5.0.8 prometheus-client==0.20.0 psutil==6.0.0 jinja2==3.1.4 python-multipart==0.0.9 click==8.1.7 stripe==10.10.0; Write-Host "`n🛠️ Building project structure..."; New-Item -ItemType Directory -Force -Path "backend/core" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/users" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ai" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/rbac" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/monitoring" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/admin" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/economy" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/cluster" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ops" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/analytics" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/marketing" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/health" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/supervisor" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/command_core" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/security_hardening" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/optimizer" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/orchestrator" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/command_actions" | Out-Null; New-Item -ItemType Directory -Force -Path "alembic/versions" | Out-Null; New-Item -ItemType Directory -Force -Path "logs" | Out-Null; New-Item -ItemType Directory -Force -Path "config" | Out-Null; New-Item -ItemType Directory -Force -Path "ops-scripts" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ui/templates" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ui/static" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ai/providers" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/command_core/ui_templates" | Out-Null; Write-Host "`n📝 Populating core files..."; $coreSettings = @"
+$dir = "C:\Users\dusti\DroxAI\DroxAI_2.5"; New-Item -ItemType Directory -Force -Path $dir | Out-Null; Set-Location $dir; Write-Host "ðŸš€ Building DroxAI_2.5 in $dir..."; winget install --id Python.Python.3.12 -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id OpenJS.NodeJS.LTS -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id GoLang.Go -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Microsoft.DotNet.SDK.9 -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Git.Git -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Docker.DockerDesktop -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Microsoft.VisualStudioCode -e --source winget --silent --accept-package-agreements --accept-source-agreements; winget install --id Microsoft.PowerShell -e --source winget --silent --accept-package-agreements --accept-source-agreements; RefreshEnv; python --version; node --version; go version; dotnet --info; git --version; pwsh --version; code --version; Write-Host "`nðŸ“¦ Installing Python deps..."; python -m pip install --upgrade pip; python -m pip install fastapi==0.115.2 uvicorn[standard]==0.30.6 pydantic==2.9.2 pydantic-settings==2.5.2 SQLAlchemy==2.0.36 asyncpg==0.29.0 alembic==1.13.2 passlib[argon2]==1.7.4 python-jose==3.3.0 cryptography==43.0.1 httpx==0.27.2 redis==5.0.8 prometheus-client==0.20.0 psutil==6.0.0 jinja2==3.1.4 python-multipart==0.0.9 click==8.1.7 stripe==10.10.0; Write-Host "`nðŸ› ï¸ Building project structure..."; New-Item -ItemType Directory -Force -Path "backend/core" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/users" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ai" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/rbac" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/monitoring" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/admin" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/economy" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/cluster" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ops" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/analytics" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/marketing" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/health" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/supervisor" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/command_core" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/security_hardening" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/optimizer" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/orchestrator" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/command_actions" | Out-Null; New-Item -ItemType Directory -Force -Path "alembic/versions" | Out-Null; New-Item -ItemType Directory -Force -Path "logs" | Out-Null; New-Item -ItemType Directory -Force -Path "config" | Out-Null; New-Item -ItemType Directory -Force -Path "ops-scripts" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ui/templates" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ui/static" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/ai/providers" | Out-Null; New-Item -ItemType Directory -Force -Path "backend/command_core/ui_templates" | Out-Null; Write-Host "`nðŸ“ Populating core files..."; $coreSettings = @"
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 from typing import List
@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     redis_url: str = 'redis://localhost:6379/0'
     allowed_hosts: List[str] = ['*']
     log_dir: str = 'logs'
-    metrics_port: int = 9000
+    metrics_port: int = 3000
     timezone: str = 'UTC'
 
     class Config:
@@ -97,7 +97,7 @@ class EventBus:
 
     async def publish(self, channel: str, message: str):
         await self.redis.publish(channel, message)
-        log.info(f'Published → {channel}: {message}')
+        log.info(f'Published â†’ {channel}: {message}')
 
     async def subscribe(self, channel: str, handler):
         pubsub = self.redis.pubsub()
@@ -129,7 +129,7 @@ def measure_latency(func):
         latency = time.perf_counter() - start
         return result, latency
     return wrapper
-"@; $utilsCore | Out-File -FilePath "backend/core/utils.py" -Encoding UTF8; Write-Host "`n✅ Core infrastructure files generated."; Write-Host "`n🔧 Generating user management..."; $usersInit = @"
+"@; $utilsCore | Out-File -FilePath "backend/core/utils.py" -Encoding UTF8; Write-Host "`nâœ… Core infrastructure files generated."; Write-Host "`nðŸ”§ Generating user management..."; $usersInit = @"
 from users.router import router
 "@; $usersInit | Out-File -FilePath "backend/users/__init__.py" -Encoding UTF8; $usersModels = @"
 from sqlalchemy import Column, String, Boolean, DateTime, Enum, ForeignKey
@@ -268,7 +268,7 @@ async def get_me(current_user: str = Depends(get_current_user), db: AsyncSession
     if not user:
         raise HTTPException(status_code=404, detail='User not found')
     return user
-"@; $usersRouter | Out-File -FilePath "backend/users/router.py" -Encoding UTF8; Write-Host "`n✅ User management generated."; Write-Host "`n🔧 Generating AI services..."; $aiInit = @"
+"@; $usersRouter | Out-File -FilePath "backend/users/router.py" -Encoding UTF8; Write-Host "`nâœ… User management generated."; Write-Host "`nðŸ”§ Generating AI services..."; $aiInit = @"
 from ai.router import router
 "@; $aiInit | Out-File -FilePath "backend/ai/__init__.py" -Encoding UTF8; $aiModels = @"
 from sqlalchemy import Column, String, DateTime, ForeignKey, JSON
@@ -413,7 +413,7 @@ async def complete(data: SessionCreate, db: AsyncSession = Depends(get_db), curr
 async def list_sessions(db: AsyncSession = Depends(get_db), current_user: str = Depends(get_current_user)):
     sessions = await ai_service.get_sessions(current_user, db)
     return [{'id': str(s.id), 'model': s.model_name, 'created_at': s.created_at.isoformat()} for s in sessions]
-"@; $aiRouter | Out-File -FilePath "backend/ai/router.py" -Encoding UTF8; Write-Host "`n✅ AI services generated."; Write-Host "`n🔧 Generating RBAC..."; $rbacInit = @"
+"@; $aiRouter | Out-File -FilePath "backend/ai/router.py" -Encoding UTF8; Write-Host "`nâœ… AI services generated."; Write-Host "`nðŸ”§ Generating RBAC..."; $rbacInit = @"
 from rbac.router import router
 "@; $rbacInit | Out-File -FilePath "backend/rbac/__init__.py" -Encoding UTF8; $rbacModels = @"
 from sqlalchemy import Column, Enum, Integer, Float, ForeignKey
@@ -476,7 +476,7 @@ async def list_plans(db: AsyncSession = Depends(get_db)):
     plans = await db.execute('SELECT * FROM plan_limits')
     data = [dict(r) for r in plans.mappings().all()]
     return data
-"@; $rbacRouter | Out-File -FilePath "backend/rbac/router.py" -Encoding UTF8; Write-Host "`n✅ RBAC generated."; Write-Host "`n🔧 Generating monitoring..."; $monitoringInit = @"
+"@; $rbacRouter | Out-File -FilePath "backend/rbac/router.py" -Encoding UTF8; Write-Host "`nâœ… RBAC generated."; Write-Host "`nðŸ”§ Generating monitoring..."; $monitoringInit = @"
 from monitoring.router import router
 "@; $monitoringInit | Out-File -FilePath "backend/monitoring/__init__.py" -Encoding UTF8; $monitoringMetrics = @"
 from prometheus_client import Counter, Histogram
@@ -493,7 +493,7 @@ import threading
 import logging
 import time
 
-def start_metrics_server(port: int = 9000):
+def start_metrics_server(port: int = 3000):
     def _run():
         start_http_server(port)
         logging.info(f'[Observability] Prometheus metrics server running on :{port}')
@@ -522,7 +522,7 @@ def system_health():
         'uptime_seconds': time.time() - psutil.boot_time(),
         'os': platform.platform(),
     }
-"@; $monitoringHealth | Out-File -FilePath "backend/monitoring/health.py" -Encoding UTF8; Write-Host "`n✅ Monitoring generated."; Write-Host "`n🔧 Generating main.py..."; $mainPy = @"
+"@; $monitoringHealth | Out-File -FilePath "backend/monitoring/health.py" -Encoding UTF8; Write-Host "`nâœ… Monitoring generated."; Write-Host "`nðŸ”§ Generating main.py..."; $mainPy = @"
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
@@ -546,8 +546,8 @@ async def health():
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run('main:app', host='0.0.0.0', port=8000)
-"@; $mainPy | Out-File -FilePath "backend/main.py" -Encoding UTF8; Write-Host "`n✅ Main app generated."; Write-Host "`n🔧 Generating .env template..."; $envTemplate = @"
+    uvicorn.run('main:app', host='127.0.0.1', port=3000)
+"@; $mainPy | Out-File -FilePath "backend/main.py" -Encoding UTF8; Write-Host "`nâœ… Main app generated."; Write-Host "`nðŸ”§ Generating .env template..."; $envTemplate = @"
 APP_NAME=DroxAI
 ENV=development
 DEBUG=True
@@ -557,14 +557,14 @@ POSTGRES_URL=postgresql+asyncpg://postgres:password@localhost:5432/droxai
 REDIS_URL=redis://localhost:6379/0
 ALLOWED_HOSTS=['*']
 LOG_DIR=logs
-METRICS_PORT=9000
+METRICS_PORT=3000
 TIMEZONE=UTC
 OPENAI_API_KEY=your_openai_key
 ANTHROPIC_API_KEY=your_anthropic_key
 STRIPE_API_KEY=your_stripe_key
 STRIPE_WEBHOOK_SECRET=your_webhook_secret
 FERNET_KEY=your_fernet_key
-"@; $envTemplate | Out-File -FilePath ".env" -Encoding UTF8; Write-Host "`n✅ Environment template generated."; Write-Host "`n🔧 Generating README.md..."; $readme = @"
+"@; $envTemplate | Out-File -FilePath ".env" -Encoding UTF8; Write-Host "`nâœ… Environment template generated."; Write-Host "`nðŸ”§ Generating README.md..."; $readme = @"
 # DroxAI_2.5 - Sovereign AI Business Platform
 
 ## Quick Start
@@ -596,9 +596,9 @@ FERNET_KEY=your_fernet_key
 ## Local Run
 - Postgres on localhost:5432
 - Redis on localhost:6379
-- uvicorn on :8000
-- Prometheus scrape :8000/metrics
-"@; $readme | Out-File -FilePath "README.md" -Encoding UTF8; Write-Host "`n✅ README generated."; Write-Host "`n🔧 Generating requirements.txt..."; $reqs = @"
+- uvicorn on :3000
+- Prometheus scrape :3000/metrics
+"@; $readme | Out-File -FilePath "README.md" -Encoding UTF8; Write-Host "`nâœ… README generated."; Write-Host "`nðŸ”§ Generating requirements.txt..."; $reqs = @"
 fastapi==0.115.2
 uvicorn[standard]==0.30.6
 pydantic==2.9.2
@@ -617,7 +617,7 @@ jinja2==3.1.4
 python-multipart==0.0.9
 click==8.1.7
 stripe==10.10.0
-"@; $reqs | Out-File -FilePath "requirements.txt" -Encoding UTF8; Write-Host "`n✅ Requirements generated."; Write-Host "`n🔧 Generating alembic.ini..."; $alembicIni = @"
+"@; $reqs | Out-File -FilePath "requirements.txt" -Encoding UTF8; Write-Host "`nâœ… Requirements generated."; Write-Host "`nðŸ”§ Generating alembic.ini..."; $alembicIni = @"
 [alembic]
 script_location = alembic
 sqlalchemy.url = postgresql+asyncpg://postgres:password@localhost:5432/droxai
@@ -653,7 +653,7 @@ formatter = generic
 
 [formatter_generic]
 format = %(levelname)-5.5s [%(name)s] %(message)s
-"@; $alembicIni | Out-File -FilePath "alembic.ini" -Encoding UTF8; Write-Host "`n✅ Alembic config generated."; Write-Host "`n🔧 Generating alembic/env.py..."; $alembicEnv = @"
+"@; $alembicIni | Out-File -FilePath "alembic.ini" -Encoding UTF8; Write-Host "`nâœ… Alembic config generated."; Write-Host "`nðŸ”§ Generating alembic/env.py..."; $alembicEnv = @"
 from __future__ import annotations
 import asyncio
 from logging.config import fileConfig
@@ -695,7 +695,7 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     asyncio.run(run_migrations_online())
-"@; $alembicEnv | Out-File -FilePath "alembic/env.py" -Encoding UTF8; Write-Host "`n✅ Alembic env generated."; Write-Host "`n🔧 Generating seed script..."; $seedCore = @"
+"@; $alembicEnv | Out-File -FilePath "alembic/env.py" -Encoding UTF8; Write-Host "`nâœ… Alembic env generated."; Write-Host "`nðŸ”§ Generating seed script..."; $seedCore = @"
 import asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
@@ -735,11 +735,11 @@ async def main():
     async with AsyncSessionLocal() as session:
         await seed_plans(session)
         await seed_admin(session)
-        print('✅ Seed complete.')
+        print('âœ… Seed complete.')
 
 if __name__ == '__main__':
     asyncio.run(main())
-"@; $seedCore | Out-File -FilePath "backend/core/seed_data.py" -Encoding UTF8; Write-Host "`n✅ Seed script generated."; Write-Host "`n🔧 Generating initial migration..."; $migrationInit = @"
+"@; $seedCore | Out-File -FilePath "backend/core/seed_data.py" -Encoding UTF8; Write-Host "`nâœ… Seed script generated."; Write-Host "`nðŸ”§ Generating initial migration..."; $migrationInit = @"
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
@@ -785,4 +785,4 @@ def downgrade():
     op.drop_table('chat_sessions')
     op.drop_table('plan_limits')
     op.drop_table('users')
-"@; $migrationInit | Out-File -FilePath "alembic/versions/20251111_init_schema.py" -Encoding UTF8; Write-Host "`n✅ Initial migration generated."; Write-Host "`n🔧 Finalizing build..."; Write-Host "`n✅ DroxAI_2.5 fully built and ready! Run 'python -m backend.core.seed_data' then 'uvicorn backend.main:app --reload' to start."
+"@; $migrationInit | Out-File -FilePath "alembic/versions/20251111_init_schema.py" -Encoding UTF8; Write-Host "`nâœ… Initial migration generated."; Write-Host "`nðŸ”§ Finalizing build..."; Write-Host "`nâœ… DroxAI_2.5 fully built and ready! Run 'python -m backend.core.seed_data' then 'uvicorn backend.main:app --reload' to start."

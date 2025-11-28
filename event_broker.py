@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Event Broker - Real-time event streaming for CHIMERA AUTARCH
 Provides pub/sub pattern for broadcasting system events to all connected clients
@@ -318,3 +318,4 @@ class EventStream:
         """Stop streaming"""
         self.active = False
         self.broker.unsubscribe_all(self.queue)
+

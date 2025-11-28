@@ -261,10 +261,10 @@ python chimera_autarch.py
 
 ```python
 # Dashboard with all stats
-http://localhost:8000
+http://localhost:3000
 
 # Metrics including new features
-http://localhost:8000/metrics
+http://localhost:3000/metrics
 
 # Security endpoints
 POST /api/auth/login
