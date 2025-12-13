@@ -1,4 +1,4 @@
-﻿"""
+"""
 Static code analysis helpers for AST-based function metrics and suggestions.
 
 Fix: Implemented FunctionVisitor used by analyze_and_suggest_patch, which was

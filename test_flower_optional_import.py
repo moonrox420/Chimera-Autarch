@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Test script to verify Flower optional import implementation
 Tests both with and without Flower installed

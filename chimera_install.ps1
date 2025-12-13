@@ -1,4 +1,4 @@
-﻿# chimera_install.ps1 - Chimera God CLI Auto Installer
+# chimera_install.ps1 - Chimera God CLI Auto Installer
 #Requires -RunAsAdministrator
 
 Write-Host "Chimera God CLI - Auto Installer" -ForegroundColor Cyan

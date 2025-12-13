@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Quick test script for Qwen 2.5 Coder integration with CHIMERA"""
 
 import asyncio

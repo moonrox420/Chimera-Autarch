@@ -1,4 +1,4 @@
-﻿"""
+"""
 CHIMERA AUTARCH Test Suite
 """
 

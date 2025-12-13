@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Simple Genetic Algorithm Demo - Drox_AI Evolution Engine
 Demonstrates genetic optimization without complex dependencies

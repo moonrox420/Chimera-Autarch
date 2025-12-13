@@ -1,4 +1,4 @@
-﻿# CHIMERA NEXUS - Windows Startup Script
+# CHIMERA NEXUS - Windows Startup Script
 # Starts the complete CHIMERA system on Windows
 
 Write-Host "ðŸš€ Starting CHIMERA NEXUS v3.0" -ForegroundColor Cyan

@@ -1,4 +1,4 @@
-﻿# create_venv_and_activate.ps1
+# create_venv_and_activate.ps1
 # Run this in C:\Drox_AI\build or C:\Drox_AI â€” it will create .venv in the project root and activate it immediately
 
 # Determine the project root directory.

@@ -1,4 +1,4 @@
-﻿# Sample Python file for testing
+# Sample Python file for testing
 import os
 import sys
 import json

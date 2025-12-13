@@ -1,0 +1,256 @@
+# CHIMERA NEXUS v3.0 - Unified Configuration
+# All 15 revolutionary features in one place
+
+# ==========================================
+# CORE SYSTEM SETTINGS
+# ==========================================
+core:
+  websocket_port: 3001
+  http_port: 3000
+  ssl_enabled: false
+  ssl_cert_path: "ssl/cert.pem"
+  ssl_key_path: "ssl/key.pem"
+  log_level: "INFO"
+  database_path: "chimera_memory.db"
+  backup_enabled: true
+  backup_retention_hours: 24
+
+# ==========================================
+# 1. NEURAL EVOLUTION ENGINE
+# ==========================================
+neural_evolution:
+  enabled: true
+  auto_optimize: true
+  min_confidence_threshold: 0.7
+  performance_test_iterations: 100
+  ab_test_enabled: true
+  auto_deploy_threshold: 0.15  # 15% improvement required
+
+# ==========================================
+# 2. QUANTUM OPTIMIZER
+# ==========================================
+quantum_optimizer:
+  enabled: true
+  algorithm: "hybrid"  # Options: simulated_annealing, quantum_inspired, hybrid
+  initial_temperature: 1000.0
+  cooling_rate: 0.95
+  min_temperature: 0.01
+  max_iterations: 1000
+  learn_from_history: true
+
+# ==========================================
+# 3. PERSONALITY SYSTEM
+# ==========================================
+personality:
+  enabled: true
+  default_mode: "balanced"  # Options: aggressive, conservative, creative, analyst, balanced
+  auto_switch: true
+  learning_rate: 0.1
+  modes:
+    aggressive:
+      risk_tolerance: 0.9
+      exploration: 0.8
+      speed: 0.9
+    conservative:
+      risk_tolerance: 0.2
+      exploration: 0.3
+      speed: 0.4
+    creative:
+      risk_tolerance: 0.7
+      exploration: 0.9
+      speed: 0.6
+    analyst:
+      risk_tolerance: 0.4
+      exploration: 0.5
+      speed: 0.3
+    balanced:
+      risk_tolerance: 0.5
+      exploration: 0.5
+      speed: 0.5
+
+# ==========================================
+# 4. BLOCKCHAIN AUDIT LOGGER
+# ==========================================
+blockchain:
+  enabled: true
+  chain_file: "audit_chain.json"
+  difficulty: 4  # Proof of work difficulty (leading zeros)
+  auto_adjust_difficulty: true
+  target_block_time: 10.0  # seconds
+  merkle_trees: true
+  verify_on_startup: true
+
+# ==========================================
+# 5. 3D VR DASHBOARD
+# ==========================================
+dashboard_3d:
+  enabled: true
+  endpoint: "/dashboard_3d.html"
+  webxr_enabled: true
+  particle_effects: true
+  max_websocket_connections: 100
+  update_interval_ms: 100
+  vr_mode:
+    controllers: true
+    teleportation: true
+    hand_tracking: false
+
+# ==========================================
+# 6. VOICE INTERFACE
+# ==========================================
+voice:
+  enabled: true
+  model: "base"  # Options: tiny, base, small, medium, large (Whisper models)
+  model_path: "models/whisper"
+  tts_engine: "pyttsx3"
+  tts_rate: 150  # Words per minute
+  tts_volume: 0.9
+  sample_rate: 16000
+  channels: 1
+  vad_threshold: 0.02  # Voice activity detection
+  command_timeout: 5.0  # seconds
+  wake_word: null  # null = always listening, or set to "chimera"
+
+# ==========================================
+# 7. GENETIC EVOLUTION
+# ==========================================
+genetic:
+  enabled: true
+  population_size: 50
+  generations: 100
+  mutation_rate: 0.15
+  crossover_rate: 0.7
+  tournament_size: 5
+  elite_count: 5
+  multi_objective: true
+  objectives:
+    - latency
+    - throughput
+    - accuracy
+    - cost
+  genes:
+    latency_target: [50, 500]  # ms
+    batch_size: [1, 128]
+    worker_count: [1, 16]
+    learning_rate: [0.0001, 0.1]
+    cache_size: [100, 10000]
+
+# ==========================================
+# 8. PREDICTIVE MONITOR
+# ==========================================
+predictive_monitor:
+  enabled: true
+  lstm_enabled: true
+  anomaly_detection_enabled: true
+  model_path: "models/lstm"
+  sequence_length: 50
+  prediction_horizon: 10
+  retrain_interval_hours: 24
+  anomaly_threshold: 0.8
+  alert_webhook: null  # Set URL for alerts
+  metrics_to_monitor:
+    - latency
+    - error_rate
+    - memory_usage
+    - cpu_usage
+    - request_count
+
+# ==========================================
+# 9. CLOUD ORCHESTRATOR
+# ==========================================
+cloud:
+  enabled: true
+  providers:
+    aws:
+      enabled: true
+      region: "us-east-1"
+      credentials_file: null  # null = use environment vars
+      instance_types:
+        - t3.micro
+        - t3.small
+        - t3.medium
+    azure:
+      enabled: false
+      subscription_id: null
+      resource_group: "chimera-rg"
+      location: "eastus"
+    gcp:
+      enabled: false
+      project_id: null
+      zone: "us-central1-a"
+  auto_scaling:
+    enabled: true
+    min_instances: 1
+    max_instances: 10
+    target_cpu: 70
+    cooldown_seconds: 300
+  cost_optimization:
+    enabled: true
+    max_hourly_cost: 10.0
+    spot_instances: true
+
+# ==========================================
+# 10. PLUGIN MARKETPLACE
+# ==========================================
+plugins:
+  enabled: true
+  marketplace_url: "https://chimera-plugins.example.com"
+  auto_update: false
+  sandbox_enabled: true
+  allowed_permissions:
+    - file_read
+    - file_write
+    - network_http
+    - database_query
+  blocked_permissions:
+    - system_exec
+    - raw_socket
+  revenue_share: 0.7  # 70% to plugin author, 30% to platform
+  crypto_wallet: null  # Set for revenue distribution
+
+# ==========================================
+# FEDERATED LEARNING
+# ==========================================
+federated_learning:
+  enabled: true
+  server_address: "0.0.0.0:8080"
+  min_clients: 2
+  max_clients: 100
+  rounds: 10
+  fraction_fit: 0.5
+  fraction_evaluate: 0.5
+  min_available_clients: 2
+
+# ==========================================
+# METACOGNITIVE ENGINE
+# ==========================================
+metacognition:
+  enabled: true
+  confidence_threshold: 0.6
+  learning_cooldown_seconds: 300
+  failure_window_size: 100
+  predictive_monitoring: true
+  self_healing: true
+
+# ==========================================
+# SECURITY
+# ==========================================
+security:
+  authentication_required: false
+  api_key: null  # Set for API authentication
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+  encryption:
+    messages: false
+    database: false
+
+# ==========================================
+# MONITORING & TELEMETRY
+# ==========================================
+monitoring:
+  metrics_enabled: true
+  metrics_endpoint: "/metrics"
+  prometheus_compatible: true
+  detailed_logging: false
+  performance_profiling: false

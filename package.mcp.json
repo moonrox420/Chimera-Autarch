@@ -1,0 +1,17 @@
+{
+  "name": "mcp-servers",
+  "version": "1.0.0",
+  "description": "MCP Server Suite for Continue IDE",
+  "scripts": {
+    "install-servers": "npm install -g @modelcontextprotocol/server-filesystem mcp-server-code-runner chrome-devtools-mcp",
+    "start:filesystem": "npx -y @modelcontextprotocol/server-filesystem C:\\Drox_AI",
+    "start:code-runner": "npx -y mcp-server-code-runner",
+    "start:chrome-devtools": "npx -y chrome-devtools-mcp",
+    "start:all": "npm run start:filesystem & npm run start:code-runner & npm run start:chrome-devtools",
+    "dev": "concurrently \"npm run start:filesystem\" \"npm run start:code-runner\" \"npm run start:chrome-devtools\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

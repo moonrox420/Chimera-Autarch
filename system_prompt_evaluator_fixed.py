@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 System Prompt Effectiveness Evaluator for AI Agents
 Analyzes prompt quality, effectiveness, clarity, and behavioral consistency

@@ -1,4 +1,4 @@
-﻿# CHIMERA NEXUS - Windows Installation Quick Fix
+# CHIMERA NEXUS - Windows Installation Quick Fix
 # Run this if regular install fails
 
 Write-Host "ðŸ”§ CHIMERA NEXUS - Quick Fix Installer for Windows" -ForegroundColor Cyan

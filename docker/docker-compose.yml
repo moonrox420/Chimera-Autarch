@@ -1,0 +1,24 @@
+services:
+  chimera:
+    image: python:3.12-slim
+    container_name: drox_ai-chimera-1
+    restart: unless-stopped
+    depends_on:
+      - chimera-brain
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    volumes:
+      - ../src/droxai_root:/app
+    working_dir: /app
+    command: sh -c "pip install --no-cache-dir websockets aiohttp numpy aiosqlite fastapi uvicorn python-multipart && python DroxAI_Consumer_Ready.py"
+
+  chimera-brain:
+    image: ollama/ollama
+    container_name: chimera-brain
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+volumes:
+  ollama:

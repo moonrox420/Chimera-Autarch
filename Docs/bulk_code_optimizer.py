@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Bulk Code Optimizer - Drop Folder, Get Optimized Code
 Advanced AI-powered code optimization for entire codebases

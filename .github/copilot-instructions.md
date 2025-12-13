@@ -8,7 +8,7 @@ When generating code for this repository, follow patterns and constraints discov
 
 1. Version Compatibility: detect and respect versions in `requirements*.txt`, `pyvenv.cfg`, and `Dockerfile`. This repo uses Python 3.12.x; do not use language features beyond Python 3.12.
 2. Context files: prioritize `CODE_STANDARDS.md`, `README.md`, `config.py`, `requirements.txt`, and `tests/` for behavior and style guidance.
-3. Codebase patterns: Use existing patterns in `chimera_autarch.py`, `config.py`, and `tests/` for naming, async patterns, logging, and error handling.
+3. Codebase patterns: Use existing patterns in `chimera_autarch.py`, `config.py`, and `tests/` for naming, async patterns, logging, and error handling. Treat `src/chimera/chimera_main.py` as the current runnable entrypoint (aiohttp + websockets) and keep it Windows-safe.
 4. Architecture: maintain the event-driven orchestration style (HeartNode core, ToolRegistry, MetacognitiveEngine, PersistenceLayer) — add functionality within existing layers; do not replace the architecture.
 5. Code quality: prioritize maintainability, testability, performance, and security as observed across the codebase.
 
@@ -31,15 +31,28 @@ Never introduce features or dependencies that do not exist in these manifest fil
 2. `README.md`, `PROJECT_STATUS.md` — architecture overview and usage guidance
 3. `config.py`, `config.example.yaml` — configuration patterns and environment variable overrides
 4. `requirements*.txt`, `pyvenv.cfg`, `Dockerfile` — versions and runtime constraints
-5. `chimera_autarch.py` — main orchestrator and canonical event-driven patterns
+5. Runtime entrypoints: `src/chimera/chimera_main.py` (active HTTP+WS server), `src/droxai_root/chimera_autarch.py` (legacy full-stack orchestrator), `src/services/tool_registry.py` (registry patterns)
 6. `tests/` — unit and integration test patterns
-7. `start.ps1`, `run_tests.ps1`, `docker-setup.ps1`, `validate.ps1` — automation and deployment scripts
+7. Launch scripts and docs: `START_CHIMERA.bat`, `START_CHIMERA.ps1`, `HOW_TO_START.md`, `QUICK_START.md`, `start.ps1`, `run_tests.ps1`, `docker-setup.ps1`, `validate.ps1`
 
 ---
 
 ## Repository Policy & Pull Request Template
 
 When using AI-assisted code generation, follow the repository AI policy (`.github/AI_POLICY.md`) and ensure all changes are described using the PR checklist (`.github/pull_request_template.md`). All AI-generated code must be validated and reviewed before merging.
+
+## Live Entry Points (current code)
+
+- HTTP/WS server: `src/chimera/chimera_main.py` binds HTTP on `CHIMERA_HTTP_PORT` (default 3000) via `aiohttp` and WS on `CHIMERA_WS_PORT` (default 3001) via `websockets.asyncio.server.serve`; keep it Windows-safe by guarding `add_signal_handler` with `NotImplementedError` handling.
+- Dashboard: served from `src/chimera/dashboard/index.html`; static dir is optional, so check existence before mounting.
+- Message routing: `HeartNode.handle_message` currently supports `ping`, `status`, `broadcast`, and `echo`; extend using the same pattern and keep JSON-safe parsing.
+- Legacy full orchestrator: `src/droxai_root/chimera_autarch.py` includes ToolRegistry, PersistenceLayer, MetacognitiveEngine, Flower guards, and LLM guards—mirror its patterns when adding back features to the lightweight server.
+
+## Natural Language Commanding (hard requirement)
+
+- All AI-facing features must accept plain human language, not terminal jargon. Prefer free-form text inputs; if structured data is needed, accept both raw text and JSON envelopes and auto-detect.
+- When adding tools or WS routes, ensure a natural-language fallback: parse intent text then map to tool calls (`IntentCompiler` style) rather than forcing users to craft JSON.
+- Keep responses human-readable by default; include machine-readable fields only as an optional envelope.
 
 ## Codebase Scanning & Generation Rules
 
@@ -129,7 +142,6 @@ async with aiosqlite.connect(db_path) as db:
 
 ## Do Not Do
 
-- Do not introduce language features or packages beyond the detected versions.
 - Do not alter global architecture (HeartNode / ToolRegistry / Metacog / Persistence) without a PR and tests.
 - Avoid introducing new global side-effects; prefer dependency injection and testable functions.
 
@@ -150,7 +162,7 @@ When generating code for this repository, follow project patterns and explicit c
 3. Codebase Patterns: If no file provides guidance, match the most consistent patterns used in `chimera_autarch.py` and `config.py`.
 4. Architectural Consistency: Maintain the event-driven orchestration pattern (HeartNode core, ToolRegistry, MetacognitiveEngine, PersistenceLayer). Add functionality in the existing layers rather than introducing new architectural style.
 5. Code Quality: Prioritize maintainability, testability, performance, and security, as observed in the codebase.
-
+6.  All AI's must be able to recieve commands in normal human language, not special terminal terminology.
 ---
 
 ## Technology Version Detection
@@ -161,7 +173,7 @@ Before generating code, scan the workspace for exact versions:
 - Libraries: Use `requirements.txt` and `requirements-*.txt` for exact versions: e.g. websockets 15.x, aiosqlite 0.21.x, numpy 1.26.x, pyyaml 6.x, flwr 1.23.x (optional), grpcio 1.76.x.
 - Docker and PowerShell scripts show platform-specific constraints — replicate command usage patterns.
 
-Never add language features or libraries beyond those detected.
+
 
 ---
 

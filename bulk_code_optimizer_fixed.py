@@ -1,4 +1,3 @@
-﻿#!/usr/bin/env python3
 """
 Bulk Code Optimizer - Drop Folder, Get Optimized Code
 Advanced AI-powered code optimization for entire codebases
@@ -16,7 +15,6 @@ from pathlib import Path
 from typing import Dict, List, Tuple, Any
 from dataclasses import dataclass
 import tempfile
-import zipfile
 import logging
 
 # Setup logging
@@ -709,4 +707,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

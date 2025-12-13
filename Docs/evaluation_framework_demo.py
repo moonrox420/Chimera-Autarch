@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Complete AI Agent Evaluation Framework Demonstration
 Shows all evaluators working together with comprehensive testing

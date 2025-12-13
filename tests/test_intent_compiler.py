@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 
 from chimera_autarch import IntentCompiler
 

@@ -1,0 +1,161 @@
+# 🪟 CHIMERA Windows Service - Quick Setup
+
+## Install CHIMERA as a Windows Service (Runs on Boot, No VS Code Needed!)
+
+### Prerequisites
+- ✅ NSSM already downloaded at: `C:\Users\dusti\Downloads\nssm-2.24\nssm-2.24\win64\nssm.exe`
+- ✅ CHIMERA at: `C:\Users\dusti\Drox_AI`
+- ✅ Python 3.12+ installed
+- ✅ Administrator privileges
+
+### One-Command Install
+
+**Open PowerShell as Administrator:**
+```powershell
+cd C:\Users\dusti\Drox_AI
+.\install-service.ps1
+```
+
+That's it! CHIMERA is now:
+- ✅ Running as a Windows service
+- ✅ Auto-starts on boot
+- ✅ Runs in background (no console window)
+- ✅ Completely independent of VS Code
+- ✅ Accessible from network
+
+### Access CHIMERA
+- **Dashboard:** http://localhost:3000
+- **WebSocket:** ws://localhost:3001
+- **Metrics:** http://localhost:3000/metrics
+- **GraphQL:** http://localhost:3000/graphql
+
+### Service Management
+
+**Check Status:**
+```powershell
+.\install-service.ps1 -Status
+```
+
+**Stop Service:**
+```powershell
+.\install-service.ps1 -Stop
+```
+
+**Start Service:**
+```powershell
+.\install-service.ps1 -Start
+```
+
+**Uninstall Service:**
+```powershell
+.\install-service.ps1 -Uninstall
+```
+
+**View Live Logs:**
+```powershell
+Get-Content logs\chimera-stdout.log -Tail 50 -Wait
+```
+
+**View Error Logs:**
+```powershell
+Get-Content logs\chimera-stderr.log -Tail 50
+```
+
+### Windows Service Manager
+
+You can also manage via Windows Services:
+1. Press `Win + R`
+2. Type `services.msc`
+3. Find "CHIMERA AUTARCH - AI Orchestrator"
+4. Right-click for Start/Stop/Restart
+
+### Firewall
+
+The installer automatically creates firewall rules:
+- **Port 3000** (HTTP) - Dashboard and APIs
+- **Port 3001** (WebSocket) - Real-time events
+
+### Custom Paths
+
+If your NSSM or CHIMERA is elsewhere:
+```powershell
+.\install-service.ps1 `
+  -NssmPath "D:\Tools\nssm.exe" `
+  -ChimeraPath "D:\Projects\Drox_AI"
+```
+
+### What Happens on Install
+
+1. ✅ Creates Python virtual environment (if not exists)
+2. ✅ Installs all dependencies
+3. ✅ Registers Windows service with NSSM
+4. ✅ Configures auto-start on boot
+5. ✅ Sets up logging to `logs/` directory
+6. ✅ Creates firewall rules
+7. ✅ Starts the service
+8. ✅ Verifies it's running
+
+### Logs Location
+
+```
+C:\Users\dusti\Drox_AI\logs\
+├── chimera-stdout.log  (normal output)
+└── chimera-stderr.log  (errors)
+```
+
+### Troubleshooting
+
+**Service won't start?**
+```powershell
+# Check error log
+Get-Content logs\chimera-stderr.log
+
+# Try manual start to see errors
+cd C:\Users\dusti\Drox_AI
+venv\Scripts\python.exe chimera_autarch.py
+```
+
+**Can't access from network?**
+```powershell
+# Check firewall
+Get-NetFirewallRule -DisplayName "CHIMERA*"
+
+# Get your IP
+ipconfig
+
+# Access from other device
+# http://YOUR_IP:3000
+```
+
+**Service exists but won't install?**
+```powershell
+# Uninstall first
+.\install-service.ps1 -Uninstall
+
+# Then reinstall
+.\install-service.ps1
+```
+
+### Benefits of Running as Service
+
+| Aspect | Service | Manual Launch |
+|--------|---------|---------------|
+| Auto-start on boot | ✅ Yes | ❌ No |
+| Runs in background | ✅ Yes | ❌ Console window |
+| Survives logoff | ✅ Yes | ❌ No |
+| VS Code needed | ❌ No | ❌ No |
+| Manual starting | ❌ No | ✅ Yes |
+| System integration | ✅ Full | ⚠️ Partial |
+
+### Complete Independence Achieved! 🎉
+
+Your CHIMERA setup is now:
+- ✅ Runs on Windows boot
+- ✅ Background service (no console)
+- ✅ Survives user logoff
+- ✅ Network accessible
+- ✅ Zero VS Code dependency
+- ✅ Zero Microsoft cloud dependency
+- ✅ Production-ready deployment
+
+**You have complete control.** 💪

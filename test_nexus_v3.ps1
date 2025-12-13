@@ -1,4 +1,4 @@
-﻿# CHIMERA NEXUS v3.0 - Comprehensive Test Suite
+# CHIMERA NEXUS v3.0 - Comprehensive Test Suite
 # Tests all 10 revolutionary systems + core features
 
 Write-Host "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—" -ForegroundColor Cyan

@@ -1,4 +1,4 @@
-﻿# CHIMERA AUTARCH - Windows Service Installer
+# CHIMERA AUTARCH - Windows Service Installer
 # Install CHIMERA as a Windows service using NSSM
 # Runs on boot, completely independent of VS Code or any IDE
 

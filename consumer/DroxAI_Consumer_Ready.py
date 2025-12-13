@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 DroxAI Consumer - Single Double-Click Launcher
 Handles all complexity behind the scenes
@@ -8,8 +8,15 @@ import sys
 import os
 import webbrowser
 import time
+import logging
 
 from pathlib import Path
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 def check_and_install_requirements():
     """Check and install required Python modules with better error handling"""
@@ -159,4 +166,3 @@ if __name__ == "__main__":
         logging.info(f"âŒ Unexpected error: {e}")
         logging.info("Please contact support with this error message.")
         input("Press Enter to exit...")
-

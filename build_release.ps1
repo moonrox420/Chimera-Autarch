@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 <# 
 .SYNOPSIS
 Build script for DroxAI Consumer Release

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 CHIMERA AUTARCH - New Features Demo
 Demonstrates the new tools, intent patterns, and APIs added in v2.1

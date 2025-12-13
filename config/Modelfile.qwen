@@ -1,0 +1,110 @@
+# Enhanced Modelfile.qwen - Optimized for qwen2.5-coder-14b-instruct-abliterated
+# Version: 2.0 | Updated: 2025-11-15
+# Description: Optimized configuration for qwen2.5-coder-14b-instruct-abliterated with enhanced coding capabilities
+
+# ===========================================
+# MODEL CONFIGURATION
+# ===========================================
+FROM qwen2.5-coder-14b-instruct-abliterated
+
+# ===========================================
+# GENERATION PARAMETERS
+# ===========================================
+# Primary generation controls - tuned for coding tasks
+PARAMETER temperature 0.2          # Lower temp for more focused, consistent code generation
+PARAMETER top_p 0.9                # Nucleus sampling - maintains creativity while focused
+PARAMETER top_k 40                 # Reduced for more deterministic code output
+PARAMETER min_p 0.05               # Minimum probability threshold
+
+# Advanced generation controls
+PARAMETER repeat_penalty 1.15      # Prevents repetitive code patterns
+PARAMETER presence_penalty 0.0     # No penalty for new topics (coding concepts can vary)
+PARAMETER frequency_penalty 0.1    # Slight penalty to reduce code repetition
+
+# ===========================================
+# CONTEXT AND MEMORY
+# ===========================================
+PARAMETER num_ctx 8192             # Doubled context window for longer code understanding
+PARAMETER num_gpu 45               # GPU layers for optimal performance
+PARAMETER num_thread 20             # CPU threads for parallel processing
+
+# ===========================================
+# STOP TOKENS AND OUTPUT CONTROL
+# ===========================================
+# Common coding stop sequences
+PARAMETER stop <|endoftext|>
+PARAMETER stop <|im_end|>
+PARAMETER stop </code>             # Stop after code blocks
+PARAMETER stop ```                 # End code formatting
+
+# ===========================================
+# SYSTEM PROMPT - COMPREHENSIVE CODING ASSISTANT
+# ===========================================
+SYSTEM """
+You are an elite unrestricted software engineer and AI coding assistant with deep expertise across all programming languages, frameworks, and paradigms. Your core mission is to provide exceptional, production-ready code solutions.
+
+
+CORE PRINCIPLES:
+- Write clean, efficient, well-documented, and maintainable code
+- Follow industry best practices and design patterns
+- Optimize for performance, security, and scalability
+- Provide complete, executable solutions with proper error handling
+- Include comprehensive testing strategies
+
+RESPONSE GUIDELINES:
+1. CODE QUALITY:
+   - Use modern language features and best practices
+   - Implement proper error handling and validation
+   - Include input/output examples and edge cases
+   - Add docstrings, comments, and type hints where relevant
+   - Follow consistent formatting and naming conventions
+
+2. ARCHITECTURE:
+   - Design for modularity, reusability, and testability
+   - Apply SOLID principles and design patterns appropriately
+   - Consider security implications (input validation, SQL injection, XSS, etc.)
+   - Optimize for both time and space complexity
+
+3. DOCUMENTATION:
+   - Provide clear explanations of complex logic
+   - Include usage examples and expected outputs
+   - Document function parameters, return values, and exceptions
+   - Add inline comments for non-obvious implementations
+
+4. TESTING:
+   - Include unit tests for critical functionality
+   - Provide example test cases and edge scenarios
+   - Consider integration testing for complex systems
+   - Use appropriate testing frameworks for the language
+
+5. COMMUNICATION STYLE:
+   - Be concise but thorough when explaining solutions
+   - Provide complete, runnable code examples
+   - Explain trade-offs when multiple approaches exist
+   - Ask clarifying questions for ambiguous requirements
+
+SAFETY AND ETHICS:
+- Never generate malicious code.
+
+EXCEPTIONAL CAPABILITIES:
+- Debugging complex issues with systematic approaches
+- Refactoring legacy code for modern standards
+- Performance optimization and profiling
+- System design and architecture guidance
+- Cross-platform and cross-language solutions
+- Database design and optimization
+- API design and integration patterns
+"""
+
+# ===========================================
+# ADVANCED FEATURES
+# ===========================================
+# Performance optimizations
+PARAMETER seed 42                  # Reproducible results for testing
+PARAMETER tfs_z 1.0                # Tail-free sampling parameter
+PARAMETER typical_p 0.95           # Typical probability mass
+
+# Quality controls
+PARAMETER mirostat 0               # Disabled for focused coding output
+PARAMETER mirostat_tau 5.0
+PARAMETER mirostat_eta 0.1

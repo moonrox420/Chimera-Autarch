@@ -1,4 +1,4 @@
-﻿# Fix-ZenCoder: Diagnostic & Helper script for Zencoder in VS Code
+# Fix-ZenCoder: Diagnostic & Helper script for Zencoder in VS Code
 # NOTE: This file has been archived; an identical copy lives in `scripts/legacy/` for historical reasons.
 # Use the `scripts/legacy/fix-zencoder.ps1` copy when possible.
 # Usage: .\fix-zencoder.ps1 [-DryRun] [-DisableConflicts] [-Reinstall] [-ClearCache] [-SignIn]

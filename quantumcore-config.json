@@ -1,0 +1,14 @@
+{
+  "services": [
+    {
+      "path": "C:\\Drox_AI\\src\\droxai_root",
+      "cmd": "python DroxAI_Launcher.py",
+      "type": "ChimeraHeart"
+    },
+    {
+      "path": "C:\\Drox_AI\\src\\droxai_root",
+      "cmd": "python swarm-agent.py",
+      "type": "SwarmAgents"
+    }
+  ]
+}

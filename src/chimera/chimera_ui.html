@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chimera</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #151925;
+    --panel-2: #101321;
+    --text: #e6e8ee;
+    --muted: #a9b0c3;
+    --border: #252b3d;
+    --accent: #3b82f6;
+    --accent-2: #22c55e;
+    --warn: #f59e0b;
+    --err: #ef4444;
+    --shadow: 0 8px 30px rgba(0,0,0,.35);
+    --radius: 14px;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 28px auto;
+    padding: 0 18px 40px;
+  }
+
+  header {
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 0.4px;
+  }
+
+  .sub {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 18px 0 18px;
+  }
+
+  .card {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 14px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform .12s ease, border-color .12s ease;
+    user-select:none;
+  }
+  .card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(59,130,246,.55);
+  }
+  .card h3 {
+    margin: 0 0 6px;
+    font-size: 14px;
+    letter-spacing: .4px;
+  }
+  .card .hint {
+    margin: 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .row {
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .panel {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 14px;
+  }
+
+  .panel h2 {
+    margin: 0 0 10px;
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+  }
+
+  .inputline {
+    display:flex;
+    gap: 10px;
+  }
+
+  input[type="text"]{
+    flex:1;
+    padding: 12px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #0b0e16;
+    color: var(--text);
+    outline: none;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  button {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(59,130,246,.12);
+    color: var(--text);
+    cursor:pointer;
+    font-weight: 600;
+  }
+  button:hover { border-color: rgba(59,130,246,.55); }
+
+  .terminal {
+    background: #070910;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    height: 320px;
+    overflow-y: auto;
+    padding: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+  }
+
+  .line { margin: 0 0 6px; }
+  .sys { color: var(--muted); }
+  .ok { color: var(--accent-2); }
+  .err { color: var(--err); }
+  .user { color: #93c5fd; }
+  .ai { color: #e5e7eb; }
+
+  .footer {
+    margin-top: 12px;
+    display:flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .pill {
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(255,255,255,.03);
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--warn);
+  }
+  .dot.ok { background: var(--accent-2); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Chimera</h1>
+      <div class="sub">Local-only control UI (Dashboard + WebSocket core)</div>
+    </div>
+    <div class="pill"><span id="dot" class="dot"></span><span id="status">Connecting…</span></div>
+  </header>
+
+  <div class="grid">
+    <div class="card" onclick="sendPreset('status')">
+      <h3>Status</h3><p class="hint">Current system status</p>
+    </div>
+    <div class="card" onclick="sendPreset('help')">
+      <h3>Help</h3><p class="hint">Show commands</p>
+    </div>
+    <div class="card" onclick="sendPreset('generate')">
+      <h3>Generate</h3><p class="hint">Generate code</p>
+    </div>
+    <div class="card" onclick="sendPreset('optimize')">
+      <h3>Optimize</h3><p class="hint">Optimize systems</p>
+    </div>
+    <div class="card" onclick="sendPreset('test')">
+      <h3>Test</h3><p class="hint">Run tests</p>
+    </div>
+    <div class="card" onclick="sendPreset('analyze')">
+      <h3>Analyze</h3><p class="hint">Analyze data</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="panel">
+      <h2>Custom command</h2>
+      <div class="inputline">
+        <input id="customCmd" type="text" placeholder="Enter your command or question…" autocomplete="off" />
+        <button onclick="executeCustom()">Execute</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Output</h2>
+      <div id="terminal" class="terminal"></div>
+      <div class="footer">
+        <div class="pill">WS: <span id="wsUrl"></span></div>
+        <div class="pill">HTTP: <span id="httpUrl"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const TOKEN = "{{CHIMERA_TOKEN}}";
+  const terminal = document.getElementById("terminal");
+  const dot = document.getElementById("dot");
+  const statusEl = document.getElementById("status");
+
+  const wsUrl = "ws://localhost:3001";
+  document.getElementById("wsUrl").textContent = wsUrl;
+  document.getElementById("httpUrl").textContent = window.location.href;
+
+  let ws = null;
+  let bufferingAI = false;
+
+  function line(text, cls="sys") {
+    const d = document.createElement("div");
+    d.className = "line " + cls;
+    d.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+    terminal.appendChild(d);
+    terminal.scrollTop = terminal.scrollHeight;
+  }
+
+  function setStatus(text, ok=false) {
+    statusEl.textContent = text;
+    dot.className = "dot" + (ok ? " ok" : "");
+  }
+
+  function connect() {
+    setStatus("Connecting…", false);
+    line("Connecting to WebSocket core…", "sys");
+
+    ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+      line("WebSocket connected", "ok");
+
+      // Auth handshake (backend expects FIRST message with token)
+      ws.send(JSON.stringify({ token: TOKEN }));
+    };
+
+    ws.onmessage = (event) => {
+      let data;
+      try { data = JSON.parse(event.data); }
+      catch {
+        line("Non-JSON message: " + event.data, "err");
+        return;
+      }
+
+      if (data.type === "welcome") {
+        setStatus("Online", true);
+        line("Authentication successful", "ok");
+        return;
+      }
+
+      if (data.type === "chunk") {
+        // Stream chunks as one growing assistant line
+        if (!bufferingAI) {
+          line("AI:", "ai");
+          bufferingAI = true;
+        }
+        const last = terminal.lastChild;
+        last.textContent = last.textContent + data.content;
+        terminal.scrollTop = terminal.scrollHeight;
+        return;
+      }
+
+      if (data.type === "done") {
+        bufferingAI = false;
+        line("— done —", "sys");
+        return;
+      }
+
+      if (data.type === "error") {
+        bufferingAI = false;
+        line("ERROR: " + (data.message || "unknown"), "err");
+        return;
+      }
+
+      // fallback
+      line("Message: " + event.data, "sys");
+    };
+
+    ws.onclose = () => {
+      setStatus("Disconnected", false);
+      bufferingAI = false;
+      line("Connection closed", "err");
+      // basic auto-reconnect
+      setTimeout(connect, 1500);
+    };
+
+    ws.onerror = () => {
+      setStatus("Error", false);
+      line("WebSocket error", "err");
+    };
+  }
+
+  function sendAsk(prompt) {
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      line("Not connected", "err");
+      return;
+    }
+    const p = (prompt || "").trim();
+    if (!p) return;
+
+    line("> " + p, "user");
+    bufferingAI = false;
+
+    // Backend expects: {"type":"ask","prompt":"..."}
+    ws.send(JSON.stringify({ type: "ask", prompt: p }));
+  }
+
+  function sendPreset(cmd) {
+    const map = {
+      status: "What is the current system status?",
+      help: "Show available commands and usage.",
+      generate: "Generate code for: describe what you need and include constraints.",
+      optimize: "Optimize the current system configuration and performance.",
+      test: "Run tests and report failures and fixes.",
+      analyze: "Analyze the current logs/state and summarize actionable issues."
+    };
+    sendAsk(map[cmd] || cmd);
+  }
+
+  function executeCustom() {
+    const input = document.getElementById("customCmd");
+    sendAsk(input.value);
+    input.value = "";
+  }
+
+  document.getElementById("customCmd").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") executeCustom();
+  });
+
+  // boot
+  line("Chimera UI initialized", "sys");
+  connect();
+</script>
+</body>
+</html>

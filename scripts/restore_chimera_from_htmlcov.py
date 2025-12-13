@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Utility to restore chimera_autarch.py from the htmlcov coverage HTML file.
 Use this if the Python source was accidentally overwritten.
 """

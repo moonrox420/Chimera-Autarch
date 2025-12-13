@@ -1,0 +1,87 @@
+# MCP System Configuration - SAFE MODE (2025 Apex Edition)
+# No destructive capabilities — read-only filesystem/git, no code execution, no browser
+# SSL enabled (self-signed), web interface on, auth none (local only)
+# Zero risk — AI can only read and suggest
+
+SYSTEM:
+  name: "MCP System"
+  version: "1.0.0"
+  host: "127.0.0.1"
+  port: 9090
+  log_level: "INFO"
+  log_directory: "C:/Drox_AI/logs"
+  auto_start: true
+  restart_on_failure: true
+  max_memory_mb: 2048
+  cpu_limit_percent: 75
+
+SERVERS:
+  filesystem:
+    enabled: true
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "C:/Drox_AI"]
+    capabilities: ["read", "search", "directories"]  # ← ONLY READ
+    priority: 1
+    health_check_interval: 30
+    max_restarts: 5
+    timeout_seconds: 300
+
+  git:
+    enabled: true
+    command: "npx"
+    args: ["-y", "@modelcontextprotocol/server-git", "--repository", "C:/Drox_AI"]
+    capabilities: ["status", "log", "diff"]  # ← READ-ONLY GIT
+    priority: 2
+    health_check_interval: 60
+    max_restarts: 3
+    timeout_seconds: 600
+
+  code-runner:
+    enabled: false  # ← DISABLED — no execution
+
+  chrome-devtools:
+    enabled: false  # ← DISABLED — no browser control
+
+ROUTER:
+  host: "127.0.0.1"
+  port: 9090
+  max_connections: 100
+  request_timeout: 300
+  load_balancing: "round_robin"
+  ssl_enabled: true  # ← ENABLED
+  authentication: "none"
+
+SECURITY:
+  allowed_hosts: ["localhost", "127.0.0.1", "::1"]
+  authentication: "none"
+  ssl_enabled: true  # ← ENABLED
+  ssl_cert_path: "C:/Drox_AI/ssl/cert.pem"
+  ssl_key_path: "C:/Drox_AI/ssl/key.pem"
+  rate_limit_requests_per_minute: 1000
+  max_request_size_mb: 10
+
+MONITORING:
+  enabled: true
+  metrics_port: 9091
+  health_check_interval_seconds: 30
+  alert_on_failure: true
+  log_requests: false
+  performance_monitoring: true
+
+AUTOSCALING:
+  enabled: false
+
+BACKUP:
+  enabled: true
+  interval_hours: 24
+  retention_days: 7
+  backup_directory: "C:/Drox_AI/backups"
+
+INTEGRATION:
+  vscode_continue: true
+  system_tray_icon: true
+  notifications: true
+  api_endpoints:
+    - "http://localhost:9090"
+  web_interface: true  # ← ENABLED — optional dashboard
+  web_interface_port: 8080

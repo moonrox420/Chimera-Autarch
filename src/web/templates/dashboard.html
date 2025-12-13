@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIMERA AUTARCH Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-center mb-2">🧠 CHIMERA AUTARCH</h1>
+            <p class="text-center text-gray-400">Self-Evolving AI Orchestration System</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Status Panel -->
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">System Status</h2>
+                <div id="status" class="space-y-2">
+                    <div class="flex justify-between">
+                        <span>Status:</span>
+                        <span id="system-status" class="text-green-400">Loading...</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Clients:</span>
+                        <span id="clients-count">0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Version:</span>
+                        <span id="version">3.0.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intent Input -->
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Send Intent</h2>
+                <form id="intent-form" class="space-y-4">
+                    <textarea
+                        id="intent-input"
+                        class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+                        rows="3"
+                        placeholder="Enter your intent..."
+                    ></textarea>
+                    <button
+                        type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded font-semibold"
+                    >
+                        Send Intent
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">Results</h2>
+                <div id="results" class="space-y-2 max-h-64 overflow-y-auto">
+                    <p class="text-gray-400">No results yet...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- WebSocket Status -->
+        <div class="mt-8 text-center">
+            <div id="ws-status" class="inline-block px-4 py-2 bg-gray-800 rounded">
+                WebSocket: <span id="ws-indicator" class="text-yellow-400">Connecting...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WebSocket connection
+        let ws;
+        const statusDiv = document.getElementById('status');
+        const resultsDiv = document.getElementById('results');
+        const wsIndicator = document.getElementById('ws-indicator');
+
+        function connectWebSocket() {
+            ws = new WebSocket('ws://localhost:3001');
+
+            ws.onopen = function(event) {
+                wsIndicator.textContent = 'Connected';
+                wsIndicator.className = 'text-green-400';
+                console.log('WebSocket connected');
+            };
+
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                handleMessage(data);
+            };
+
+            ws.onclose = function(event) {
+                wsIndicator.textContent = 'Disconnected';
+                wsIndicator.className = 'text-red-400';
+                console.log('WebSocket disconnected');
+
+                // Reconnect after 5 seconds
+                setTimeout(connectWebSocket, 5000);
+            };
+
+            ws.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+        }
+
+        function handleMessage(data) {
+            if (data.type === 'status') {
+                updateStatus(data);
+            } else if (data.type === 'intent_result') {
+                displayResult(data.result);
+            } else {
+                console.log('Received:', data);
+            }
+        }
+
+        function updateStatus(data) {
+            document.getElementById('system-status').textContent = data.status || 'Unknown';
+            document.getElementById('clients-count').textContent = data.clients_connected || 0;
+            document.getElementById('version').textContent = data.version || 'Unknown';
+        }
+
+        function displayResult(result) {
+            const resultElement = document.createElement('div');
+            resultElement.className = 'p-2 bg-gray-700 rounded';
+
+            if (result.success) {
+                resultElement.innerHTML = `
+                    <div class="text-green-400">✓ Success</div>
+                    <div class="text-sm text-gray-300">${JSON.stringify(result.data)}</div>
+                `;
+            } else {
+                resultElement.innerHTML = `
+                    <div class="text-red-400">✗ Error</div>
+                    <div class="text-sm text-gray-300">${result.error}</div>
+                `;
+            }
+
+            resultsDiv.appendChild(resultElement);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        // Intent form submission
+        document.getElementById('intent-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const intent = document.getElementById('intent-input').value.trim();
+            if (intent && ws && ws.readyState === WebSocket.OPEN) {
+                const message = {
+                    type: 'intent',
+                    data: { intent: intent },
+                    timestamp: Date.now() / 1000
+                };
+                ws.send(JSON.stringify(message));
+                document.getElementById('intent-input').value = '';
+            }
+        });
+
+        // Initial connection
+        connectWebSocket();
+
+        // Periodic status updates
+        setInterval(() => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'status_request',
+                    timestamp: Date.now() / 1000
+                }));
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

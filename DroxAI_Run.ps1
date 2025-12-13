@@ -1,4 +1,4 @@
-﻿# DroxAI_Run.ps1
+# DroxAI_Run.ps1
 # Simple script to launch the DroxAI Autarch application and open the dashboard.
 # Prerequisite: Dependencies must be installed via DroxAI_Setup_Sync.ps1 first.
 

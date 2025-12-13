@@ -1,4 +1,4 @@
-﻿"""
+"""
 Unit tests for CHIMERA AUTARCH configuration system
 """
 import unittest

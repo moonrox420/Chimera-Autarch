@@ -1,4 +1,4 @@
-﻿# CHIMERA NEXUS - Windows Installation Script
+# CHIMERA NEXUS - Windows Installation Script
 # Installs ALL real dependencies for production-grade AI system
 
 Write-Host "ðŸš€ CHIMERA NEXUS v3.0 - Windows Installation" -ForegroundColor Cyan

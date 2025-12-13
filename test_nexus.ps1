@@ -1,4 +1,4 @@
-﻿# CHIMERA NEXUS - Windows Test Suite
+# CHIMERA NEXUS - Windows Test Suite
 # Tests all 10 revolutionary systems on Windows
 
 Write-Host "ðŸ§ª CHIMERA NEXUS - Test Suite" -ForegroundColor Cyan

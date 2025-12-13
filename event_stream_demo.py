@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Event Stream Demo - Real-time event monitoring for CHIMERA AUTARCH
 Connects to CHIMERA and displays live events as they occur

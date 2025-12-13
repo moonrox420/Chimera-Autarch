@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 import asyncio
 import httpx
 from multiprocessing import Process

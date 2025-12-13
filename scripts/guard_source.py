@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Guard script to detect accidental non-Python content in Python source files.
 
 This script searches all .py files in the workspace (excluding typical venv and build dirs)

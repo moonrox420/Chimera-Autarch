@@ -1,4 +1,4 @@
-﻿# DroxAI_Setup_Sync.ps1
+# DroxAI_Setup_Sync.ps1
 # Runs a comprehensive synchronization and setup process:
 # 1. Finds the project root directory.
 # 2. Creates the .venv if it doesn't exist.

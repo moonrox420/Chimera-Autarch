@@ -1,4 +1,4 @@
-﻿# CHIMERA NEXUS v3.0 - Enhanced Windows Launcher
+# CHIMERA NEXUS v3.0 - Enhanced Windows Launcher
 # Run this to start CHIMERA with all 10 revolutionary systems
 
 param(

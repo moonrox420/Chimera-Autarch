@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 CHIMERA NEXUS - Blockchain Audit Trail
 Immutable cryptographic audit log of all AI decisions and evolutions.

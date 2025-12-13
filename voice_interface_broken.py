@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 CHIMERA NEXUS - Voice Control Interface
 Jarvis-style voice commands with speech recognition and TTS responses.

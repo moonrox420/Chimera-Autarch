@@ -1,0 +1,105 @@
+# Query: 8765
+
+50 results - 48 files
+
+build_release.ps1:
+  159: - Default WebSocket port: 8765
+
+chimera_autarch.py:
+  677:     ws_port = int(os.getenv("WS_PORT", 8765))
+
+config.py:
+  132:             "websocket_port": 8765,
+
+dashboard.html:
+  442:             WebSocket connection: ws://localhost:8765
+  492:       ws = new WebSocket('ws://localhost:8765');
+
+DOCKER_GUIDE.md:
+  136: netstat -ano | findstr "3000 8765 8080"
+  192: CHIMERA_WS_PORT=8765
+
+droxai_config.py:
+  138:                 "websocket_port": 8765,
+  254:                 "websocket_port": 8765,
+
+DROXAI_TOWER_INTEGRATION.md:
+   26:                            │    │ WebSocket: 8765  │
+  197: const ws = new WebSocket('ws://localhost:8765');
+
+DROXAI_USER_GUIDE.md:
+  190: - **WebSocket**: `ws://localhost:8765`
+
+event_stream_demo.py:
+  222:     parser.add_argument("--port", type=int, default=8765,
+  223:                         help="WebSocket port (default: 8765)")
+
+INDEPENDENCE_GUIDE.md:
+  299: - Bound to `0.0.0.0:8765` (WebSocket) ✅ **Already network-accessible!**
+  313: ws://YOUR_IP:8765
+  321: sudo ufw allow 8765/tcp
+  325: sudo iptables -A INPUT -p tcp --dport 8765 -j ACCEPT
+  329: netsh advfirewall firewall add rule name="CHIMERA WebSocket" dir=in action=allow protocol=TCP localport=8765
+
+install-service.ps1:
+  218:   New-NetFirewallRule -DisplayName "CHIMERA WebSocket" -Direction Inbound -Protocol TCP -LocalPort 8765 -Action Allow -ErrorAction SilentlyContinue | Out-Null
+  249:   Write-Host "  â€¢ WebSocket: ws://localhost:8765"
+  413:     Write-Host "  â€¢ WebSocket: ws://localhost:8765"
+  499:   New-NetFirewallRule -DisplayName "CHIMERA WebSocket" -Direction Inbound -Protocol TCP -LocalPort 8765 -Action Allow -ErrorAction SilentlyContinue | Out-Null
+  530:   Write-Host "  â€¢ WebSocket: ws://localhost:8765"
+
+INTEGRATION_COMPLETE.md:
+  97: export CHIMERA_SERVER_WEBSOCKET_PORT=8765
+
+launch.sh:
+  99: echo "  • Network: ws://$IP:8765"
+
+PROJECT_STATUS.md:
+  121: - **Ports Used**: 8765 (WebSocket), 3000 (HTTP), 8080 (Federated Learning)
+
+README_NEXUS_BUILD.md:
+  175: # WS:  ws://localhost:8765
+  303: - **Network:** WebSocket (8765), HTTP (3000)
+
+README_NEXUS.md:
+  173: # - WebSocket: ws://localhost:8765
+  212: │  ├─ WebSocket Server (port 8765)
+
+README.md:
+  238:   websocket_port: 8765
+  531: **Connection:** `ws://localhost:8765`
+
+start_nexus_v3.ps1:
+  164: Write-Host "ðŸ”Œ WebSocket: ws://localhost:8765" -ForegroundColor Yellow
+
+start.sh:
+  155: echo -e "${CYAN}🔌 WebSocket: ws://localhost:8765${NC}"
+
+WINDOWS_GUIDE.md:
+   92: netstat -ano | findstr :8765
+  169: - **WebSocket API:** ws://localhost:8765
+
+WINDOWS_SERVICE.md:
+  76: - **Port 8765** (WebSocket) - Real-time events
+
+YOU_ARE_FREE.md:
+   90: - WebSocket: ws://YOUR_IP:8765
+  186: sudo ufw allow 8765/tcp
+  190: netsh advfirewall firewall add rule name="CHIMERA WS" dir=in action=allow protocol=TCP localport=8765
+
+release\DroxAI\DroxAI_Launcher.py:
+  292:             print(f"[DroxAI] WebSocket API: ws://localhost:{config.get('Server', {}).get('WebSocketPort', 8765)}")
+
+release\DroxAI\bin\DroxAI_Consumer.py:
+  171:             ws_server = await websockets.serve(handler, 'localhost', 8765)
+  172:             self.logger.info("[DroxAI] WebSocket server started on localhost:8765")
+  448:             ws = new WebSocket('ws://localhost:8765');
+
+release\DroxAI\bin\DroxAI_Core.py:
+  472:             const ws = new WebSocket('ws://localhost:8765');
+  488:                 const ws = new WebSocket('ws://localhost:8765');
+  515:             window.open('ws://localhost:8765', '_blank');
+
+tests\test_config.py:
+   89:         self.assertEqual(config.server.websocket_port, 8765)
+  100:         self.assertEqual(config.websocket_port, 3001
