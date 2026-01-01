@@ -1,3 +1,4 @@
+"""
 CHIMERA Security & Compliance Module
 Zero-Knowledge Proofs, Vulnerability Scanning, Encrypted Communication, Access Control
 """

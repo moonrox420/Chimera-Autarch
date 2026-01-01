@@ -143,15 +143,18 @@ class BaseEventSystem:
             }
             
         elif event_type == EventType.SYSTEM_ALERT:
+            alert_messages = [
+                'High CPU usage detected',
+                'Memory threshold exceeded',
+                'Network latency increased',
+                'Disk space running low',
+                'Service restart required'
+            ]
+            alert_num = random.randint(1, 1000)
+            alert_msg = random.choice(alert_messages)
             return {
                 "level": random.choice(["info", "warning", "error"]),
-                "message": f"System alert #{random.randint(1, 1000)}: {random.choice([
-                    'High CPU usage detected',
-                    'Memory threshold exceeded',
-                    'Network latency increased',
-                    'Disk space running low',
-                    'Service restart required'
-                ])}",
+                "message": f"System alert #{alert_num}: {alert_msg}",
                 "context": {
                     "timestamp": datetime.now().isoformat(),
                     "source": "base_events.py"
