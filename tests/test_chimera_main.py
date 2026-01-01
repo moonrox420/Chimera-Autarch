@@ -147,7 +147,7 @@ class TestHTTPEndpoints:
         """
         
         assert "CHIMERA AUTARCH" in html
-        assert "text/html" is not None or isinstance(html, str)
+        assert isinstance(html, str)
 
 
 class TestConfigurationLoading:

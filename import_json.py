@@ -111,37 +111,37 @@ OUTPUT FORMAT (JSON only, no explanations):
         intent_lower = intent.lower()
         plan = []
         
-            # Federated learning triggers
-            if "federated" in intent_lower or "distributed train" in intent_lower:
-                rounds = 5 if "thorough" in intent_lower else 3
-                plan.append(("start_federated_training", {
-                    "topic": "general",
-                    "num_rounds": rounds
-                }))
+        # Federated learning triggers
+        if "federated" in intent_lower or "distributed train" in intent_lower:
+            rounds = 5 if "thorough" in intent_lower else 3
+            plan.append(("start_federated_training", {
+                "topic": "general",
+                "num_rounds": rounds
+            }))
+        
+        # Code optimization patterns
+        if "optimize" in intent_lower:
+            # Extract function name if mentioned
+            words = intent.split()
+            func_name = next((w for w in words if w.startswith("_") or w[0].isupper()), None)
             
-            # Code optimization patterns
-            if "optimize" in intent_lower:
-                # Extract function name if mentioned
-                words = intent.split()
-                func_name = next((w for w in words if w.startswith("_") or w[0].isupper()), None)
-                
-                plan.append(("analyze_and_suggest_patch", {
-                    "function_name": func_name or "unknown",
-                    "goal": "performance" if "speed" in intent_lower else "efficiency"
-                }))
-            
-            # Symbiotic arm initialization
-            if "symbiotic" in intent_lower or "initialize arm" in intent_lower:
-                plan.append(("initialize_symbiotic_link", {
-                    "capabilities": ["compute", "learning"]
-                }))
-            
-            # System status queries
-            if "status" in intent_lower or "health" in intent_lower:
-                plan.append(("get_system_status", {}))
-            
-            logger.info(f"[INTENT] Pattern match: {len(plan)} tool call(s)")
-            return plan if plan else [("echo", {"message": f"Unknown intent: {intent}"})]
+            plan.append(("analyze_and_suggest_patch", {
+                "function_name": func_name or "unknown",
+                "goal": "performance" if "speed" in intent_lower else "efficiency"
+            }))
+        
+        # Symbiotic arm initialization
+        if "symbiotic" in intent_lower or "initialize arm" in intent_lower:
+            plan.append(("initialize_symbiotic_link", {
+                "capabilities": ["compute", "learning"]
+            }))
+        
+        # System status queries
+        if "status" in intent_lower or "health" in intent_lower:
+            plan.append(("get_system_status", {}))
+        
+        logger.info(f"[INTENT] Pattern match: {len(plan)} tool call(s)")
+        return plan if plan else [("echo", {"message": f"Unknown intent: {intent}"})]
     
     # AI-POWERED TOOL REGISTRATION HELPER (to be called from HeartNode._init_tools())
     async def register_ai_tools(registry: 'ToolRegistry') -> None:
