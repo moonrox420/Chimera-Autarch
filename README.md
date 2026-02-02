@@ -144,7 +144,7 @@ grafana_dashboard.json     # Pre-built Grafana dashboard
 
 3. **Install dependencies**
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements/requirements.txt
    ```
 
 4. **🔥 Enable AI Code Generation (Optional but AWESOME)**
@@ -323,7 +323,8 @@ The system auto-detects and enables TLS when certificates are present.
 ├── chimera_autarch.py      # Main system orchestrator
 ├── ws_client.py            # WebSocket client
 ├── config.py               # Configuration management
-├── requirements.txt        # Python dependencies
+├── requirements/
+│   └── requirements.txt    # Python dependencies
 ├── config.example.yaml     # Example configuration
 ├── .gitignore              # Git exclusions
 ├── .github/
