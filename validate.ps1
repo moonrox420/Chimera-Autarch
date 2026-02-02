@@ -22,7 +22,7 @@ function Write-Status {
 }
 
 Write-Host ""
-Write-Host "ðŸ” CHIMERA AUTARCH System Validation" -ForegroundColor Cyan
+Write-Host "ðŸ CHIMERA AUTARCH System Validation" -ForegroundColor Cyan
 Write-Host "=====================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -38,7 +38,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Status "Python version: $PythonVersion" "OK"
   }
   else {
-    Write-Status "Python version: $PythonVersion (3.12+ recommended)" "WARN"
+    Write-Status "Python version: $PythonVersion [minimum 3.12 recommended]" "WARN"
     $Warnings++
   }
 }
@@ -57,7 +57,7 @@ if (Test-Path $VenvPath) {
     Write-Status "Virtual environment is activated" "OK"
   }
   else {
-    Write-Status "Virtual environment not activated (run: .\droxai-env\Scripts\Activate.ps1)" "INFO"
+    Write-Status "Virtual environment not activated - run: .\droxai-env\Scripts\Activate.ps1" "INFO"
   }
 }
 else {
@@ -68,7 +68,7 @@ else {
 Write-Host ""
 
 # Check required files
-Write-Host "ðŸ“ Project Files" -ForegroundColor Yellow
+Write-Host "ðŸ Project Files" -ForegroundColor Yellow
 Write-Host "----------------" -ForegroundColor Yellow
 
 $RequiredFiles = @(
@@ -101,17 +101,17 @@ $OptionalFiles = @(
 
 foreach ($File in $OptionalFiles) {
   if (Test-Path $File) {
-    Write-Status "$File exists (optional)" "OK"
+    Write-Status "$File exists - optional" "OK"
   }
   else {
-    Write-Status "$File not found (optional)" "INFO"
+    Write-Status "$File not found - optional" "INFO"
   }
 }
 
 Write-Host ""
 
 # Check dependencies
-Write-Host "ðŸ“¦ Dependencies" -ForegroundColor Yellow
+Write-Host "ðŸ¦ Dependencies" -ForegroundColor Yellow
 Write-Host "---------------" -ForegroundColor Yellow
 
 $RequiredPackages = @(
@@ -154,7 +154,7 @@ foreach ($Package in $OptionalPackages) {
     Write-Status "$Package ($Version)" "OK"
   }
   else {
-    Write-Status "$Package not installed (federated learning disabled)" "INFO"
+    Write-Status "$Package not installed - federated learning disabled" "INFO"
   }
 }
 
@@ -167,14 +167,14 @@ foreach ($Package in $TestPackages) {
     Write-Status "$Package ($Version)" "OK"
   }
   else {
-    Write-Status "$Package not installed (run: pip install pytest pytest-asyncio pytest-cov)" "INFO"
+    Write-Status "$Package not installed - run: pip install pytest pytest-asyncio pytest-cov" "INFO"
   }
 }
 
 Write-Host ""
 
 # Check syntax
-Write-Host "ðŸ”§ Syntax Validation" -ForegroundColor Yellow
+Write-Host "ðŸ§ Syntax Validation" -ForegroundColor Yellow
 Write-Host "---------------------" -ForegroundColor Yellow
 
 $PythonFiles = @("chimera_autarch.py", "config.py", "ws_client.py")
@@ -201,7 +201,7 @@ $Ports = @(3001, 3000, 8080)
 foreach ($Port in $Ports) {
   $Connection = Get-NetTCPConnection -LocalPort $Port -ErrorAction SilentlyContinue
   if ($Connection) {
-    Write-Status "Port $Port is in use (may conflict)" "WARN"
+    Write-Status "Port $Port is in use - may conflict" "WARN"
     $Warnings++
   }
   else {
@@ -228,13 +228,13 @@ if ($DockerInstalled) {
   }
 }
 else {
-  Write-Status "Docker not found (optional for containerized deployment)" "INFO"
+  Write-Status "Docker not found - optional for containerized deployment" "INFO"
 }
 
 Write-Host ""
 
 # Check database
-Write-Host "ðŸ’¾ Persistence" -ForegroundColor Yellow
+Write-Host "ðŸ¾ Persistence" -ForegroundColor Yellow
 Write-Host "--------------" -ForegroundColor Yellow
 
 if (Test-Path "chimera_memory.db") {
@@ -242,7 +242,7 @@ if (Test-Path "chimera_memory.db") {
   Write-Status "Database exists ($([Math]::Round($DbSize/1KB, 2)) KB)" "OK"
 }
 else {
-  Write-Status "Database not yet created (will be created on first run)" "INFO"
+  Write-Status "Database not yet created - will be created on first run" "INFO"
 }
 
 if (Test-Path "backups") {
@@ -256,7 +256,7 @@ else {
 Write-Host ""
 
 # Summary
-Write-Host "ðŸ“Š Validation Summary" -ForegroundColor Cyan
+Write-Host "ðŸŠ Validation Summary" -ForegroundColor Cyan
 Write-Host "=====================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -282,7 +282,7 @@ else {
   Write-Host "Please fix the issues above before starting the system." -ForegroundColor Yellow
   Write-Host ""
   Write-Host "Common fixes:" -ForegroundColor Cyan
-  Write-Host "  â€¢ Install Python 3.12+: https://www.python.org/downloads/" -ForegroundColor White
+  Write-Host "  â€¢ Install Python 3.12 or later: https://www.python.org/downloads/" -ForegroundColor White
   Write-Host "  â€¢ Create virtual environment: python -m venv droxai-env" -ForegroundColor White
   Write-Host "  â€¢ Install dependencies: pip install -r requirements.txt" -ForegroundColor White
   exit 1
