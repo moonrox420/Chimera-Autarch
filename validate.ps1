@@ -38,7 +38,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Status "Python version: $PythonVersion" "OK"
   }
   else {
-    Write-Status "Python version: $PythonVersion (3.12 + recommended)" "WARN"
+    Write-Status "Python version: $PythonVersion (3.12`+ recommended)" "WARN"
     $Warnings++
   }
 }
@@ -282,7 +282,7 @@ else {
   Write-Host "Please fix the issues above before starting the system." -ForegroundColor Yellow
   Write-Host ""
   Write-Host "Common fixes:" -ForegroundColor Cyan
-  Write-Host "  â€¢ Install Python 3.12+: https://www.python.org/downloads/" -ForegroundColor White
+  Write-Host "  â€¢ Install Python 3.12`+: https://www.python.org/downloads/" -ForegroundColor White
   Write-Host "  â€¢ Create virtual environment: python -m venv droxai-env" -ForegroundColor White
   Write-Host "  â€¢ Install dependencies: pip install -r requirements.txt" -ForegroundColor White
   exit 1
