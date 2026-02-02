@@ -75,7 +75,7 @@ $RequiredFiles = @(
   "chimera_autarch.py",
   "ws_client.py",
   "config.py",
-  "requirements.txt",
+  "requirements/requirements.txt",
   "README.md",
   ".gitignore"
 )
@@ -284,7 +284,7 @@ else {
   Write-Host "Common fixes:" -ForegroundColor Cyan
   Write-Host "  â€¢ Install Python 3.12+: https://www.python.org/downloads/" -ForegroundColor White
   Write-Host "  â€¢ Create virtual environment: python -m venv droxai-env" -ForegroundColor White
-  Write-Host "  â€¢ Install dependencies: pip install -r requirements.txt" -ForegroundColor White
+  Write-Host "  â€¢ Install dependencies: pip install -r requirements/requirements.txt" -ForegroundColor White
   exit 1
 }
 
