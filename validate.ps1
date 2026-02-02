@@ -38,7 +38,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Status "Python version: $PythonVersion" "OK"
   }
   else {
-    Write-Status "Python version: $PythonVersion (3.12 + recommended)" "WARN"
+    Write-Status "Python version: $PythonVersion (3.12+ recommended)" "WARN"
     $Warnings++
   }
 }
