@@ -59,3 +59,4 @@ deepspeed>=0.13.0
 loralib>=0.1.0
 fairscale>=0.4.5
 transformers-interpret>=0.10.0
+droxai-tools>=0.1.0
