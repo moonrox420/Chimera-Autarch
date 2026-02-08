@@ -1,9 +1,12 @@
+import pytest
+
 #!/usr/bin/env python3
 """Quick Ollama connection test"""
 import asyncio
 import httpx
 
 
+@pytest.mark.asyncio
 async def test_ollama():
     print("Testing Ollama connection...")
 

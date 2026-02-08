@@ -51,6 +51,21 @@ class QuantumEntropy:
     def hash_data(data: str) -> str:
         """Generate a secure hash of data"""
         return hashlib.sha256(data.encode()).hexdigest()
+    
+    @staticmethod
+    def secure_id() -> str:
+        """Generate a cryptographically secure ID"""
+        return secrets.token_urlsafe(32)
+    
+    @staticmethod
+    def sign_message(message: str, secret: str) -> str:
+        """Sign a message using HMAC-SHA256"""
+        import hmac
+        return hmac.new(
+            secret.encode(),
+            message.encode(),
+            hashlib.sha256
+        ).hexdigest()
 
 # Metacog - Outcome Recording System
 class Metacog:
