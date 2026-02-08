@@ -1,5 +1,5 @@
 import asyncio
-from src.chimera.core import HeartNode, PersistenceLayer
+from src.chimera import HeartNode, PersistenceLayer
 
 async def test_dev_experience():
     try:

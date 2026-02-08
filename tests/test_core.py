@@ -10,7 +10,7 @@ from unittest.mock import Mock, AsyncMock, patch
 # Add src directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from chimera.core import (
+from chimera import (
     QuantumEntropy, ToolResult, Tool, ToolRegistry,
     EvolutionRecord, FailurePattern, IntentCompiler
 )

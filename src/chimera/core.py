@@ -20,8 +20,21 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import aiohttp
 import aiofiles
-from xai_sdk import Client  # xAI SDK for Grok API
-import restrictedpython  # For safe code exec
+
+# Optional imports with graceful degradation
+try:
+    from xai_sdk import Client  # xAI SDK for Grok API
+    XAI_AVAILABLE = True
+except ImportError:
+    XAI_AVAILABLE = False
+    Client = None
+
+try:
+    import restrictedpython  # For safe code exec
+    RESTRICTEDPYTHON_AVAILABLE = True
+except ImportError:
+    RESTRICTEDPYTHON_AVAILABLE = False
+    restrictedpython = None
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -63,7 +76,11 @@ class CoreSystem:
         self.nodes: Dict[str, Dict] = {}
         self.metacog = Metacog()
         self.registry = {}
-        self.grok_client = Client(api_key=os.getenv("XAI_API_KEY"), timeout=3600)  # xAI Grok client
+        # xAI Grok client (optional)
+        if XAI_AVAILABLE and Client is not None:
+            self.grok_client = Client(api_key=os.getenv("XAI_API_KEY"), timeout=3600)
+        else:
+            self.grok_client = None
         self._setup_default_tools()
 
     def _setup_default_tools(self):
