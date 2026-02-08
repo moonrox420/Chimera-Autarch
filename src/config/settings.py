@@ -208,11 +208,6 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host=settings.server.http_host, port=settings.server.http_port)
 
-from src.config.settings import get_settings, save_default_config
-
-# Step 1: Generate default config.yaml (optional, one-time)
-save_default_config("config.yaml")
-
 # Step 2: Load settings
 settings = get_settings()
 

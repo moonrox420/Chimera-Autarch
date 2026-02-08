@@ -1,3 +1,5 @@
+import pytest
+
 #!/usr/bin/env python3
 """
 CHIMERA v3.0 - LLM Integration Test
@@ -9,6 +11,7 @@ import asyncio
 from llm_integration import CodeGenerator, OpenAIProvider, AnthropicProvider, LocalLLMProvider
 
 
+@pytest.mark.asyncio
 async def test_llm():
     print("=" * 60)
     print("CHIMERA v3.0 - LLM Integration Test")

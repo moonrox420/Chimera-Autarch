@@ -5,6 +5,10 @@ Test script to simulate the original command that was failing
 
 import subprocess
 import sys
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 def test_original_command():
     """Test the original command that was failing"""

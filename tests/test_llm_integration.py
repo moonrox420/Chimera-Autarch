@@ -1,3 +1,5 @@
+import pytest
+
 #!/usr/bin/env python3
 """
 Test script for LLM integration in CHIMERA AUTARCH
@@ -5,6 +7,7 @@ Test script for LLM integration in CHIMERA AUTARCH
 import asyncio
 import sys
 
+@pytest.mark.asyncio
 async def test_llm():
     # Import after path setup
     from chimera_autarch import HeartNode

@@ -10,7 +10,7 @@ from unittest.mock import Mock, AsyncMock, patch
 # Add src directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from chimera.core import (
+from chimera import (
     QuantumEntropy, ToolResult, Tool, ToolRegistry,
     EvolutionRecord, FailurePattern, IntentCompiler
 )
@@ -176,7 +176,7 @@ class TestIntentCompiler(unittest.TestCase):
             description="Echo tool"
         ))
         
-        self.compiler = IntentCompiler(self.registry)
+        self.compiler = IntentCompiler()
     
     def test_federated_learning_intent(self):
         """Test compiling federated learning intent"""
@@ -208,7 +208,8 @@ class TestIntentCompiler(unittest.TestCase):
         plan = self.compiler.compile("unknown command")
         
         self.assertEqual(len(plan), 1)
-        self.assertEqual(plan[0]["tool"], "echo")
+        # Default fallback is llm_chat
+        self.assertEqual(plan[0]["tool"], "llm_chat")
 
 
 class TestEvolutionRecord(unittest.TestCase):

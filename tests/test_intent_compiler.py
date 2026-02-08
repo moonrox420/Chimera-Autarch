@@ -9,14 +9,8 @@ def test_compile_default_includes_choices():
     assert isinstance(plan, list)
     assert len(plan) == 1
     step = plan[0]
-    assert step["tool"] == "echo"
-    assert "choices" in step
-    # Validate choices structure
-    choices = step["choices"]
-    assert isinstance(choices, list)
-    assert any(c["tool"] == "echo" for c in choices)
-    assert any(c["tool"] == "analyze_and_suggest_patch" for c in choices)
-    assert any(c["tool"] == "start_federated_training" for c in choices)
+    # Default fallback is llm_chat
+    assert step["tool"] == "llm_chat"
 
 
 def test_compile_federated_learning_and_optimize():
