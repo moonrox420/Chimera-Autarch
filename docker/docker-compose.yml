@@ -9,9 +9,10 @@ services:
       - "3000:3000"
       - "3001:3001"
     volumes:
-      - ../src/droxai_root:/app
+      - ../src:/app/src
+      - ../config.yaml:/app/config.yaml
     working_dir: /app
-    command: sh -c "pip install --no-cache-dir websockets aiohttp numpy aiosqlite fastapi uvicorn python-multipart && python DroxAI_Consumer_Ready.py"
+    command: sh -c "pip install --no-cache-dir websockets aiohttp numpy aiosqlite fastapi uvicorn python-multipart pydantic pydantic-settings pyyaml && python -m src.main server"
 
   chimera-brain:
     image: ollama/ollama

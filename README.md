@@ -82,39 +82,42 @@ CHIMERA AUTARCH v3.0 is the **most advanced AI orchestration system ever built**
 
 ## 🏗️ Architecture
 
-### Core Components
+### Unified Modular Design
+
+CHIMERA AUTARCH v3.0 follows a clean, modular architecture with a single entry point:
 
 ```
-chimera_autarch.py         # Main orchestrator (WebSocket + HTTP servers)
-ws_client.py               # Command-line client for sending intents
+src/
+├── main.py                    # Unified entry point (server/client/cli modes)
+├── api/                       # REST API and GraphQL endpoints
+├── chimera/                   # Core CHIMERA orchestration logic
+├── cli/                       # Command-line interface and client
+├── config/                    # Configuration management (Pydantic)
+│   └── settings.py            # Canonical config system
+├── core/                      # Core utilities (logging, errors)
+├── models/                    # Data models and schemas
+├── services/                  # Business logic services
+├── utils/                     # Helper utilities
+└── web/                       # Web dashboard and static files
 
-# v3.0 - WICKEDLY BADASS Modules
-llm_integration.py         # AI code generation with LLM providers
-anomaly_detection.py       # Predictive time-series anomaly detection
-security.py                # Zero-trust security (JWT, RBAC, rate limiting)
-tower_integration.py       # Your custom API key tower integration
-swarm_coordination.py      # Multi-agent swarm intelligence
-hot_reload.py              # Dynamic module reloading without restart
+config/
+└── config.example.yaml        # Configuration template
 
-# v2.2 - Event Streaming & Observability
-event_broker.py            # Real-time event pub/sub system
-event_stream_demo.py       # Live event monitoring client
-graphql_api.py             # GraphQL schema and resolver
-
-# Core Infrastructure
-config.py                  # Configuration management system
-chimera_memory.db          # SQLite persistence layer
-backups/                   # Automated database backups (hourly)
-grafana_dashboard.json     # Pre-built Grafana dashboard
+archive/legacy/                # Legacy implementations
+├── chimera_autarch.py         # Original monolith (archived)
+├── ws_client.py               # Legacy client (archived)
+└── config.py                  # Old config system (archived)
 ```
 
 ### Key Systems
 
-1. **MetacognitiveEngine**: Monitors confidence levels and triggers proactive learning
-2. **EventBroker**: Pub/sub event streaming with priority queues (NEW)
-3. **ToolRegistry**: Versioned tool system with performance metrics tracking
-4. **IntentCompiler**: Natural language → tool call plan translation
-5. **PersistenceLayer**: Evolution tracking with automated backup management
+1. **Unified Entry Point**: `python -m src.main <mode>` handles all startup modes
+2. **Pydantic Settings**: Type-safe configuration with environment variable overrides
+3. **MetacognitiveEngine**: Monitors confidence levels and triggers proactive learning
+4. **EventBroker**: Pub/sub event streaming with priority queues
+5. **ToolRegistry**: Versioned tool system with performance metrics tracking
+6. **IntentCompiler**: Natural language → tool call plan translation
+7. **PersistenceLayer**: Evolution tracking with automated backup management
 
 ## 🚀 Quick Start
 
@@ -208,13 +211,20 @@ grafana_dashboard.json     # Pre-built Grafana dashboard
 
 ### Running the System
 
-**Start the CHIMERA core:**
-```powershell
-# Windows
-.\droxai-env\Scripts\python.exe chimera_autarch.py
+**Start the CHIMERA server:**
+```bash
+# Using the unified entry point (recommended)
+python -m src.main server
 
-# Linux/macOS
-python chimera_autarch.py
+# Or use the launcher script
+./start.ps1              # Windows PowerShell
+./launch.sh              # Linux/macOS
+```
+
+**Alternative modes:**
+```bash
+python -m src.main client    # Start WebSocket client
+python -m src.main cli       # Start CLI interface
 ```
 
 **Access the dashboard:**
@@ -223,9 +233,9 @@ python chimera_autarch.py
 - Metrics API: http://localhost:3000/metrics
 
 **Connect a client:**
-```powershell
+```bash
 # In a separate terminal
-python ws_client.py
+python -m src.main client
 ```
 
 ## 📝 Configuration
@@ -509,8 +519,6 @@ Structured logging with component tags:
        failureReason
        appliedFix
        observedImprovement
-<<<<<<< HEAD
-=======
        timestamp
      }
    }
@@ -711,4 +719,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ---
 
 **Built with 🧠 by the CHIMERA team | Self-evolving since 2025**
->>>>>>> c4db94e (� Nuked all locked .bak files)

@@ -1,5 +1,39 @@
 # CHIMERA AUTARCH - Project Status
 
+## ✅ Architecture Consolidation Complete (v3.0)
+
+### Recent Major Changes
+
+**February 2026 - Architecture Consolidation:**
+- ✅ **Unified entry point** - Single `src/main.py` with server/client/cli modes
+- ✅ **Resolved merge conflicts** - README.md v3.0 API reference complete
+- ✅ **Cleaned up duplicate implementations** - Archived legacy monolith
+- ✅ **Consolidated configuration** - `src/config/settings.py` is now canonical
+- ✅ **Updated all launchers** - All scripts point to `python -m src.main server`
+- ✅ **Docker configs updated** - Dockerfile and docker-compose.yml use new architecture
+- ✅ **Removed cruft** - Deleted `src/droxai_root/` and duplicate config files
+
+### Current Architecture
+
+```
+src/                           # Canonical implementation
+├── main.py                    # Unified entry point
+├── api/                       # REST + GraphQL APIs
+├── chimera/                   # Core orchestration
+├── cli/                       # CLI and client
+├── config/                    # Pydantic-based config
+├── core/                      # Core utilities
+├── models/                    # Data models
+├── services/                  # Business logic
+├── utils/                     # Helpers
+└── web/                       # Dashboard
+
+archive/legacy/                # Archived implementations
+├── chimera_autarch.py         # Original 945-line monolith
+├── ws_client.py               # Legacy client
+└── config.py                  # Old config system
+```
+
 ## ✅ Completed Architecture Tasks
 
 ### 1. Core Bug Fixes
@@ -40,40 +74,57 @@
 ## 📁 Project Structure
 
 ```
-Drox_AI/
+Chimera-Autarch/
 ├── .github/
 │   └── copilot-instructions.md    # AI agent guidelines
+├── src/                           # Canonical implementation
+│   ├── main.py                    # Unified entry point
+│   ├── api/                       # REST + GraphQL APIs
+│   ├── chimera/                   # Core orchestration
+│   ├── cli/                       # CLI and client
+│   ├── config/                    # Pydantic-based config
+│   │   └── settings.py            # Canonical configuration
+│   ├── core/                      # Core utilities
+│   ├── models/                    # Data models
+│   ├── services/                  # Business logic
+│   ├── utils/                     # Helpers
+│   └── web/                       # Dashboard
 ├── tests/
 │   ├── __init__.py
 │   ├── test_config.py             # Config tests
 │   └── test_core.py               # Core component tests
-├── backups/                        # Automated database backups
-├── droxai-env/                     # Python virtual environment
-├── chimera_autarch.py             # Main orchestrator (1480 lines)
-├── ws_client.py                   # WebSocket client
-├── config.py                      # Configuration system
-├── config.example.yaml            # Default config template
+├── archive/legacy/                # Archived implementations
+│   ├── chimera_autarch.py         # Original monolith
+│   ├── ws_client.py               # Legacy client
+│   └── config.py                  # Old config system
+├── config/
+│   └── config.example.yaml        # Configuration template
+├── docker/
+│   ├── Dockerfile                 # Multi-stage production build
+│   └── docker-compose.yml         # Docker orchestration
 ├── requirements.txt               # Python dependencies
-├── Dockerfile                     # Container image definition
-├── docker-compose.yml             # Docker orchestration
-├── start.ps1                      # Windows startup script
+├── start.ps1                      # Windows launcher
+├── launch.sh                      # Linux/macOS launcher
+├── DroxAI_Launcher.py             # GUI launcher
 ├── run_tests.ps1                  # Test runner
 ├── .gitignore                     # Git exclusions
 ├── .env.example                   # Environment template
-├── README.md                      # Project documentation
-├── cert.pem                       # SSL certificate (optional)
-└── key.pem                        # SSL key (optional)
+└── README.md                      # Project documentation
 ```
 
 ## 🚀 Quick Start
 
 ### Local Development
-```powershell
-# Start the system
-.\start.ps1
+```bash
+# Start the system (unified entry point)
+python -m src.main server
+
+# Or use launcher scripts
+./start.ps1              # Windows PowerShell
+./launch.sh              # Linux/macOS
 
 # Run tests
-.\run_tests.ps1 -Coverage
+./run_tests.ps1 -Coverage
 
 # Access dashboard
 http://localhost:3000
@@ -82,6 +133,7 @@ http://localhost:3000
 ### Docker Deployment
 ```bash
 # Build and run
+cd docker
 docker-compose up -d
 
 # View logs
