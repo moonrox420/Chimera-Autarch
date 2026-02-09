@@ -107,4 +107,4 @@ echo ""
 echo "Press Ctrl+C to stop"
 echo ""
 
-$PYTHON_CMD chimera_autarch.py
+$PYTHON_CMD -m src.main server
