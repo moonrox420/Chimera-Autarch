@@ -54,16 +54,30 @@ def create_app(settings: Settings) -> FastAPI:
     # Store settings in app state
     app.state.settings = settings
 
-    # Mount static files
-    app.mount("/static", StaticFiles(directory="web/static"), name="static")
+    # Mount static files if directory exists
+    static_dir = Path("web/static")
+    if static_dir.exists():
+        app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
     # Setup templates
-    templates = Jinja2Templates(directory="web/templates")
+    templates_dir = Path("web/templates")
+    if templates_dir.exists():
+        templates = Jinja2Templates(directory=str(templates_dir))
 
-    @app.get("/", response_class=HTMLResponse)
-    async def dashboard(request: Request):
-        """Serve the web dashboard."""
-        return templates.TemplateResponse("dashboard.html", {"request": request})
+        @app.get("/", response_class=HTMLResponse)
+        async def dashboard(request: Request):
+            """Serve the web dashboard."""
+            return templates.TemplateResponse("dashboard.html", {"request": request})
+    else:
+        @app.get("/", response_class=JSONResponse)
+        async def dashboard():
+            """API info when no dashboard available."""
+            return {
+                "message": "CHIMERA AUTARCH API",
+                "version": "3.0.0",
+                "docs": "/docs",
+                "health": "/api/health"
+            }
 
     @app.get("/api/health")
     async def health_check():

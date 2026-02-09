@@ -195,28 +195,3 @@ def save_default_config(config_path: str = "config.yaml") -> None:
 
     with open(config_path, 'w', encoding='utf-8') as f:
         yaml.dump(defaults, f, default_flow_style=False, sort_keys=False)
-
-
-app = FastAPI()
-settings = get_settings()
-
-@app.get("/")
-async def root():
-    return {"server_port": settings.server.http_port}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host=settings.server.http_host, port=settings.server.http_port)
-
-from src.config.settings import get_settings, save_default_config
-
-# Step 1: Generate default config.yaml (optional, one-time)
-save_default_config("config.yaml")
-
-# Step 2: Load settings
-settings = get_settings()
-
-# Step 3: Use the settings
-print(f"HTTP Server: {settings.server.http_host}:{settings.server.http_port}")
-print(f"LLM Provider: {settings.llm.provider}")
-print(f"Database: {settings.persistence.database_path}")
